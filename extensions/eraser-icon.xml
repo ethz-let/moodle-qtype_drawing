@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<!--
+  Sample icons file. This file looks like an SVG file with groups as its
+  children. Each group element has an ID that must match the ID of the button given
+  in the extension. The SVG inside the group makes up the actual icon, and
+  needs use a viewBox instead of width/height for it to scale properly.
+
+  Multiple icons can be included, each within their own group.
+-->
+  <g id="tool_eraser">
+
+
+
+
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve" style="background-color:#ffffff00">
+
+    <g >
+
+      <path fill="#2f2f2c"  d="M566.9,840.5l-71.2,71.3H750v22.4h-537L23.1,744.3c-17.5-17.5-17.5-45.9,0-63.3l182.7-182.7l102.5-102.6c0,0,0.1-0.1,0.1-0.1L625.2,78.9c17.5-17.5,45.8-17.5,63.3,0L819,209.4L327.2,701.3L180.9,554.9L39,696.8c-4.2,4.3-6.6,9.9-6.6,15.8c0,6,2.3,11.6,6.6,15.8l183.4,183.3l241.7,0l36.9-36.9L354.5,728.6l491.8-491.8l130.5,130.5c17.5,17.5,17.5,45.8,0,63.3L566.9,840.5z"/>
+    </g>
+    </svg>
+
+  </g>
+</svg>
