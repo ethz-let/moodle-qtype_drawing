@@ -356,7 +356,7 @@ class qtype_drawing_edit_form extends question_edit_form {
     		if($qid == 0) {
     			$PAGE->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.newquestion', array());
     		} else {
-    			$PAGE->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.editquestion', array($qid));
+    		    $PAGE->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.editquestion', array($qid, $this->question->options->backgroundheight, $this->question->options->backgroundwidth));
     		}
 
 

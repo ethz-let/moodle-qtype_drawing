@@ -135,9 +135,12 @@ YUI.add('moodle-qtype_drawing-form', function(Y) {
 				}
 			},
 			calculateheight: function(width){
+
 				if(!this.naturalwidth){
 						this.naturalwidth = this.originalwidth;
+
 				}
+
 				if(!this.naturalheight){
 						this.naturalheight = this.originalheight;
 				}
@@ -189,16 +192,21 @@ YUI.add('moodle-qtype_drawing-form', function(Y) {
 					this.contextmenu_sub =  Y.delegate('contextmenu', this.DisableConxMenu, Y.config.doc, SELECTORS.DRAWINGCANVAS, this);//DRAWINGCANVASID
                 }
 			},
-			editquestion: function(questionID) {
+			editquestion: function(questionID, currentheight, currentwidth) {
 				this.drawing_question_id = questionID;
 
 				if (Y.one(SELECTORS.CHOOSEANOTHERFILEBUTTON) != null) {
 					this.emptyCanvasDataURL[questionID] = questionID;
 					Y.one(SELECTORS.CHOOSEANOTHERFILEBUTTON).addClass('btn btn-secondary fp-btn-choose');
-					// So if there's a pre-existing background image
+					// So if there's a pre-existing background image.
+
+		               this.naturalheight = currentheight;
+		               this.naturalwidth = currentwidth;
+		               this.originalwidth = this.naturalwidth;
+		               this.originalheight = this.currentheight;
 					// we'd like to hide the file-picker widget (until further notice... (click by 'choose another background'...)
 					this.edit_mode = true;
-				  Y.one(SELECTORS.FILEPICKERFIELDSET).setStyles({display: 'none'});
+					Y.one(SELECTORS.FILEPICKERFIELDSET).setStyles({display: 'none'});
 
 					Y.delegate('click', function() { Y.one(SELECTORS.CHOOSEFILEBUTTON).simulate('click'); }, Y.config.doc, SELECTORS.CHOOSEANOTHERFILEBUTTON, this);
 				}
