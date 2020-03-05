@@ -374,7 +374,13 @@
         if(editmode) {
           // Change select icon
           $('.context_panel').hide();
-          $('#path_node_panel').show();
+          if( fhd_display_mode != 1){
+              $('#path_node_panel').show();
+            } else {
+              $('#path_node_panel').hide();
+            }
+
+         // $('#path_node_panel').show();
           $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
           $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
           setIcon('#tool_select', 'select_node');
@@ -1330,7 +1336,12 @@
         }
         if (is_node) {
           $('.context_panel').hide();
-          $('#path_node_panel').show();
+          if( fhd_display_mode != 1){
+              $('#path_node_panel').show();
+            } else {
+              $('#path_node_panel').hide();
+            }
+         // $('#path_node_panel').show();
           $('#stroke_panel').show(); // was hide.
           var point = path.getNodePoint();
           $('#tool_add_subpath').removeClass('push_button_pressed').addClass('tool_button');
