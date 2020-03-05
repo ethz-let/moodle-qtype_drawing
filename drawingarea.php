@@ -911,7 +911,7 @@ height:45px!important;
     <div id="dialog_buttons"></div>
   </div>
 </div>
-
+<?php if($reduced_mode == 0) { ?>
 <ul id="cmenu_canvas" class="contextMenu">
   <li><a href="#cut"><?php print_string('cut', 'qtype_drawing');?> <span class="shortcut">⌘X;</span></a></li>
   <li><a href="#copy"><?php print_string('copy', 'qtype_drawing');?><span class="shortcut">⌘C</span></a></li>
@@ -924,6 +924,7 @@ height:45px!important;
   <li><a href="#move_down"><?php print_string('sendbackward', 'qtype_drawing');?><span class="shortcut">⌘↓</span></a></li>
   <li><a href="#move_back"><?php print_string('sendtoback', 'qtype_drawing');?><span class="shortcut">⌘⇧↓</span></a></li>
 </ul>
+<?php }?>
 <input type="hidden" id="fhd_question_id" value="<?php echo $id;?>">
 <input type="hidden" id="fhd_width" value="<?php echo $fhd->backgroundwidth;?>">
 <input type="hidden" id="fhd_height" value="<?php echo $fhd->backgroundheight;?>">

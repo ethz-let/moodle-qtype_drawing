@@ -1590,6 +1590,7 @@
 
           // Enable regular menu options
           canv_menu.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
+
         }
       };
 
