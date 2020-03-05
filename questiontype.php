@@ -98,6 +98,9 @@ class qtype_drawing extends question_type {
         $options->backgrounduploaded = $question->backgrounduploaded;
         $options->backgroundwidth = $question->backgroundwidth;
         $options->backgroundheight = $question->backgroundheight;
+        if(!isset($question->preservear)) {
+            $question->preservear = 0;
+        }
         $options->preservear = $question->preservear;
 
         $DB->update_record('qtype_drawing', $options);
