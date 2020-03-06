@@ -361,7 +361,6 @@ height:45px!important;
       <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%"> <!-- style="width:145px"-->
         <span><?php print_string('color', 'qtype_drawing');?></span>
 
-
   <div style="margin-top:15px; text-align:center;">
   <div id="qtype_drawing_tool_color1" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#ffffff" > </div>
   <div id="qtype_drawing_tool_color2" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#999999"> </div>
@@ -375,8 +374,8 @@ height:45px!important;
   <div id="qtype_drawing_tool_color9" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#66FF99"> </div>
   <div id="qtype_drawing_tool_color10" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#ff9933"> </div>
   <div id="qtype_drawing_tool_color11" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#ff3333"> </div>
-  <div id="qtype_drawing_tool_color12" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#9900ff"> </div>
-  <div id="qtype_drawing_tool_color13" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#8e4d0f"> </div>
+  <div id="qtype_drawing_tool_color12" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#ff33cc"> </div>
+  <div id="qtype_drawing_tool_color13" class="qtype_drawing_color_divsquare" data-strokeorfill= "stroke"  style="background:#9900ff"> </div>
   <div id="qtype_drawing_tool_color14" class="qtype_drawing_color_pallette" data-strokeorfill= "stroke"><img src="images/colors.png" width="22" height="22" alt="C"></div>
   <div id="qtype_drawing_tool_color15" class="qtype_drawing_color_pallette" data-strokeorfill= "fill"><img src="images/paintbucket.png" width="22" height="22" alt="B"></div>
 

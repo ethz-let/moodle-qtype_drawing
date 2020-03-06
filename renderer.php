@@ -414,8 +414,9 @@ class qtype_drawing_renderer extends qtype_renderer {
 											var resize = function(e) {
 											var viewportHeight = doc.get("winHeight");
 											if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
-													if(viewportHeight > 500 ) viewportHeight = 650;
+													if(viewportHeight <= 500 ) viewportHeight = 650;
 															Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
+                                                            Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
 															lastHeight = Math.min(doc.get("docHeight"), doc.get("winHeight"));
 													}
 											};
@@ -428,7 +429,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 											Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
 											if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")) {
 												Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("margin-top", "0px");
-												Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", "100%");
+                                                var viewportHeight = Y.one("#qtype_drawing_editor_"+'.$question->id.').getStyle("height");
+												Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight  +"px");
 												Y.one("#qtype_drawing_drawingwrapper_'.$question->id.'").set("height","100%");
 												Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "100%");
 												Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
