@@ -57,7 +57,7 @@ if($fhd->drawingmode == 1){
 <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jgraduate/css/jPicker.css" type="text/css"/>
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jgraduate/css/jgraduate.css" type="text/css"/>
-<link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/method-draw.css?fsd=4" type="text/css"/>
+<link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/method-draw.css" type="text/css"/>
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/fonts.css" type="text/css"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <script>
@@ -260,7 +260,7 @@ height:45px!important;
   </div>
 </div>
 
-<div id="workarea">
+<div id="workarea" style="touch-action:none;">
   <div id="svgcanvas" style="position:relative">
   </div>
 </div>
