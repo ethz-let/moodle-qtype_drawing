@@ -1300,9 +1300,9 @@
             if(selectedElement.tagName !='text'){
                 $('#text_panel').hide();
             } else {
-                $('#text_panel').hide();
                 $('#text_panel').show();
             }
+            $('#delete_panel').show();
 
         }
 
