@@ -177,6 +177,15 @@ height:45px!important;
   margin: 5px;
 }
 .type1 {
+  width: 3px;
+  height: 3px;
+  background: #ddd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.type2 {
   width: 5px;
   height: 5px;
   background: #ddd;
@@ -185,7 +194,7 @@ height:45px!important;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.type2 {
+.type3 {
   width: 10px;
   height: 10px;
   background: #ddd;
@@ -194,18 +203,9 @@ height:45px!important;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.type3 {
+.type4 {
   width: 15px;
   height: 15px;
-  background: #ddd;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.type4 {
-  width: 20px;
-  height: 20px;
   background: #ddd;
   position: absolute;
   top: 80%;
@@ -214,8 +214,8 @@ height:45px!important;
 
 }
 .type5 {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   background: #ddd;
   position: absolute;
   top: 80%;
@@ -223,8 +223,8 @@ height:45px!important;
   transform: translate(-50%, -50%);
 }
 .type6 {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background: #ddd;
   position: absolute;
   top: 80%;

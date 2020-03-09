@@ -2992,7 +2992,12 @@
         }
         var title = (picker == 'stroke' ? 'Pick a Stroke Paint and Opacity' : 'Pick a Fill Paint and Opacity');
         var was_none = false;
-        var pos = is_background ? {'right': 175, 'top': 50} : {'left': 50, 'bottom': 50}
+       // var pos = is_background ? {'right': 175, 'top': 50} : {'left': 50, 'bottom': 50}
+        var h =  $("#workarea").height();//res.h;
+        var w = $("#workarea").width();//res.w,
+        var top = Math.max(h / 2 - $("#color_picker").height()  / 2, 0);
+        var left = Math.max(w / 2 - $("#color_picker").width() / 2, 0);
+        var pos = {'left': left, 'top': top};
 
         $("#color_picker")
           .draggable({cancel:'.jGraduate_tabs, .jGraduate_colPick, .jGraduate_gradPick, .jPicker', containment: 'window'})
