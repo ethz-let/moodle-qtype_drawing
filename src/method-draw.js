@@ -470,6 +470,12 @@
           if(fhd_display_mode == 1){
             $('#multiselected_panel').hide();
           }
+
+          $("#stroke_panel").show();
+          $("#canvas_panel").show();
+          $("#delete_panel").show();
+          $("#strokewidth_div").show();
+
         }
         else {
           $('.context_panel').hide()
@@ -1302,7 +1308,6 @@
             } else {
                 $('#text_panel').show();
             }
-            $('#delete_panel').show();
 
         }
 
@@ -1566,8 +1571,20 @@
         }
 
         if (multiselected) {
+
           $('#tool_bucket').removeClass( 'disabled');
-          $('#multiselected_panel').show();
+          if( fhd_display_mode != 1){
+              $('#multiselected_panel').show();
+          }else{
+              $('#multiselected_panel').hide();
+          }
+
+          $("#stroke_panel").show();
+          $("#canvas_panel").show();
+          $("#delete_panel").show();
+          $("#strokewidth_div").show();
+
+
           $('.action_multi_selected').removeClass('disabled');
           menu_items
             .enableContextMenuItems('#group')
