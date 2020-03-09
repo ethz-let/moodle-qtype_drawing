@@ -415,7 +415,7 @@ height:45px!important;
 
 <!--  </div>-->
 <span style="display:none">
-    <h4 class="clearfix">Canvas</h4>
+    <h4 class="clearfix">&nbsp;</h4>
 
     <label data-title="Change canvas width">
       <input size="3" id="canvas_width" type="text" pattern="[0-9]*"/>
@@ -458,13 +458,7 @@ height:45px!important;
   <div id="selected_panel" class="context_panel">
 
 
-  <div class="clearfix"><br /></div>
-    <label id="tool_delete" data-title="<?php print_string('deleteobject', 'qtype_drawing');?>" class="draginput">
-      <span class="icon_label"><?php print_string('delete', 'qtype_drawing');?></span>
-      <label><img src="images/delete.png" width="32"  style="cursor:pointer;display: block;
-    margin: 0 auto;" alt="X" title="<?php print_string('deleteobject', 'qtype_drawing');?>"></img></label>
-
-    </label>
+  <!--<div class="clearfix"><br /></div>  -->
 
     <?php if($reduced_mode == 1) { ?>
     <div class="clearfix"><br></div>
@@ -773,7 +767,13 @@ height:45px!important;
 
   </div>
 
-
+<div id="delete_panel" class="context_panel clearfix">
+    <label id="tool_delete" data-title="<?php print_string('deleteobject', 'qtype_drawing');?>" class="draginput">
+      <span class="icon_label"><?php print_string('delete', 'qtype_drawing');?></span>
+      <label><img src="images/delete.png" width="32"  style="cursor:pointer;display: block;
+    margin: 0 auto;" alt="X" title="<?php print_string('deleteobject', 'qtype_drawing');?>"></img></label>
+    </label>
+</div>
 
 <!-- original location for presets amr-->
     <label style="display: none;">

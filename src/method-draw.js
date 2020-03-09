@@ -1242,6 +1242,7 @@
       // This function also updates the opacity and id elements that are in the context panel
       var updateToolbar = function() {
         if (selectedElement != null) {
+            $('#delete_panel').show();
           switch ( selectedElement.tagName ) {
           case 'use':
             $(".context_panel").hide();
@@ -1292,7 +1293,19 @@
             $.fn.dragInput.updateCursor($('#blur')[0])
           }
 
+        }else{
+            $('#delete_panel').hide();
         }
+        if(selectedElement != null){
+            if(selectedElement.tagName !='text'){
+                $('#text_panel').hide();
+            } else {
+                $('#text_panel').hide();
+                $('#text_panel').show();
+            }
+
+        }
+
 
         // All elements including image and group have opacity
         if(selectedElement != null) {
@@ -1334,6 +1347,7 @@
 
           }
         }
+
         if (is_node) {
           $('.context_panel').hide();
           if( fhd_display_mode != 1){
