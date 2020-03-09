@@ -1346,6 +1346,7 @@
             $('#strokestyle_div').hide();
 
           }
+
         }
 
         if (is_node) {
@@ -1383,6 +1384,7 @@
           $("#stroke_panel").show(); // was hide.
         //  $("#canvas_panel").hide();
          $("#canvas_panel").show();
+
           return;
         }
 
@@ -1558,6 +1560,9 @@
           }
           menu_items[(el_name === 'g' ? 'en':'dis') + 'ableContextMenuItems']('#ungroup');
           menu_items[((el_name === 'g' || !multiselected) ? 'dis':'en') + 'ableContextMenuItems']('#group');
+
+
+          $('#delete_panel').show();
         }
 
         if (multiselected) {
