@@ -43,7 +43,7 @@ if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
 }
 $reduced_mode = 0;
 $display_style = '';
-$display_style_full = '';
+$display_style_full = ' style="display: inline-block;"';
 if($fhd->drawingmode == 1){
   $reduced_mode = 1;
   $display_style = ' display: none!important;';
@@ -768,9 +768,12 @@ height:45px!important;
   </div>
 
 <div id="delete_panel" class="context_panel clearfix">
+<?php if($reduced_mode != 1){ ?>
+<br />
+<?php }?>
     <label id="tool_delete" data-title="<?php print_string('deleteobject', 'qtype_drawing');?>" class="draginput">
       <span class="icon_label"><?php print_string('delete', 'qtype_drawing');?></span>
-      <label><img src="images/delete.png" width="32"  style="cursor:pointer;display: block;
+      <label><img src="images/deleteforever.svg" width="32" height="32" style="cursor:pointer;display: block;
     margin: 0 auto;" alt="X" title="<?php print_string('deleteobject', 'qtype_drawing');?>"></img></label>
     </label>
 </div>
