@@ -177,6 +177,8 @@ methodDraw.addExtension("eraser", function(S) {
       mouseDown: function(opts) {
         // Check the mode on mousedown
         if(svgCanvas.getMode() == "eraser") {
+            $("#canvas_panel").hide();
+
           /*
         var qid = $('#fhd_question_id').val();
         var lastsavedanswerelem = window.parent.$("#qtype_drawing_textarea_id_"+qid).val();
@@ -256,6 +258,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
       mouseMove: function(opts) {//console.error("mouse move...");
         // Check the mode on mousedown
         if(svgCanvas.getMode() == "eraser") {
+          $("#canvas_panel").hide();
           var e = opts.event;
           var zoom = canv.getZoom();
           var evt = opts.event;
@@ -276,6 +279,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
       mouseUp: function(opts) {
         // Check the mode on mouseup
         if(svgCanvas.getMode() == "eraser") {
+            $("#canvas_panel").hide();
             Xoriginal_paths = erase(original_paths, erase_path.data, 20, allpathspecs);
             original_paths = Xoriginal_paths[0];
             updatedlinespecs = Xoriginal_paths[1];

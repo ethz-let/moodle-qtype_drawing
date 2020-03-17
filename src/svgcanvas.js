@@ -2539,7 +2539,8 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
     start_transform = mouse_target.getAttribute("transform");
     var tlist = getTransformList(mouse_target);
     switch (current_mode) {
-      case "select":
+
+    case "select":
         started = true;
         current_resize_mode = "none";
         if(right_click) started = false;
@@ -2836,6 +2837,11 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
         ? evt.target.style.cursor
         : current_mode
       }
+
+    if(current_mode == 'eraser'){
+        $("#canvas_panel").hide();
+    }
+
   };
 
   // in this function we do not record any state changes yet (but we do update
@@ -7311,6 +7317,11 @@ this.getMode = function() {
 // Parameters:
 // name - String with the new mode to change to
 this.setMode = function(name) {
+  if(name == 'eraser'){
+      $("#canvas_panel").hide();
+  } else {
+      $("#canvas_panel").show();
+  }
   pathActions.clear();
   textActions.clear();
   $("#workarea").attr("class", name);
