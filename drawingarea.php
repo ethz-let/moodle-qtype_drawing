@@ -244,8 +244,9 @@ height:45px!important;
 <body>
 
 <div id="svg_editor">
-<style>
+
 <?php if($reduced_mode == 1) { ?>
+<style>
 #rulers > div {
   position: initial;
 </style>
