@@ -348,23 +348,7 @@ height:45px!important;
     <div class="clearfix"></div>
     <h4><?php print_string('drawingpresets', 'qtype_drawing');?></h4>
 
-      <div class="stroke_tool draginput" style="width:125px;padding:10px; height:70px">
-        <span><?php print_string('size', 'qtype_drawing');?></span>
-
-      <div >
-      <div id="qtype_drawing_tool_pensize1" class="qtype_drawing_size_pen" data-size="1.5"  data-penortext="pen" title="1px"><div class="circleBase type1"></div></div>
-      <div id="qtype_drawing_tool_pensize2" class="qtype_drawing_size_pen" data-size="2.5"  data-penortext="pen"  title="2px"><div class="circleBase type2"></div></div>
-      <div id="qtype_drawing_tool_pensize3" class="qtype_drawing_size_pen" data-size="3.5"  data-penortext="pen"  title="3px"><div class="circleBase type3 qtype_drawing_active_selection"></div></div>
-      <div style='clear:both'></div>
-      <div id="qtype_drawing_tool_pensize4" class="qtype_drawing_size_pen" data-size="5"  data-penortext="pen"  title="5px"><div class="circleBase type4"></div></div>
-      <div id="qtype_drawing_tool_pensize5" class="qtype_drawing_size_pen" data-size="10"  data-penortext="pen"  title="10px"><div class="circleBase type5"></div></div>
-      <div id="qtype_drawing_tool_pensize6" class="qtype_drawing_size_pen" data-size="20"  data-penortext="pen"  title="20px"><div class="circleBase type6"></div></div>
-      </div>
-
-
-      </div>
-
-      <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%"> <!-- style="width:145px"-->
+          <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%"> <!-- style="width:145px"-->
         <span><?php print_string('color', 'qtype_drawing');?></span>
 
   <div style="margin-top:15px; text-align:center;">
@@ -390,6 +374,24 @@ height:45px!important;
 
 
       </div>
+
+      <div class="stroke_tool draginput" style="width:125px;padding:10px; height:70px">
+        <span><?php print_string('size', 'qtype_drawing');?></span>
+
+      <div >
+      <div id="qtype_drawing_tool_pensize1" class="qtype_drawing_size_pen" data-size="1.5"  data-penortext="pen" title="1px"><div class="circleBase type1"></div></div>
+      <div id="qtype_drawing_tool_pensize2" class="qtype_drawing_size_pen" data-size="2.5"  data-penortext="pen"  title="2px"><div class="circleBase type2"></div></div>
+      <div id="qtype_drawing_tool_pensize3" class="qtype_drawing_size_pen" data-size="3.5"  data-penortext="pen"  title="3px"><div class="circleBase type3 qtype_drawing_active_selection"></div></div>
+      <div style='clear:both'></div>
+      <div id="qtype_drawing_tool_pensize4" class="qtype_drawing_size_pen" data-size="5"  data-penortext="pen"  title="5px"><div class="circleBase type4"></div></div>
+      <div id="qtype_drawing_tool_pensize5" class="qtype_drawing_size_pen" data-size="10"  data-penortext="pen"  title="10px"><div class="circleBase type5"></div></div>
+      <div id="qtype_drawing_tool_pensize6" class="qtype_drawing_size_pen" data-size="20"  data-penortext="pen"  title="20px"><div class="circleBase type6"></div></div>
+      </div>
+
+
+      </div>
+
+
 
 
 
