@@ -244,15 +244,21 @@ height:45px!important;
 <body>
 
 <div id="svg_editor">
+<style>
+<?php if($reduced_mode == 1) { ?>
+#rulers > div {
+  position: initial;
+</style>
+<?php } ?>
 <div id="rulers">
-  <div id="ruler_corner"></div>
-  <div id="ruler_x">
+  <div id="ruler_corner" <?php if($reduced_mode == 1) { ?>style="display:none;"<?php }?>></div>
+  <div id="ruler_x" >
     <div id="ruler_x_cursor"></div>
-    <div>
+    <div <?php if($reduced_mode == 1) { ?>style="display:none;"<?php }?>>
       <canvas height="15"></canvas>
     </div>
   </div>
-  <div id="ruler_y">
+  <div id="ruler_y" <?php if($reduced_mode == 1) { ?>style="display:none;"<?php }?>>
     <div id="ruler_y_cursor"></div>
     <div>
       <canvas width="15"></canvas>
@@ -346,9 +352,9 @@ height:45px!important;
         <span><?php print_string('size', 'qtype_drawing');?></span>
 
       <div >
-      <div id="qtype_drawing_tool_pensize1" class="qtype_drawing_size_pen" data-size="1.5"  data-penortext="pen" title="1px"><div class="circleBase type1 qtype_drawing_active_selection"></div></div>
+      <div id="qtype_drawing_tool_pensize1" class="qtype_drawing_size_pen" data-size="1.5"  data-penortext="pen" title="1px"><div class="circleBase type1"></div></div>
       <div id="qtype_drawing_tool_pensize2" class="qtype_drawing_size_pen" data-size="2.5"  data-penortext="pen"  title="2px"><div class="circleBase type2"></div></div>
-      <div id="qtype_drawing_tool_pensize3" class="qtype_drawing_size_pen" data-size="3.5"  data-penortext="pen"  title="3px"><div class="circleBase type3"></div></div>
+      <div id="qtype_drawing_tool_pensize3" class="qtype_drawing_size_pen" data-size="3.5"  data-penortext="pen"  title="3px"><div class="circleBase type3 qtype_drawing_active_selection"></div></div>
       <div style='clear:both'></div>
       <div id="qtype_drawing_tool_pensize4" class="qtype_drawing_size_pen" data-size="5"  data-penortext="pen"  title="5px"><div class="circleBase type4"></div></div>
       <div id="qtype_drawing_tool_pensize5" class="qtype_drawing_size_pen" data-size="10"  data-penortext="pen"  title="10px"><div class="circleBase type5"></div></div>

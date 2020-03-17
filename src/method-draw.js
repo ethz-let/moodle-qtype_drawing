@@ -26,7 +26,7 @@
       canvas_expansion: 1,
       dimensions: [100, 100],
       initFill: {color: 'fff', opacity: 1},
-      initStroke: {width: 1.5, color: '000', opacity: 1},
+      initStroke: {width: 3.5, color: '000', opacity: 1},
       initOpacity: 1,
       imgPath: 'images/',
       extPath: 'extensions/',
@@ -1662,7 +1662,7 @@
         }
         if(svgCanvas.getMode() == 'fhpath'){ // dont allow stroke for drawing to go zero so it draws.
           if(val == 0){
-            val = ctl.value = 1.5;
+            val = ctl.value = 3.5;
           }
         }
         svgCanvas.setStrokeWidth(val);
@@ -2156,8 +2156,8 @@
         if (toolButtonClick('#tool_fhpath')) {
           svgCanvas.setMode('fhpath');
           if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
-            $('#stroke_width').val(1.5); // Stroke should not have an inital effect.
-            svgCanvas.setStrokeWidth(1.5);
+            $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+            svgCanvas.setStrokeWidth(3.5);
           }
         }
       };
@@ -2263,8 +2263,8 @@
             elem.removeAttribute("stroke-width");
           }*/
           if(currentMode == 'textedit' || tagnameselectedelem =='text') {
-            $('#stroke_width').val(1.5); // Stroke should not have an inital effect.
-            svgCanvas.setStrokeWidth(1.5);
+            $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+            svgCanvas.setStrokeWidth(3.5);
             $('#font_size').val(size);
             svgCanvas.setFontSize(size);
             svgCanvas.resetFontSize(size);
@@ -3733,7 +3733,7 @@
       $('#text_x')       .dragInput({ min: null, max: null,  step:  1,  callback: changeAttribute,     cursor: false                         });
       $('#image_y')      .dragInput({ min: null, max: null,  step:  1,  callback: changeAttribute,     cursor: false                         });
       $('#rect_rx')      .dragInput({ min: 0,    max: 100,   step:  1,  callback: changeAttribute,    cursor: true                          });
-      $('#stroke_width') .dragInput({ min: 0,    max: 99,    step:  1,  callback: changeStrokeWidth,   cursor: true, smallStep: 0.1, start: 1.5          });
+      $('#stroke_width') .dragInput({ min: 0,    max: 99,    step:  1,  callback: changeStrokeWidth,   cursor: true, smallStep: 0.1, start: 3.5          });
       $('#angle')        .dragInput({ min: -180, max: 180,   step:  1,  callback: changeRotationAngle, cursor: false, dragAdjust: 0.5      });
       $('#font_size')    .dragInput({ min: 1, max: 250, step: 1, callback: changeFontSize, cursor: true, stepfunc: stepFontSize, dragAdjust: .15 });
       $('#group_opacity').dragInput({ min: 0,    max: 100,   step:  5,  callback: changeAttribute,       cursor: true,  start: 100             });
