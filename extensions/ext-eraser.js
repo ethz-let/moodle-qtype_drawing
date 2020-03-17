@@ -83,7 +83,7 @@ methodDraw.addExtension("eraser", function(S) {
             line = d3.line();
             original_paths_ids = [];
 
-
+            $('#strokestyle_div').hide();
 
             xpaths = [];
             svgElement = [];
@@ -136,7 +136,7 @@ methodDraw.addExtension("eraser", function(S) {
            .append('path')
            .attr('fill', 'none')
            .attr('stroke', '#000')
-           .attr('stroke-width', 1.5)
+           .attr('stroke-width', 3.5)
            .attr('stroke-linecap', 'round')
            .attr('stroke-linejoin', 'round');
 
@@ -177,7 +177,8 @@ methodDraw.addExtension("eraser", function(S) {
       mouseDown: function(opts) {
         // Check the mode on mousedown
         if(svgCanvas.getMode() == "eraser") {
-            $("#canvas_panel").hide();
+            $("#strokestyle_div").hide();
+            $("#fastcolorpicks").hide();
 
           /*
         var qid = $('#fhd_question_id').val();
@@ -243,7 +244,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
                              .attr('id', 'erase_line')
                              .style('stroke', '#444')
                              .style('opacity', 0.3)
-                             .style('stroke-width', 40)
+                             .style('stroke-width', canv.getStrokeWidth() * 2)
                              .style('stroke-linecap', 'round')
                              .style('stroke-linejoin', 'round');
 
@@ -258,7 +259,8 @@ if(d3.select(this).attr("id") != 'erase_line'){
       mouseMove: function(opts) {//console.error("mouse move...");
         // Check the mode on mousedown
         if(svgCanvas.getMode() == "eraser") {
-          $("#canvas_panel").hide();
+            $("#strokestyle_div").hide();
+            $("#fastcolorpicks").hide();
           var e = opts.event;
           var zoom = canv.getZoom();
           var evt = opts.event;
@@ -279,8 +281,10 @@ if(d3.select(this).attr("id") != 'erase_line'){
       mouseUp: function(opts) {
         // Check the mode on mouseup
         if(svgCanvas.getMode() == "eraser") {
-            $("#canvas_panel").hide();
-            Xoriginal_paths = erase(original_paths, erase_path.data, 20, allpathspecs);
+            $("#strokestyle_div").hide();
+            $("#fastcolorpicks").hide();
+
+            Xoriginal_paths = erase(original_paths, erase_path.data, canv.getStrokeWidth(), allpathspecs);
             original_paths = Xoriginal_paths[0];
             updatedlinespecs = Xoriginal_paths[1];
 
@@ -306,7 +310,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
 
   p.enter().append('path').attr("fill", "none")
                           .attr("stroke", '#000') // #ff3333
-                          .attr("stroke-width", '1.5') // 20
+                          .attr("stroke-width", '3.5') // 20
                           .attr("fill", 'none') // none
                           .attr("shape-rendering", "geometricPrecision")
                           .attr("data-justcreated", "1");

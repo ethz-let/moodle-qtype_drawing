@@ -348,7 +348,7 @@ height:45px!important;
     <div class="clearfix"></div>
     <h4><?php print_string('drawingpresets', 'qtype_drawing');?></h4>
 
-          <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%"> <!-- style="width:145px"-->
+          <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%" id="fastcolorpicks"> <!-- style="width:145px"-->
         <span><?php print_string('color', 'qtype_drawing');?></span>
 
   <div style="margin-top:15px; text-align:center;">

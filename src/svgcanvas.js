@@ -2839,7 +2839,8 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
       }
 
     if(current_mode == 'eraser'){
-        $("#canvas_panel").hide();
+        $("#strokestyle_div").hide();
+        $("#fastcolorpicks").hide();
     }
 
   };
@@ -7318,9 +7319,11 @@ this.getMode = function() {
 // name - String with the new mode to change to
 this.setMode = function(name) {
   if(name == 'eraser'){
-      $("#canvas_panel").hide();
+      $("#strokestyle_div").hide();
+      $("#fastcolorpicks").hide();
   } else {
-      $("#canvas_panel").show();
+      $("#strokestyle_div").show();
+      $("#fastcolorpicks").show();
   }
   pathActions.clear();
   textActions.clear();
