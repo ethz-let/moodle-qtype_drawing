@@ -151,8 +151,15 @@ svgedit.history.InsertElementCommand.prototype.unapply = function(handler) {
     handler.handleHistoryEvent(svgedit.history.HistoryEventTypes.BEFORE_UNAPPLY, this);
   }
 
-  this.parent = this.elem.parentNode;
-  this.elem = this.elem.parentNode.removeChild(this.elem);
+
+
+  if(this.elem.parentNode === null){
+          document.getElementById(this.elem.id).outerHTML = "";
+  }else{
+          this.parent = this.elem.parentNode;
+          this.elem = this.elem.parentNode.removeChild(this.elem);
+
+  }
 
   if (handler) {
     handler.handleHistoryEvent(svgedit.history.HistoryEventTypes.AFTER_UNAPPLY, this);

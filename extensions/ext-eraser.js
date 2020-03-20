@@ -167,6 +167,7 @@ methodDraw.addExtension("eraser", function(S) {
 
           // Save state after flattinging.
            methodDraw.SaveDrawingToMoodle();
+
           }
         }
       }],
@@ -184,7 +185,9 @@ methodDraw.addExtension("eraser", function(S) {
         var qid = $('#fhd_question_id').val();
         var lastsavedanswerelem = window.parent.$("#qtype_drawing_textarea_id_"+qid).val();
         */
-        methodDraw.loadFromString(svgCanvas.getSvgString());
+
+          methodDraw.loadFromString(svgCanvas.getSvgString());
+
         // Save initial state before even flattinging.
         // methodDraw.SaveDrawingToMoodle();
 
@@ -283,7 +286,6 @@ if(d3.select(this).attr("id") != 'erase_line'){
         if(svgCanvas.getMode() == "eraser") {
             $("#strokestyle_div").hide();
             $("#fastcolorpicks").hide();
-
             Xoriginal_paths = erase(original_paths, erase_path.data, canv.getStrokeWidth(), allpathspecs);
             original_paths = Xoriginal_paths[0];
             updatedlinespecs = Xoriginal_paths[1];
@@ -333,8 +335,19 @@ var p = gpaths.selectAll('path').data(opts);
          var xgpaths = xsvg.select('#paths');
          var xp = xgpaths.selectAll('path');
          var concatpaths = '';
+         var dontuseanymore = [];
          xp.each(function(d,i) {
-             d3.select(this).attr('id', updatedlinespecs[i].id+'_'+Math.random()); //+ "_after_erase_"+Math.floor(Math.random(100,500) * 200)
+
+
+
+             if(dontuseanymore.includes(updatedlinespecs[i].id)){
+                 d3.select(this).attr('id', updatedlinespecs[i].id +'_'+Math.random()); //+ +'_'+Math.random()
+             } else {
+                 d3.select(this).attr('id', updatedlinespecs[i].id); //+
+             }
+
+             dontuseanymore.push(updatedlinespecs[i].id);
+
              d3.select(this).attr('stroke', updatedlinespecs[i].stroke);
              d3.select(this).attr('stroke-width', updatedlinespecs[i].strokewidth);
              d3.select(this).attr('fill', updatedlinespecs[i].fill);
@@ -350,8 +363,11 @@ var p = gpaths.selectAll('path').data(opts);
 
 
 
-        //  svgCanvas.setSvgString(svgCanvas.getSvgString());
+
           methodDraw.SaveDrawingToMoodle();
+
+
+
         }
 
 

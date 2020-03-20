@@ -131,6 +131,7 @@ svgedit.draw.Drawing = function(svgElem, opt_idPrefix) {
 };
 
 svgedit.draw.Drawing.prototype.getElem_ = function(id) {
+ //   this.svgElem_ = document.getElementById('svgcontent');
   if(this.svgElem_.querySelector) {
     // querySelector lookup
     return this.svgElem_.querySelector('#'+id);
@@ -192,6 +193,7 @@ svgedit.draw.Drawing.prototype.getNextId = function() {
   // Ensure the ID does not exist.
   var id = this.getId();
   while (this.getElem_(id)) {
+
     if (restoreOldObjNum) {
       this.obj_num = oldObjNum;
       restoreOldObjNum = false;
@@ -203,6 +205,10 @@ svgedit.draw.Drawing.prototype.getNextId = function() {
   if (restoreOldObjNum) {
     this.obj_num = oldObjNum;
   }
+  //check if id there in updated mode
+ //   var svgx = d3.select("#svgcontent");
+//    var current_layer = svgx.select('#paths').node();
+ // id
   return id;
 };
 
@@ -275,6 +281,13 @@ svgedit.draw.Drawing.prototype.getLayerName = function(i) {
 // Returns:
 // The SVGGElement representing the current layer.
 svgedit.draw.Drawing.prototype.getCurrentLayer = function() {
+    if(this.current_layer.id){
+      var svgx = d3.select('#svgcontent');
+      var clayer = svgx.select('#'+this.current_layer.id).node();
+      if(clayer){
+          this.current_layer = clayer;
+      }
+    }
   return this.current_layer;
 };
 
@@ -369,7 +382,7 @@ svgedit.draw.Drawing.prototype.identifyLayers = function() {
           this.all_layers.push( [name,child] );
           a_layer = child;
           svgedit.utilities.walkTree(child, function(e){e.setAttribute("style", "pointer-events:inherit");});
-          a_layer.setAttribute("style", "pointer-events:none");
+          a_layer.setAttribute("style", "pointer-events:none;");
         }
         // if group did not have a name, it is an orphan
         else {
@@ -414,6 +427,7 @@ this.svgElem_.appendChild(a_layer1);
   else {
     this.current_layer = a_layer
   }
+
   this.current_layer.setAttribute("style","pointer-events:all");
 };
 

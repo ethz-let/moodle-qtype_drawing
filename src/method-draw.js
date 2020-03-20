@@ -526,12 +526,12 @@
         if(mode === "select") {
           setSelectMode();
         }
-
         for (var i = 0; i < elems.length; ++i) {
           var elem = elems[i];
 
           // if the element changed was the svg, then it could be a resolution change
           if (elem && elem.tagName === "svg") {
+
             //populateLayers();
             updateCanvas();
           }
@@ -2575,9 +2575,11 @@
       var clickUndo = function(){
         if (undoMgr.getUndoStackSize() > 0) {
           flash($('#edit_menu'));
+
           undoMgr.undo();
           methodDraw.SaveDrawingToMoodle();
           setSelectMode();
+
         }
       };
       var clickFill = function(){
@@ -4364,7 +4366,7 @@
   			window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
   			 // Trigger moodle quiz autosave :-)
   			window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
-  			 // console.error("Done saving........"+questionID);
+
   	  });
 
   };

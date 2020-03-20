@@ -264,11 +264,16 @@ var selectedElements = new Array(1);
 var addSvgElementFromJson = this.addSvgElementFromJson = function(data) {
   var shape = svgedit.utilities.getElem(data.attr.id);
   // if shape is a path but we need to create a rect/ellipse, then remove the path
-  var current_layer = getCurrentDrawing().getCurrentLayer();
+
+  var clc = d3.select('#svgcontent');
+  var current_layer = clc.select('#paths').node();
+ // var current_layer = getCurrentDrawing().getCurrentLayer();
+
   if (shape && data.element != shape.tagName) {
     current_layer.removeChild(shape);
     shape = null;
   }
+
   if (!shape) {
 
     shape = svgdoc.createElementNS(svgns, data.element);
@@ -291,6 +296,7 @@ var addSvgElementFromJson = this.addSvgElementFromJson = function(data) {
   }
   svgedit.utilities.assignAttributes(shape, data.attr, 100);
   svgedit.utilities.cleanupElement(shape);
+
   return shape;
 };
 
@@ -403,6 +409,7 @@ canvas.undoMgr = new svgedit.history.UndoManager({
         //}
       }
     }
+
   }
 
 });
@@ -2504,6 +2511,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
 
     if(mouse_target.tagName === 'a' && mouse_target.childNodes.length === 1) {
       mouse_target = mouse_target.firstChild;
+
     }
 
     // real_x/y ignores grid-snap value
@@ -2534,6 +2542,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
         current_resize_mode = elData(grip, "dir");
       }
       mouse_target = selectedElements[0];
+
     }
 
     start_transform = mouse_target.getAttribute("transform");
@@ -2856,7 +2865,6 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
       mouse_x = pt.x * current_zoom,
       mouse_y = pt.y * current_zoom,
       shape = getElem(getId());
-
     var real_x = x = mouse_x / current_zoom;
     var real_y = y = mouse_y / current_zoom;
 
@@ -3458,8 +3466,8 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
 */
 
 
-      element = null;
-      keep = false;
+          element = null;
+          keep = false;
       break;
       case "fhpath":
         // Check that the path contains at least 2 points; a degenerate one-point path
@@ -3655,7 +3663,6 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
         element.setAttribute("opacity", cur_shape.opacity);
         element.setAttribute("style", "pointer-events:inherit");
         cleanupElement(element);
-
         if(current_mode === "path") {
           pathActions.toEditMode(element);
         } else {
@@ -3665,7 +3672,6 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
               } else {
                 $('#tool_select')[0].click();
                 $('#tool_fhpath')[0].click();
-
                 addCommandToHistory(new InsertElementCommand(element));
                 call("changed",[element]);
               //  $('#tool_select')[0].click();
@@ -5605,9 +5611,9 @@ this.svgToString = function(elem, indent) {
     for (var i=0; i<indent; i++) out.push(" ");
     out.push("<"); out.push(elem.nodeName);
 
-  if(elem.id === 'erase') {
-    return;
-  }
+    if(elem.id === 'erase') {
+        return;
+    }
     if(elem.id === 'svgcontent') {
       // Process root element separately
       var res = getResolution();
@@ -6226,18 +6232,20 @@ this.setSvgString = function(xmlString) {
     this.prepareSvg(newDoc);
 
     var batchCmd = new BatchCommand("Change Source");
+
     // remove old svg document
     svgroot = document.getElementById('svgroot');
     svgcontent = document.getElementById('svgcontent');
 
+
     var nextSibling = svgcontent.nextSibling;
+
 
   //  if(svgroot.contains( svgcontent ) ){
       var oldzoom = svgroot.removeChild(svgcontent);
       batchCmd.addSubCommand(new RemoveElementCommand(oldzoom, nextSibling, svgroot));
-    //  svgCanvas.clearSvgContentElement();
+     // svgCanvas.clearSvgContentElement();
   //  }
-
 
 
     // set new svg document
@@ -6249,10 +6257,12 @@ this.setSvgString = function(xmlString) {
       svgcontent = svgdoc.importNode(newDoc.documentElement, true);
     }
 
+
     svgroot.appendChild(svgcontent);
     var content = $(svgcontent);
 
     canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent, idprefix);
+
     // retrieve or set the nonce
     var nonce = getCurrentDrawing().getNonce();
     if (nonce) {
@@ -6313,8 +6323,11 @@ this.setSvgString = function(xmlString) {
     svgedit.utilities.walkTreePost(svgcontent, function(n){try{recalculateDimensions(n)}catch(e){console.log(e)}});
 
     var attrs = {
-      id: 'svgcontent',
-      overflow: curConfig.show_outside_canvas?'visible':'hidden'
+            id: 'svgcontent',
+            overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
+            xmlns: svgns,
+            "xmlns:se": se_ns,
+            "xmlns:xlink": xlinkns
     };
 
     var percs = false;
@@ -6344,10 +6357,9 @@ this.setSvgString = function(xmlString) {
 
     // identify layers
     identifyLayers();
-
     // Give ID for any visible layer children missing one
     content.children().find(visElems).each(function() {
-      if(!this.id) this.id = getNextId();
+      if(!this.id) {this.id = getNextId();}
     });
 
     // Percentage width/height, so let's base it on visible elements
@@ -6379,8 +6391,10 @@ this.setSvgString = function(xmlString) {
       methodDraw.paintBox.canvas.setPaint(fill)
     }
 
-    var svgx = d3.select("#svgcontent");
-    var g_erase = svgx.append('g').attr('id', 'erase');
+  //  var svgx = d3.select("#svgcontent");
+   // var g_erase = svgx.append('g').attr('id', 'erase');
+
+   // svgcontent = svgx.node();
 
     batchCmd.addSubCommand(new InsertElementCommand(svgcontent));
     // update root to the correct size
