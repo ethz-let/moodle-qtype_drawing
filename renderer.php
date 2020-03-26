@@ -434,6 +434,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 												Y.one("#qtype_drawing_drawingwrapper_'.$question->id.'").set("height","100%");
 												Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "100%");
 												Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
+                                               // Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("max-height","100px");
+                                                document.getElementById("qtype_drawing_editor_'.$question->id.'").style.maxHeight = Y.one("body").get("winHeight")+"px";
                                                 //Y.one("#qtype_drawing_stem_'.$question->id.'").setStyle("display", "block");
 
 											}else{

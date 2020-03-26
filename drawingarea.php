@@ -60,6 +60,7 @@ if($fhd->drawingmode == 1){
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/method-draw.css" type="text/css"/>
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/fonts.css" type="text/css"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
 <script>
 var qtype_drawing_str_comment = "<?php print_string("drawingcomment","qtype_drawing");?>";
 var qtype_drawing_str_newconfirmationmsg = "<?php print_string("newconfirmationmsg","qtype_drawing");?>";
