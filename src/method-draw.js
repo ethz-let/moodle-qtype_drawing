@@ -3309,6 +3309,18 @@
       });
 
 
+
+
+      $("#paths").hover(
+              function () {
+                   curtitle = $(this).children(".grouptitle").text();
+                   $(this).children(".grouptitle").text('');
+              },
+              function () {
+                  $(this).children(".grouptitle").text(curtitle);
+              });
+
+
     //  function changeResolution(x,y) {
     //    var zoom = svgCanvas.getResolution().zoom;
     //    setResolution(x * zoom, y * zoom);
