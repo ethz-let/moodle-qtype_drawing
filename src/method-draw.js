@@ -4031,6 +4031,7 @@
       }
 
       function updateRulers(scanvas, zoom) {
+        if(fhd_display_mode == 1) return;
         var workarea = document.getElementById("workarea");
         var title_show = document.getElementById("title_show");
         var offset_x = 66;

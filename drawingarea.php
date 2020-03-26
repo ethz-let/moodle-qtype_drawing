@@ -245,24 +245,18 @@ height:45px!important;
 
 <div id="svg_editor">
 
-<?php if($reduced_mode == 1) { ?>
-<style>
-#rulers > div {
-  position: initial;
-</style>
-<?php } ?>
 <div id="rulers">
-  <div id="ruler_corner" <?php if($reduced_mode == 1) { ?>style="display:none;"<?php }?>></div>
+  <div id="ruler_corner"></div>
   <div id="ruler_x" >
     <div id="ruler_x_cursor"></div>
-    <div <?php if($reduced_mode == 1) { ?>style="display:none;"<?php }?>>
-      <canvas height="15"></canvas>
+    <div>
+    <canvas height="15"></canvas>
     </div>
   </div>
-  <div id="ruler_y" <?php if($reduced_mode == 1) { ?>style="display:none;"<?php }?>>
+  <div id="ruler_y">
     <div id="ruler_y_cursor"></div>
     <div>
-      <canvas width="15"></canvas>
+    <canvas width="15"></canvas>
     </div>
   </div>
 </div>
