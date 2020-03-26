@@ -434,6 +434,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 												Y.one("#qtype_drawing_drawingwrapper_'.$question->id.'").set("height","100%");
 												Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "100%");
 												Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
+                                                //Y.one("#qtype_drawing_stem_'.$question->id.'").setStyle("display", "block");
+
 											}else{
 												Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", doc.get("winHeight") - 25 + "px");
 											}
@@ -466,6 +468,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 															 Y.one("#qtype_drawing_editor_'.$question->id.'").set("height", viewportHeight_resized);
 															 Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized +10 + "px");
 															 Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("top", "20px");
+console.error("here");
 														}
 											});
 									});
@@ -477,7 +480,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 				<input type="hidden" style="display:none" id="qtype_drawing_background_image_width_'.$question->id.'" value="'.$canvasinfo->backgroundwidth.'">
 				<input type="hidden" style="display:none" id="qtype_drawing_background_image_height_'.$question->id.'" value="'.$canvasinfo->backgroundheight.'">
 				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$question->id.'"><img id="qtype_drawing_loading_image_'.$question->id.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
-				<span id="quiz_timer_drawing_' . $question->id .'" style="display:none; margin-top:-1em; background-color:#fff"></span>
+                <!--<span id="qtype_drawing_stem_' . $question->id .'" style="display:none; background-color:red"></span>-->
+                <span id="quiz_timer_drawing_' . $question->id .'" style="display:none; margin-top:-1em; background-color:#fff"></span>
 				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' .$question->id . '">&nbsp;</span>
 					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$question->id.'"  onload="init_qtype_drawing_embed('.$question->id.')" ></iframe>
 				</div>

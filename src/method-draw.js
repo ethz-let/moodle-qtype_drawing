@@ -2307,6 +2307,7 @@
 
           var currentMode = svgCanvas.getMode();
           var selectoelemtnto = svgCanvas.getSelectedElems();
+          var prgselected = selectoelemtnto;
           var tagnameselectedelem = '';
           if(selectoelemtnto[0]){
             tagnameselectedelem = selectoelemtnto[0].tagName;
@@ -2321,8 +2322,11 @@
           //  svgCanvas.changeSelectedAttributeNoUndo('fill', 'none', selectoelemtnto);
           } else {
             //fill
-            Editor.paintBox['fill'].setPaint(paint);
-            svgCanvas.setColor('fill', hexcolor, noUndo);
+              if(prgselected.length != 0) {
+                  Editor.paintBox['fill'].setPaint(paint);
+                  svgCanvas.setColor('fill', hexcolor, noUndo);
+              }
+
           }
 
 
