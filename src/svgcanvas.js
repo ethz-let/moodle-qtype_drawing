@@ -8041,7 +8041,7 @@ this.setFontFamily = function(val) {
 // val - String with the new font color
 this.setFontColor = function(val) {
   cur_text.fill = val;
-  changeSelectedAttribute("fill", val);
+  changeSelectedAttribute("stroke", val);
 };
 
 // Function: getFontColor

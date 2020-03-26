@@ -2302,6 +2302,7 @@
           //stroke
           Editor.paintBox['stroke'].setPaint(paint);
           svgCanvas.setColor('stroke', hexcolor, noUndo);
+
           //Text too!
           svgCanvas.setFontColor(hexcolor);
 
@@ -2313,13 +2314,14 @@
             tagnameselectedelem = selectoelemtnto[0].tagName;
           }
 
-          if(currentMode == 'select' && tagnameselectedelem =='path') {
+   //       Editor.paintBox['fill'].setPaint(paint);
+    //      svgCanvas.setColor('fill', hexcolor, noUndo);
 
-          //  xpaint = new $.jGraduate.Paint({alpha: 100, solidColor: 'none'});
-            xpaint = new $.jGraduate.Paint();
+          /*
+          if(currentMode == 'select' && tagnameselectedelem =='path') {
+          xpaint = new $.jGraduate.Paint();
             Editor.paintBox['fill'].setPaint(xpaint);
             svgCanvas.setColor('fill', 'none', noUndo);
-          //  svgCanvas.changeSelectedAttributeNoUndo('fill', 'none', selectoelemtnto);
           } else {
             //fill
               if(prgselected.length != 0) {
@@ -2328,8 +2330,7 @@
               }
 
           }
-
-
+*/
           if (hexcolor != 'none' && svgCanvas.getStrokeOpacity() != 1) {
             $('#group_opacity').val(100);
             svgCanvas.setPaintOpacity('stroke', 1.0);
