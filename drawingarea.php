@@ -86,6 +86,7 @@ var fhd_display_mode = "<?php echo $reduced_mode;?>";
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/history.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/select.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/draw.js"></script>
+<script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/path_polyfill.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/path.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/dialog.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>src/svgcanvas.js"></script>
