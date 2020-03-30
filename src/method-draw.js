@@ -483,6 +483,14 @@
           $('#tool_bucket').addClass( 'disabled');
           $('#tools_top').removeClass('multiselected');
         }
+
+        if(mode == 'textedit' || mode =='text' || (mode == 'select' && selectedElement && selectedElement.tagName == 'text' )){
+            $("#preset_sizes_panel_id").hide();
+        } else {
+            $("#preset_sizes_panel_id").show();
+        }
+
+
         svgCanvas.runExtensions("selectedChanged", {
           elems: elems,
           selectedElement: selectedElement,
@@ -2228,6 +2236,7 @@
       var clickText = function(){
         if (toolButtonClick('#tool_text')) {
           svgCanvas.setMode('text');
+          $("#preset_sizes_panel_id").hide();
 
         }
       };
@@ -2257,12 +2266,10 @@
           if(selectoelemtnto[0]){
             tagnameselectedelem = selectoelemtnto[0].tagName;
           }
-        //  console.error("text aractions", tagnameselectedelem);
-    /*      if(attr == 'stroke-width' && elem.tagName == 'text'){
-            attr = 'font-size';
-        //    elem.setAttribute(attr, newValue);
-            elem.removeAttribute("stroke-width");
-          }*/
+
+          $('#stroke_width').val(size);
+          svgCanvas.setStrokeWidth(size);
+/*
           if(currentMode == 'textedit' || tagnameselectedelem =='text') {
             $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
             svgCanvas.setStrokeWidth(3.5);
@@ -2273,7 +2280,7 @@
             $('#stroke_width').val(size);
             svgCanvas.setStrokeWidth(size);
           }
-
+*/
           // remove highlight from all others!
           $(".qtype_drawing_size_pen div").removeClass("qtype_drawing_active_selection");
           $("#"+this.id+" div").addClass("qtype_drawing_active_selection");

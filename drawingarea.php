@@ -374,7 +374,7 @@ height:45px!important;
 
       </div>
 
-      <div class="stroke_tool draginput" style="width:125px;padding:10px; height:70px">
+      <div class="stroke_tool draginput" id="preset_sizes_panel_id" style="width:125px;padding:10px; height:70px">
         <span><?php print_string('size', 'qtype_drawing');?></span>
 
       <div >

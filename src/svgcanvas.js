@@ -7699,6 +7699,14 @@ this.resetStrokeWidth = function(val) {
   all_properties.text.stroke_width = val;
   changeSelectedAttribute("stroke-width", val);
 }
+
+this.resetStrokeWidthQuick = function(val) {
+    cur_properties.stroke_width = val;
+    all_properties.text.stroke_width = val;
+   // changeSelectedAttribute("stroke-width", val);
+    console.error("stroke..");
+  }
+
 // Function: setStrokeWidth
 // Sets the stroke width for the current selected elements
 // When attempting to set a line's width to 0, this changes it to 1 instead
