@@ -107,40 +107,41 @@ class qtype_drawing extends question_type {
         $this->save_hints($question);
 
         // Save the background image:
-
-        $fs = get_file_storage();
-        $usercontext = context_user::instance($USER->id);
-        $draftfiles = $fs->get_area_files($usercontext->id, 'user', 'draft', $question->qtype_drawing_image_file, 'id');
-        if (count($draftfiles) >= 2) {
-        	$fs->delete_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id);
-        	file_save_draft_area_files($question->qtype_drawing_image_file, $question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id, array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1));
-        } else {
-        	// No files have been indicated to be uploaded. Check if this is an attempt to make a duplicate copy of this question (and that this is not a simple EDIT, in which case we don't have to do anything to the background image file):
-        	if (property_exists($question, 'pre_existing_question_id') && $question->pre_existing_question_id != 0 && $question->pre_existing_question_id != $question->id) {
-        		// Yes, this was an edit form which turned out to be a "Make copy", so we need to copy over the background image of the old question into a new record:
-        		// First fetch the old one:
-        		$oldfiles   = $fs->get_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->pre_existing_question_id, 'id');
-        		if (count($oldfiles) >= 2) {
-        			// Files indeed exist.
-        			foreach ($oldfiles as $oldfile) {
-        				if ($oldfile->is_directory()) {
-        					continue;
-        				}
-        				$newfile = array(
-        						'contextid' => $question->context->id, // ID of context
-        						'component' => 'qtype_drawing',     // usually = table name
-        						'filearea' => 'qtype_drawing_image_file',     // usually = table name
-        						'itemid' => $question->id,               // usually = ID of row in table
-        						'filepath' => '/',           // any path beginning and ending in /
-        						'filename' => $oldfile->get_filename()); // any filename
-        				$fs->create_file_from_storedfile($newfile, $oldfile);
-        				continue;
-        			}
-        		}
-        	} else { // Background image has been delibrately removed by teacher.
-            $this->delete_files($question->id, $question->context->id);
-          }
+        if(isset($question->qtype_drawing_image_file)){
+            $fs = get_file_storage();
+            $usercontext = context_user::instance($USER->id);
+            $draftfiles = $fs->get_area_files($usercontext->id, 'user', 'draft', $question->qtype_drawing_image_file, 'id');
+            if (count($draftfiles) >= 2) {
+            	$fs->delete_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id);
+            	file_save_draft_area_files($question->qtype_drawing_image_file, $question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id, array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1));
+            } else {
+            	// No files have been indicated to be uploaded. Check if this is an attempt to make a duplicate copy of this question (and that this is not a simple EDIT, in which case we don't have to do anything to the background image file):
+            	if (property_exists($question, 'pre_existing_question_id') && $question->pre_existing_question_id != 0 && $question->pre_existing_question_id != $question->id) {
+            		// Yes, this was an edit form which turned out to be a "Make copy", so we need to copy over the background image of the old question into a new record:
+            		// First fetch the old one:
+            		$oldfiles   = $fs->get_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->pre_existing_question_id, 'id');
+            		if (count($oldfiles) >= 2) {
+            			// Files indeed exist.
+            			foreach ($oldfiles as $oldfile) {
+            				if ($oldfile->is_directory()) {
+            					continue;
+            				}
+            				$newfile = array(
+            						'contextid' => $question->context->id, // ID of context
+            						'component' => 'qtype_drawing',     // usually = table name
+            						'filearea' => 'qtype_drawing_image_file',     // usually = table name
+            						'itemid' => $question->id,               // usually = ID of row in table
+            						'filepath' => '/',           // any path beginning and ending in /
+            						'filename' => $oldfile->get_filename()); // any filename
+            				$fs->create_file_from_storedfile($newfile, $oldfile);
+            				continue;
+            			}
+            		}
+            	} else { // Background image has been delibrately removed by teacher.
+                $this->delete_files($question->id, $question->context->id);
+              }
         }
+    }
 
     }
 
@@ -253,39 +254,41 @@ class qtype_drawing extends question_type {
     		}
     	}
     	// Save canvas background image file ---------------------
-      $bgImageArray[0] = $format->getpath($data, array('#', 'bgimage', '0', '#', 'imagetype', '0', '#'), 'does_not_exist');
+        $bgImageArray[0] = $format->getpath($data, array('#', 'bgimage', '0', '#', 'imagetype', '0', '#'), 'does_not_exist');
     	$bgImageArray[1] = $format->getpath($data, array('#', 'bgimage', '0', '#', 'dataURL', '0', '#'), 'does_not_exist');
     	$bgImageArray[2] = $format->getpath($data, array('#', 'bgimage', '0', '#', 'filename', '0', '#'), 'does_not_exist');
 
     	if ($bgImageArray[1] === 'does_not_exist' || $bgImageArray[2] === 'does_not_exist') {
     		return false;
     	}
-      if($bgImageArray[0] != 'svg') {
-      	// Convert dataURL to binary
-      	$imgBinaryData = base64_decode(qtype_drawing_renderer::strstr_after($bgImageArray[1], 'base64,'));
-      	// Make sure this is a valid image file we could read
-      	if (($GDimg = imagecreatefromstring($imgBinaryData)) === false) {
-      		return false;
-      	}
-      	// Clean up GD resource
-      	imagedestroy($GDimg);
-      } else {
-        $imgBinaryData = $bgImageArray[1];
-      }
-    	// Prepare draft file area which would later be really saved in ::save_question_options() when the question object already exists
-    	global $USER;
-    	$fs = get_file_storage();
-    	$usercontext = context_user::instance($USER->id);
-    	$question->qtype_drawing_image_file = file_get_unused_draft_itemid();
-    	$record = new stdClass();
-    	$record->contextid = $usercontext->id;
-    	$record->component = 'user';
-    	$record->filearea  = 'draft';
-    	$record->itemid    = $question->qtype_drawing_image_file;
-    	$record->filename  = $bgImageArray[2];
-    	$record->filepath  = '/';
-    	$fs->create_file_from_string($record, $imgBinaryData);
+    	if(trim($bgImageArray[1]) != ''){
 
+        	if($bgImageArray[0] != 'svg') {
+              	// Convert dataURL to binary
+        	    $imgBinaryData = base64_decode(qtype_drawing_renderer::strstr_after($bgImageArray[1], 'base64,'));
+        	    // Make sure this is a valid image file we could read
+        	    if (($GDimg = imagecreatefromstring($imgBinaryData)) === false) {
+        	        return false;
+        	    }
+        	    // Clean up GD resource
+        	    imagedestroy($GDimg);
+            } else {
+                $imgBinaryData = $bgImageArray[1];
+            }
+        	// Prepare draft file area which would later be really saved in ::save_question_options() when the question object already exists
+        	global $USER;
+        	$fs = get_file_storage();
+        	$usercontext = context_user::instance($USER->id);
+        	$question->qtype_drawing_image_file = file_get_unused_draft_itemid();
+        	$record = new stdClass();
+        	$record->contextid = $usercontext->id;
+        	$record->component = 'user';
+        	$record->filearea  = 'draft';
+        	$record->itemid    = $question->qtype_drawing_image_file;
+        	$record->filename  = $bgImageArray[2];
+        	$record->filepath  = '/';
+        	$fs->create_file_from_string($record, $imgBinaryData);
+    	}
     	return $question;
     }
 
