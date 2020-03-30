@@ -8041,6 +8041,10 @@ this.setFontFamily = function(val) {
 // val - String with the new font color
 this.setFontColor = function(val) {
   cur_text.fill = val;
+
+  if(selectedElements && selectedElements[0] && selectedElements[0].tagName == 'text')
+  changeSelectedAttribute("fill", val);
+  else
   changeSelectedAttribute("stroke", val);
 };
 
