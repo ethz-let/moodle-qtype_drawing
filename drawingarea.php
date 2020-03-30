@@ -962,7 +962,6 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
 
       if(lastsavedanswerelem && 0 !== lastsavedanswerelem.length){
         methodDraw.loadFromString(lastsavedanswerelem);
-
       }
       window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
 

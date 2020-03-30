@@ -475,7 +475,6 @@ class qtype_drawing_renderer extends qtype_renderer {
 															 Y.one("#qtype_drawing_editor_'.$question->id.'").set("height", viewportHeight_resized);
 															 Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized +10 + "px");
 															 Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("top", "20px");
-console.error("here");
 														}
 											});
 									});
