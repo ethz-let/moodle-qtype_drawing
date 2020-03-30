@@ -379,7 +379,12 @@ class qtype_drawing_renderer extends qtype_renderer {
 				} else {
 					$finalbackground = $background[1];
 				}
-				$studentmergedanswer = str_replace('<svg',"<svg style='background-image: url($finalbackground);background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;'",$studentanswer);
+				if(!$finalbackground || trim($finalbackground) == ''){
+				    $backgroundstyle = "background: #fff";
+				} else {
+				    $backgroundstyle = "background-image: url($finalbackground)";
+				}
+				$studentmergedanswer = str_replace('<svg',"<svg style='$backgroundstyle;background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;'",$studentanswer);
 
 				$canvas .=  '
 							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$question->id.'" style="min-height:'.$canvasinfo->backgroundheight.'px; min-width:'.$canvasinfo->backgroundwidth.'px">'.$studentmergedanswer.'</div>';
