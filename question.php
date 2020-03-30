@@ -51,7 +51,10 @@ class qtype_drawing_question extends question_graded_by_strategy implements ques
     public function summarise_response(array $response) {
     	return get_string('no_response_summary', 'qtype_drawing');
     }
-
+    // Initially added for LMDL-294. Remove at later stage.
+    public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
+        return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
+    }
     public function is_complete_response(array $response) {
     	if (array_key_exists('answer', $response)) {
     		if ($response['answer'] != '') {
@@ -93,8 +96,7 @@ class qtype_drawing_question extends question_graded_by_strategy implements ques
     }
     public function compare_response_with_answer(array $response, question_answer $answer) {
 
-
-    	if ($answer->answer === '' || array_key_exists('answer', $response) === FALSE) {
+    	if ($answer->answer === '' || array_key_exists('answer', $response) === false) {
     		return false;
     	}
 
