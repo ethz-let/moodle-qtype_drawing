@@ -1216,7 +1216,7 @@
       }
 
       var createBackground = function(fill) {
-        svgCanvas.createLayer("background")
+        svgCanvas.createLayer("background");
         cur_shape = svgCanvas.addSvgElementFromJson({
           "element": "rect",
           "attr": {
@@ -1237,9 +1237,10 @@
 
       // create a new layer background if it doesn't exist
       if (!document.getElementById('canvas_background')){
-        createBackground();
+       // createBackground();
       }
-      var fill = document.getElementById('canvas_background').getAttribute("fill");
+    //  var fill = document.getElementById('canvas_background').getAttribute("fill");
+
     //  $('#canvas_width').trigger('change');
     //  $('#canvas_height').trigger('change');
     //svgCanvas.setResolution($('#canvas_width').val(),$('#canvas_height').val());
