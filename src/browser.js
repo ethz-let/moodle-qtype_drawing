@@ -112,7 +112,7 @@ var supportsNonScalingStroke_ = (function() {
 var supportsNativeSVGTransformLists_ = (function() {
   var rect = document.createElementNS(svgns, 'rect');
   var rxform = rect.transform.baseVal;
-  
+
   var t1 = svg.createSVGTransform();
   rxform.appendItem(t1);
   return rxform.getItem(0) == t1;
@@ -144,7 +144,13 @@ svgedit.browser.isIE = function() { return isIE_; }
 svgedit.browser.isChrome = function() { return isChrome_; }
 svgedit.browser.isWindows = function() { return isWindows_; }
 svgedit.browser.isMac = function() { return isMac_; }
-svgedit.browser.isTouch = function() { return isTouch_; }
+
+svgedit.browser.isTouch = function() {
+return false; // Temporary for SEB 3.
+//return isTouch_;
+
+}
+
 
 svgedit.browser.supportsSelectors = function() { return supportsSelectors_; }
 svgedit.browser.supportsXpath = function() { return supportsXpath_; }

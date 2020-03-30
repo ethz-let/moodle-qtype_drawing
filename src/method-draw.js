@@ -39,13 +39,14 @@
       gridColor: "#000",
       baseUnit: 'px',
       snappingStep: 10,
-      showRulers: (svgedit.browser.isTouch()) ? false : true,
+      showRulers: true,
       show_outside_canvas: false,
       no_save_warning: true,
       initFont: 'Helvetica, Arial, sans-serif',
       globalstrokecolor: '#000',
       globalfillcolor: '#fff',
     };
+    // showRulers: (svgedit.browser.isTouch()) ? false : true,
     var curPrefs = {}; //$.extend({}, defaultPrefs);
     var customHandlers = {};
     Editor.curConfig = curConfig;
@@ -2725,7 +2726,6 @@
 
         }
       }
-
       var clickRulers = function() {
         flash($('#view_menu'));
         var rulers = !$('#tool_rulers').hasClass('push_button_pressed');
@@ -3735,6 +3735,15 @@
           tool = $("#tool_select");
         }
         tool.click().mouseup();
+        // Trigger temp for SEB 3 to initiate first tool. Remove later.
+        if (toolButtonClick('#tool_fhpath')) {
+            svgCanvas.setMode('fhpath');
+            if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          }
+
 
         if(curConfig.wireframe) {
           $('#tool_wireframe').click();
@@ -3746,7 +3755,6 @@
 
         $('#rulers').toggle(!!curConfig.showRulers);
       });
-
 
       $('#canvas_height').dragInput({ min: 10,   max: null,  step: 10,  callback: changeCanvasSize,    cursor: false, dragAdjust: .1         });
       $('#canvas_width') .dragInput({ min: 10,   max: null,  step: 10,  callback: changeCanvasSize,    cursor: false, dragAdjust: .1         });

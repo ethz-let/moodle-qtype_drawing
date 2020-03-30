@@ -239,9 +239,7 @@ height:45px!important;
 .qtype_drawing_active_selection_border {
 	border: 2px solid #0cf;
 }
-#rulers > div{
-/*background:red!important;*/
-}
+
 </style>
 <title>moodle-qtype_drawing - ETHz</title>
 </head>
