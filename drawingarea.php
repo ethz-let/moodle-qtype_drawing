@@ -941,7 +941,6 @@ height:45px!important;
 <div id="textedit_dialog" title="<?php print_string('edittext', 'qtype_drawing');?>">
   <textarea id="text" name="text" cols="40" rows="8" style="width:95%; overflow: auto;"></textarea>
 </div>
-
 </body>
 </html>
 <script>

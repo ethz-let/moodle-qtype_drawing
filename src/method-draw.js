@@ -442,7 +442,9 @@
 
       // called when we've selected a different element
       var selectedChanged = function(window,elems) {
+
         var mode = svgCanvas.getMode();
+        var orgelems = elems;
         if(mode === "select") setSelectMode();
         if (mode === "pathedit") return updateContextPanel();
         // if elems[1] is present, then we have more than one element
@@ -450,8 +452,14 @@
         elems = elems.filter(Boolean)
         multiselected = (elems.length >= 2) ? elems : false;
         if (svgCanvas.elementsAreSame(multiselected)) selectedElement = multiselected[0]
+
+        if(orgelems[0]){
+            $("#canvas_panel").show();
+        }
+
         if (selectedElement != null) {
-          $('#multiselected_panel').hide()
+          $('#multiselected_panel').hide();
+
           updateToolbar();
           if (multiselected.length) {//multiselected elements are the same
             $('#tools_top').addClass('multiselected')
@@ -482,6 +490,7 @@
           $('#canvas_panel').show()
           $('#tool_bucket').addClass( 'disabled');
           $('#tools_top').removeClass('multiselected');
+
         }
 
         if(mode == 'textedit' || mode =='text' || (mode == 'select' && selectedElement && selectedElement.tagName == 'text' )){
@@ -1361,6 +1370,7 @@
 
           }
 
+
         }
 
         if (is_node) {
@@ -1637,6 +1647,11 @@
           canv_menu.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
 
         }
+
+        if(currentMode == 'select'  && elem == null){
+            $("#canvas_panel").hide();
+        }
+
       };
 
       $('#text').on("focus", function(e){ textBeingEntered = true; } );
@@ -2158,6 +2173,7 @@
       var clickSelect = function() {
         if (toolButtonClick('#tool_select')) {
           svgCanvas.setMode('select');
+          $("#canvas_panel").hide();
         }
       };
 
@@ -2373,6 +2389,8 @@
         if (path.getNodePoint()) {
           path.deletePathNode();
         }
+        $("#canvas_panel").hide();
+        setSelectMode();
       };
 
       var cutSelected = function() {
@@ -2590,7 +2608,9 @@
           flash($('#edit_menu'));
 
           undoMgr.undo();
+          $('#canvas_panel').hide();
           methodDraw.SaveDrawingToMoodle();
+
           setSelectMode();
 
         }
@@ -2604,6 +2624,7 @@
         if (undoMgr.getRedoStackSize() > 0) {
           flash($('#edit_menu'));
           undoMgr.redo();
+          $('#canvas_panel').hide();
           methodDraw.SaveDrawingToMoodle();
           setSelectMode();
         }

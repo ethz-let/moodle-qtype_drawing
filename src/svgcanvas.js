@@ -2525,6 +2525,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
       start_y = snapToGrid(start_y);
     }
 
+
     // if it is a selector grip, then it must be a single element selected,
     // set the mouse_target to that and update the mode to rotate/resize
 
@@ -2850,6 +2851,10 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
     if(current_mode == 'eraser'){
         $("#strokestyle_div").hide();
         $("#fastcolorpicks").hide();
+    }
+
+    if((current_mode == 'multiselect' || current_mode == 'select') && (selectedElements.length === 0 || selectedElements[0] === null)){
+        $('#canvas_panel').hide();
     }
 
   };
@@ -4033,7 +4038,6 @@ var textActions = canvas.textActions = function() {
       $("#text_dialog_jq").css('top', top);
 
   //  $(".ui-widget-overlay").live("click", function() {  $("#quick-links-modal").dialog("close"); } );
-
    },
    close: function(event, ui) {
      $(this).dialog('destroy');//.remove();
