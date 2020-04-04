@@ -291,7 +291,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
             updatedlinespecs = Xoriginal_paths[1];
 
 
-              this.update(original_paths);
+        	  this.update(original_paths);
         }
       },
       update: function(opts) {
