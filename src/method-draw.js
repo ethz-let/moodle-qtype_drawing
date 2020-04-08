@@ -4429,11 +4429,9 @@
   			 // Trigger moodle quiz autosave :-)
   			window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
 
-  			if(Editor.numsaved > 2){
-  			  window.parent.$('#qtype_drawing_wifi_data_'+questionID).text(CanvdrawingValue);
-  			}
 
-  			console.error("saved..", Editor.numsaved,CanvdrawingValue);
+
+  			//console.error("saved..", Editor.numsaved,CanvdrawingValue);
   	  });
 
   };
