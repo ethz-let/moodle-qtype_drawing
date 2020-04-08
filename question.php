@@ -107,14 +107,14 @@ class qtype_drawing_question extends question_graded_by_strategy implements ques
 	}
 
     public function check_file_access($qa, $options, $component, $filearea,
-            $args, $forcedownload) {
+                    $args, $forcedownload) {
         if ($component == 'qtype_drawing' && $filearea == 'qtype_drawing_image_file') {
             $question = $qa->get_question();
             $itemid = reset($args);
             return ($itemid == $question->id);
         } else {
-            return parent::check_file_access($qa, $options, $component, $filearea,
-                    $args, $forcedownload);
+            return parent::check_file_access($qa, $options, $component,
+                            $filearea, $args, $forcedownload);
         }
     }
 }

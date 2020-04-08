@@ -138,7 +138,10 @@ class qtype_drawing extends question_type {
             			}
             		}
             	} else { // Background image has been delibrately removed by teacher.
-                $this->delete_files($question->id, $question->context->id);
+              //  $this->delete_files($question->id, $question->context->id);
+                $fs = get_file_storage();
+                $fs->delete_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id);
+            //    $fs->delete_area_files($question->context->id, 'question', 'generalfeedback', $question->id);
               }
         }
     }

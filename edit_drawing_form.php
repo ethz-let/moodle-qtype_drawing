@@ -109,30 +109,30 @@ class qtype_drawing_edit_form extends question_edit_form {
           }
       }
       $mform->addElement('header', 'generalheader', get_string('general', 'form'));
-      $mform->addElement('text', 'name', get_string('tasktitle', 'qtype_kprime'),
+      $mform->addElement('text', 'name', get_string('tasktitle', 'qtype_drawing'),
               array('size' => 50, 'maxlength' => 255
               ));
       $mform->setType('name', PARAM_TEXT);
       $mform->addRule('name', null, 'required', null, 'client');
-      $mform->addElement('text', 'defaultmark', get_string('maxpoints', 'qtype_kprime'),
+      $mform->addElement('text', 'defaultmark', get_string('maxpoints', 'qtype_drawing'),
               array('size' => 7
               ));
       $mform->setType('defaultmark', PARAM_FLOAT);
       $mform->setDefault('defaultmark', 1);
       $mform->addRule('defaultmark', null, 'required', null, 'client');
-      $mform->addElement('editor', 'questiontext', get_string('stem', 'qtype_kprime'),
+      $mform->addElement('editor', 'questiontext', get_string('stem', 'qtype_drawing'),
               array('rows' => 15
               ), $this->editoroptions);
       $mform->setType('questiontext', PARAM_RAW);
       $mform->addRule('questiontext', null, 'required', null, 'client');
       $mform->setDefault('questiontext',
-              array('text' => get_string('enterstemhere', 'qtype_kprime')
+              array('text' => get_string('enterstemhere', 'qtype_drawing')
               ));
       $mform->addElement('editor', 'generalfeedback', get_string('generalfeedback', 'question'),
               array('rows' => 10
               ), $this->editoroptions);
       $mform->setType('generalfeedback', PARAM_RAW);
-      $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_kprime');
+      $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_drawing');
       // Any questiontype specific fields.
       $this->definition_inner($mform);
 
@@ -211,6 +211,7 @@ class qtype_drawing_edit_form extends question_edit_form {
         $canvasTextAreaPreexistingAnswer = '';
         $noBackgroundImageSelectedYetStyle = '';
         $eraserHTMLParams = '';
+        $this->editoroptions['changeformat'] = 1;
 
        	$bgImageArray = qtype_drawing_renderer::get_image_for_files($usercontext->id, 'user', 'draft',  file_get_submitted_draft_itemid('qtype_drawing_image_file'));
         if ($bgImageArray !== null) {
@@ -295,23 +296,14 @@ class qtype_drawing_edit_form extends question_edit_form {
 
         $drawingconfig = get_config('qtype_drawing');
 
-        $mform->addElement('header', 'qtype_drawing_canvas_specs', get_string('canvasspecs', 'qtype_drawing'));
-        if(isset($drawingconfig->allowteachertochosemode) && $drawingconfig->allowteachertochosemode == 1) {
-          $options = array(1 => get_string('basicmode', 'qtype_drawing'), 2 => get_string('advancedmode', 'qtype_drawing'));
-          $mform->addElement('select', 'drawingmode', get_string('drawingmode', 'qtype_drawing'), $options);
-          $mform->addHelpButton('drawingmode', 'drawingmode', 'qtype_drawing');
-        } else {
-          $mform->addElement('hidden', 'drawingmode', 1);
-        }
-
-        $mform->setDefault('drawingmode', 1);
+     //   $mform->addElement('header', 'qtype_drawing_canvas_specs', get_string('canvasspecs', 'qtype_drawing'));
 
 
         $canvassizearray = array();
         $canvassizearray[] =& $mform->createElement('text', 'backgroundwidth', get_string('backgroundwidth', 'qtype_drawing'),
-        array('size' => 4, 'maxlength' => 5, 'id' => 'qtype_drawing_backgroundwidth'));
+                        array('size' => 4, 'maxlength' => 5, 'id' => 'qtype_drawing_backgroundwidth'));
         $canvassizearray[] =& $mform->createElement('text', 'backgroundheight', get_string('backgroundheight', 'qtype_drawing'),
-        array('size' => 4, 'maxlength' => 5, 'id' => 'qtype_drawing_backgroundheight'));
+                        array('size' => 4, 'maxlength' => 5, 'id' => 'qtype_drawing_backgroundheight'));
         $canvassizearray[] =& $mform->createElement('checkbox', 'preservear', get_string('preserveaspectratio', 'qtype_drawing'));
         $mform->addGroup($canvassizearray, 'buttonar', get_string('canvassize', 'qtype_drawing'), array('px &nbsp;&nbsp;&nbsp;&nbsp; '), false);
         $mform->setType('backgroundwidth', PARAM_INT);
@@ -320,6 +312,20 @@ class qtype_drawing_edit_form extends question_edit_form {
         $mform->setDefault('backgroundheight', $drawingconfig->defaultcanvasheight);
         $mform->setType('preservear', PARAM_INT);
         $mform->setDefault('preservear', 1);
+
+        if(isset($drawingconfig->allowteachertochosemode) && $drawingconfig->allowteachertochosemode == 1) {
+          $options = array(1 => get_string('basicmode', 'qtype_drawing'), 2 => get_string('advancedmode', 'qtype_drawing'));
+          $mform->addElement('select', 'drawingmode', get_string('drawingmode', 'qtype_drawing'), $options);
+          $mform->addHelpButton('drawingmode', 'drawingmode', 'qtype_drawing');
+
+        } else {
+          $mform->addElement('hidden', 'drawingmode', 1);
+        }
+
+        $mform->setDefault('drawingmode', 1);
+
+
+
 
 
         $mform->addElement('html', '<div style="display:none">'); // Hide until version 2.
@@ -339,6 +345,8 @@ class qtype_drawing_edit_form extends question_edit_form {
         $mform->setType('backgroundheight', PARAM_INT);
         $mform->setDefault('backgroundheight', $drawingconfig->defaultcanvasheight);
         */
+
+     //   $mform->setExpanded('qtype_drawing_canvas_specs');
         $this->add_interactive_settings();
 
 
