@@ -965,15 +965,6 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
         methodDraw.loadFromString(originallysaveddata);
       }
 
-      var wifitextarea = window.parent.$('#qtype_drawing_last_saved_answer_id_<?php echo $id;?>');
-      wifitextarea.change(function(){
-       //   if(wifitextarea.text() && 0 !== wifitextarea.text().length){
-              methodDraw.loadFromString(wifitextarea.text());
-              console.error("WIFI CHANGED", wifitextarea.text(),"bbb",wifitextarea.val());
-         //   }
-
-      });
-
       window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
 
   });
