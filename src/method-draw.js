@@ -51,6 +51,7 @@
     var customHandlers = {};
     Editor.curConfig = curConfig;
     Editor.tool_scale = 1;
+    Editor.numsaved = 0;
 
     Editor.setConfig = function(opts) {
       $.extend(true, curConfig, opts);
@@ -226,7 +227,9 @@
               }
             }
           });
+
           methodDraw.runCallbacks();
+
 
           setTimeout(function() {
             $('.flyout_arrow_horiz:empty').each(function() {
@@ -345,7 +348,7 @@
 
           if(type == 'prompt') input.focus();
         }
-
+        // is_ready=true; //NNANNA
         $.alert = function(msg, cb) { dbox('alert', msg, cb);};
         $.confirm = function(msg, cb) { dbox('confirm', msg, cb);};
         $.process_cancel = function(msg, cb) {  dbox('process', msg, cb);};
@@ -3739,6 +3742,8 @@
         tool.click().mouseup();
         // Trigger temp for SEB 3 to initiate first tool. Remove later.
         if (toolButtonClick('#tool_fhpath')) {
+
+            toolButtonClick('#tool_fhpath');
             svgCanvas.setMode('fhpath');
             if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
               $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
@@ -3756,6 +3761,7 @@
         }
 
         $('#rulers').toggle(!!curConfig.showRulers);
+        console.log("FHD Ready..");
       });
 
       $('#canvas_height').dragInput({ min: 10,   max: null,  step: 10,  callback: changeCanvasSize,    cursor: false, dragAdjust: .1         });
@@ -4415,8 +4421,7 @@
 
 
     Editor.SaveDrawingToMoodle = function() {
-
-  	  Editor.ready(function() {
+  	  Editor.ready(function() {Editor.numsaved++;
   			// save for moodle
   			questionID = svgCanvas.getHDQuestionID();
   			CanvdrawingValue = getCurrentDrawingSVG();
@@ -4424,6 +4429,11 @@
   			 // Trigger moodle quiz autosave :-)
   			window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
 
+  			if(Editor.numsaved > 2){
+  			  window.parent.$('#qtype_drawing_wifi_data_'+questionID).text(CanvdrawingValue);
+  			}
+
+  			console.error("saved..", Editor.numsaved,CanvdrawingValue);
   	  });
 
   };

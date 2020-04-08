@@ -6264,7 +6264,6 @@ this.setSvgString = function(xmlString) {
 
     svgroot.appendChild(svgcontent);
     var content = $(svgcontent);
-
     canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent, idprefix);
 
     // retrieve or set the nonce

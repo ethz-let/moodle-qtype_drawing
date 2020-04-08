@@ -119,7 +119,9 @@ var fhd_display_mode = "<?php echo $reduced_mode;?>";
 
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery-ui/jquery-ui.css">
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery-ui/jquery-ui.js"></script>
-
+<script>
+var originallysaveddata = window.parent.$('#qtype_drawing_last_saved_answer_id_<?php echo $id;?>').val();
+</script>
 <style>
 .qtype_drawing_selectedcolor{
 	outline: 2px #4F80FF solid!important;
@@ -952,19 +954,30 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
  $(this).dialog('destroy');
 });*/
 //$(document).ready(function () {
+
   methodDraw.ready(function() {
   var svg = d3.select("#svgcontent");
   var g_erase = svg.append('g').attr('id', 'erase');
-
       // Get current student answer - if any!
       var qid = $('#fhd_question_id').val();
-      var lastsavedanswerelem = window.parent.$("#qtype_drawing_last_saved_answer_id_"+qid).val();
-
-      if(lastsavedanswerelem && 0 !== lastsavedanswerelem.length){
-        methodDraw.loadFromString(lastsavedanswerelem);
+    //  var lastsavedanswerelem = window.parent.$("#qtype_drawing_last_saved_answer_id_"+qid).val();
+      if(originallysaveddata && 0 !== originallysaveddata.length){
+        methodDraw.loadFromString(originallysaveddata);
       }
+
+      var wifitextarea = window.parent.$('#qtype_drawing_last_saved_answer_id_<?php echo $id;?>');
+      wifitextarea.change(function(){
+       //   if(wifitextarea.text() && 0 !== wifitextarea.text().length){
+              methodDraw.loadFromString(wifitextarea.text());
+              console.error("WIFI CHANGED", wifitextarea.text(),"bbb",wifitextarea.val());
+         //   }
+
+      });
+
       window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
 
   });
+
+
 //});
 </script>
