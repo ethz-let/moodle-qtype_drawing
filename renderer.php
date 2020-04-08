@@ -352,7 +352,11 @@ class qtype_drawing_renderer extends qtype_renderer {
 			} else {
 				$readonlyCanvas = '';
 				$inputnamelastsaved = $inputname.'_lastsaved';
-				$canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$question->id."\" style=\"display:none\">$currentAnswer</textarea><textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved'\" id=\"qtype_drawing_last_saved_answer_id_".$question->id."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea><input type=\"hidden\" name=\"qtype_drawing_drawingevent\" id=\"qtype_drawing_drawingevent_".$question->id."\" value=\"\">";
+				$inputnamewifidata = $inputname.'_wifidata';
+				$canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$question->id."\" style=\"display:none\">$currentAnswer</textarea>
+                <textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved\" id=\"qtype_drawing_last_saved_answer_id_".$question->id."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea>
+                <textarea class=\"qtype_drawing_textarea\" name=\"$inputnamewifidata\" id=\"qtype_drawing_wifi_data_".$question->id."\" style=\"display:none\"></textarea>
+                <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$question->id."\" id=\"qtype_drawing_drawingevent_".$question->id."\" value=\"\">";
 			}
 
 			if($readonlyCanvas && $readonlyCanvas != '') {
