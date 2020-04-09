@@ -354,11 +354,11 @@ class qtype_drawing_renderer extends qtype_renderer {
 				$inputnamelastsaved = $inputname.'_lastsaved';
 				$inputnamewifidata = $inputname.'_wifidata';
 				$canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$question->id."\" style=\"display:none\">$currentAnswer</textarea>
-                <textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved\" id=\"qtype_drawing_last_saved_answer_id_".$question->id."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea>
-                <textarea class=\"qtype_drawing_textarea\" name=\"$inputnamewifidata\" id=\"qtype_drawing_wifi_data_".$question->id."\" style=\"display:none\"></textarea>
-                <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$question->id."\" id=\"qtype_drawing_drawingevent_".$question->id."\" value=\"\">";
-			}
 
+                <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$question->id."\" id=\"qtype_drawing_drawingevent_".$question->id."\" value=\"\">
+                <input type=\"hidden\" name=\"qtype_drawing_shouldreload_".$question->id."\" id=\"qtype_drawing_shouldreload_".$question->id."\" value=\"\">";
+			}
+			//<textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved\" id=\"qtype_drawing_last_saved_answer_id_".$question->id."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea>
 			if($readonlyCanvas && $readonlyCanvas != '') {
 			/*
 			$tempfile = 'qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$question->id.'.png';
@@ -393,7 +393,6 @@ class qtype_drawing_renderer extends qtype_renderer {
 				$canvas .=  '
 							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$question->id.'" style="min-height:'.$canvasinfo->backgroundheight.'px; min-width:'.$canvasinfo->backgroundwidth.'px">'.$studentmergedanswer.'</div>';
 			} else {
-			    $y = 'Y_'.rand();
 				$canvas .=  '
 					<script type="text/javascript" src="'.$CFG->wwwroot.'/question/type/drawing/js/embedapi.js"></script>
 					<script type="text/javascript">

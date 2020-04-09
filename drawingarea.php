@@ -120,7 +120,8 @@ var fhd_display_mode = "<?php echo $reduced_mode;?>";
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery-ui/jquery-ui.css">
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery-ui/jquery-ui.js"></script>
 <script>
-var originallysaveddata = window.parent.$('#qtype_drawing_last_saved_answer_id_<?php echo $id;?>').val();
+//var originallysaveddata = window.parent.$('#qtype_drawing_last_saved_answer_id_<?php echo $id;?>').val();
+var originallysaveddata = window.parent.$('#qtype_drawing_textarea_id_<?php echo $id;?>').val();
 </script>
 <style>
 .qtype_drawing_selectedcolor{
@@ -969,6 +970,13 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
 
   });
 
+  //var shouldreload =  window.parent.$('#qtype_drawing_shouldreload_<?php echo $id;?>');
+  window.parent.$('#qtype_drawing_shouldreload_<?php echo $id;?>').change(function() {
+      window.parent.$("#qtype_drawing_loading_image_<?php echo $id;?>").show();
+      console.error("should reload", window.parent.$('#qtype_drawing_textarea_id_<?php echo $id;?>').text());
+      methodDraw.loadFromString(window.parent.$('#qtype_drawing_textarea_id_<?php echo $id;?>').val());
+      window.parent.$("#qtype_drawing_loading_image_<?php echo $id;?>").hide();
+  });
 
 //});
 </script>

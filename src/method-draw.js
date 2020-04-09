@@ -4422,16 +4422,20 @@
 
     Editor.SaveDrawingToMoodle = function() {
   	  Editor.ready(function() {Editor.numsaved++;
+
+  	if(Editor.numsaved > 2){
   			// save for moodle
   			questionID = svgCanvas.getHDQuestionID();
   			CanvdrawingValue = getCurrentDrawingSVG();
+
   			window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
   			 // Trigger moodle quiz autosave :-)
   			window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
 
-
+  			//window.parent.$('#qtype_drawing_last_saved_answer_id_'+questionID).text(CanvdrawingValue);
 
   			//console.error("saved..", Editor.numsaved,CanvdrawingValue);
+  	 }
   	  });
 
   };
