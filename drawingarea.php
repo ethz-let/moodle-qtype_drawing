@@ -242,7 +242,9 @@ height:45px!important;
 .qtype_drawing_active_selection_border {
 	border: 2px solid #0cf;
 }
-
+#svg_editor .jPicker td.Radio input{
+margin: 0 2px 0 0;
+}
 </style>
 <title>moodle-qtype_drawing - ETHz</title>
 </head>
