@@ -321,7 +321,7 @@ class qtype_drawing_edit_form extends question_edit_form {
         } else {
           $mform->addElement('hidden', 'drawingmode', 1);
         }
-
+        $mform->setType('drawingmode', PARAM_INT);
         $mform->setDefault('drawingmode', 1);
 
 
