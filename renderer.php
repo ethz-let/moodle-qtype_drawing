@@ -421,13 +421,14 @@ class qtype_drawing_renderer extends qtype_renderer {
 											var padding = 150;
 											var lastHeight;
 											var resize = function(e) {
-											var viewportHeight = doc.get("winHeight");
-											if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
-													if(viewportHeight <= 500 ) viewportHeight = 650;
-													   	  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
-                                                           Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
-															lastHeight = Math.min(doc.get("docHeight"), doc.get("winHeight"));
-													}
+    											var viewportHeight = doc.get("winHeight");
+    											if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
+                                                        if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
+    													//if(viewportHeight <= 500 ) viewportHeight = 650;
+    													   	  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
+                                                               Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
+    															lastHeight = Math.min(doc.get("docHeight"), doc.get("winHeight"));
+    											}
 											};
 											resize();
 
@@ -491,30 +492,60 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 function qtype_drawing_fullscreen_'.$question->id.'(){
 
-											var doc = Y.one("body");
-											var drawing_iframeid = "#qtype_drawing_editor_"+'.$question->id.';
-											var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_"+'.$question->id.';
+var doc = Y.one("body");
+var drawing_iframeid = "#qtype_drawing_editor_"+'.$question->id.';
+var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_"+'.$question->id.';
 
-											var frame = Y.one("#qtype_drawing_editor_"+'.$question->id.');
-											var padding = 150;
-											var lastHeight;
+var frame = Y.one("#qtype_drawing_editor_"+'.$question->id.');
+var padding = 150;
+var lastHeight;
 var quiz_is_timed = 0;
 Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').toggleClass("qtype_drawing_maximized");
 Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
-if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")) {
-  Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("margin-top", "0px");
-                          var viewportHeight = Y.one("#qtype_drawing_editor_"+'.$question->id.').getStyle("height");
-  Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight  +"px");
-  Y.one("#qtype_drawing_drawingwrapper_'.$question->id.'").set("height","100%");
-  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "100%");
-  Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
-                         // Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("max-height","100px");
-                          document.getElementById("qtype_drawing_editor_'.$question->id.'").style.maxHeight = Y.one("body").get("winHeight")+"px";
-                          //Y.one("#qtype_drawing_stem_'.$question->id.'").setStyle("display", "block");
 
+
+
+if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")) {
+    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height","100%");
+    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height","100%");
+
+    Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
+    Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height","100%");
+
+    if (document.getElementById("quiz-timer")) {
+
+        var quiz_timer_div = document.getElementById("quiz-time-left");
+        var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
+        if(!quiz_timer_div || quiz_timer_div.innerHTML !== ""){
+             drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
+             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
+             var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
+             Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
+        } else {
+            drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
+            Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
+        }
+    }
 }else{
-  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", doc.get("winHeight") - 25 + "px");
+
+	var viewportHeight = doc.get("winHeight");
+    if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
+	Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
+    Y.one("#qtype_drawing_editor_"+'.$question->id.').set("height", viewportHeight + "px");
+
+    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
+    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height", viewportHeight +"px");
+
+    if (document.getElementById("quiz-timer")) {
+     var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
+     drawing_fullsc_'.$question->id.'.innerHTML = "";
+     Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
+    }
+
+
+
 }
+/*
 if (document.getElementById("quiz-timer")) {
     var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
     drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
@@ -545,8 +576,9 @@ if (document.getElementById("quiz-timer")) {
          Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized +10 + "px");
          Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("top", "20px");
       }
-
+*/
 }
+
 							</script>
 
 
@@ -555,7 +587,6 @@ if (document.getElementById("quiz-timer")) {
 				<input type="hidden" style="display:none" id="qtype_drawing_background_image_width_'.$question->id.'" value="'.$canvasinfo->backgroundwidth.'">
 				<input type="hidden" style="display:none" id="qtype_drawing_background_image_height_'.$question->id.'" value="'.$canvasinfo->backgroundheight.'">
 				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$question->id.'"><img id="qtype_drawing_loading_image_'.$question->id.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
-                <!--<span id="qtype_drawing_stem_' . $question->id .'" style="display:none; background-color:red"></span>-->
                 <span id="quiz_timer_drawing_' . $question->id .'" style="display:none; margin-top:-1em; background-color:#fff"></span>
 				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' .$question->id . '" onclick="qtype_drawing_fullscreen_'.$question->id.'()">&nbsp;</span>
 					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$question->id.'"  onload="init_qtype_drawing_embed('.$question->id.')" ></iframe>
