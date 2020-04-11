@@ -115,11 +115,13 @@ class qtype_drawing extends question_type {
             	$fs->delete_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id);
             	file_save_draft_area_files($question->qtype_drawing_image_file, $question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id, array('subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 1));
             } else {
+              //  print_r($question->pre_existing_question_id);exit;
             	// No files have been indicated to be uploaded. Check if this is an attempt to make a duplicate copy of this question (and that this is not a simple EDIT, in which case we don't have to do anything to the background image file):
             	if (property_exists($question, 'pre_existing_question_id') && $question->pre_existing_question_id != 0 && $question->pre_existing_question_id != $question->id) {
             		// Yes, this was an edit form which turned out to be a "Make copy", so we need to copy over the background image of the old question into a new record:
             		// First fetch the old one:
             		$oldfiles   = $fs->get_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->pre_existing_question_id, 'id');
+            		print_r($oldfiles);exit;
             		if (count($oldfiles) >= 2) {
             			// Files indeed exist.
             			foreach ($oldfiles as $oldfile) {
@@ -139,9 +141,13 @@ class qtype_drawing extends question_type {
             		}
             	} else { // Background image has been delibrately removed by teacher.
               //  $this->delete_files($question->id, $question->context->id);
-                $fs = get_file_storage();
-                $fs->delete_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id);
-            //    $fs->delete_area_files($question->context->id, 'question', 'generalfeedback', $question->id);
+                    // Question updated but background was not touched?. If not, delete the bg.
+            	    if(!isset($question->pre_existing_question_id) || $question->pre_existing_question_id == 0){
+            	        $fs = get_file_storage();
+            	        $fs->delete_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->id);
+
+            	    }
+
               }
         }
     }
