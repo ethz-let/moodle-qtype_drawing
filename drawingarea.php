@@ -964,8 +964,8 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
       // Get current student answer - if any!
       var qid = $('#fhd_question_id').val();
     //  var lastsavedanswerelem = window.parent.$("#qtype_drawing_last_saved_answer_id_"+qid).val();
-      if(originallysaveddata && 0 !== originallysaveddata.length){
-        methodDraw.loadFromString(originallysaveddata);
+      if(methodDraw.lastanswer && 0 !== methodDraw.lastanswer.length){
+        methodDraw.loadFromString(methodDraw.lastanswer);
       }
 
       window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
@@ -975,7 +975,7 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
   //var shouldreload =  window.parent.$('#qtype_drawing_shouldreload_<?php echo $id;?>');
   window.parent.$('#qtype_drawing_shouldreload_<?php echo $id;?>').change(function() {
       window.parent.$("#qtype_drawing_loading_image_<?php echo $id;?>").show();
-      console.error("should reload", window.parent.$('#qtype_drawing_textarea_id_<?php echo $id;?>').text());
+      //console.error("should reload", window.parent.$('#qtype_drawing_textarea_id_<?php echo $id;?>').text());
       methodDraw.loadFromString(window.parent.$('#qtype_drawing_textarea_id_<?php echo $id;?>').val());
       window.parent.$("#qtype_drawing_loading_image_<?php echo $id;?>").hide();
   });

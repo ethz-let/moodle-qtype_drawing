@@ -52,6 +52,7 @@
     Editor.curConfig = curConfig;
     Editor.tool_scale = 1;
     Editor.numsaved = 0;
+    Editor.lastanswer = '';
 
     Editor.setConfig = function(opts) {
       $.extend(true, curConfig, opts);
@@ -228,6 +229,9 @@
             }
           });
 
+          questionID = svgCanvas.getHDQuestionID();
+          Editor.lastanswer = window.parent.$('#qtype_drawing_textarea_id_'+questionID).val();
+         // console.error("saved from textarea");
           methodDraw.runCallbacks();
 
 
@@ -4423,7 +4427,7 @@
     Editor.SaveDrawingToMoodle = function() {
   	  Editor.ready(function() {Editor.numsaved++;
 
-  	if(Editor.numsaved > 2){
+  //	if(Editor.numsaved > 2){
   			// save for moodle
   			questionID = svgCanvas.getHDQuestionID();
   			CanvdrawingValue = getCurrentDrawingSVG();
@@ -4434,8 +4438,8 @@
 
   			//window.parent.$('#qtype_drawing_last_saved_answer_id_'+questionID).text(CanvdrawingValue);
 
-  			//console.error("saved..", Editor.numsaved,CanvdrawingValue);
-  	 }
+ 		//	console.error("saved..", Editor.numsaved,CanvdrawingValue);
+ // 	 }
   	  });
 
   };

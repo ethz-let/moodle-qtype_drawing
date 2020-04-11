@@ -430,7 +430,12 @@ class qtype_drawing_renderer extends qtype_renderer {
     															lastHeight = Math.min(doc.get("docHeight"), doc.get("winHeight"));
     											}
 											};
-											resize();
+
+                                          Y.on("domready", function(){
+                                            resize();
+                                          });
+
+
 
 											Y.on("windowresize", resize);
 
@@ -516,13 +521,15 @@ if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_dr
 
         var quiz_timer_div = document.getElementById("quiz-time-left");
         var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-        if(!quiz_timer_div || quiz_timer_div.innerHTML !== ""){
+        if(quiz_timer_div || quiz_timer_div.innerHTML !== ""){
              drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
              Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
              var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
         } else {
-            drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
+            if (drawing_fullsc_'.$question->id.'.hasChildNodes()) {
+                drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
+            }
             Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
         }
     }
