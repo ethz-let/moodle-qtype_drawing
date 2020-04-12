@@ -7269,7 +7269,6 @@ this.setBBoxZoom = function(val, editor_w, editor_h) {
     canvas.setZoom(zoomlevel);
     return {'zoom': zoomlevel, 'bbox': bb};
   }
-
   // Amr .. max zoom to 500% times!
   if( current_zoom > 5) current_zoom = 5; // return;
 

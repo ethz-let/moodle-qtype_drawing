@@ -17,6 +17,7 @@ methodDraw.addExtension("eraser", function(S) {
   var current_d, cur_shape_id;
   var canv = methodDraw.canvas;
   var cur_shape;
+  var lastzoom = 1;
   var start_x, start_y;
   var svgroot = canv.getRootElem();
   var svgcontent = canv.getContentElem();
@@ -84,6 +85,9 @@ methodDraw.addExtension("eraser", function(S) {
             original_paths_ids = [];
 
             $('#strokestyle_div').hide();
+            canv.setZoom(1);
+            $('#zoom_select').val(100).change();
+            $('#zoom_panel').hide();
 
             xpaths = [];
             svgElement = [];
@@ -185,6 +189,8 @@ methodDraw.addExtension("eraser", function(S) {
         var qid = $('#fhd_question_id').val();
         var lastsavedanswerelem = window.parent.$("#qtype_drawing_textarea_id_"+qid).val();
         */
+            var zoom = canv.getZoom();
+            lastzoom = zoom;
 
           methodDraw.loadFromString(svgCanvas.getSvgString());
 
@@ -234,9 +240,11 @@ if(d3.select(this).attr("id") != 'erase_line'){
 
 ////////////////////
 
+
+
           var e = opts.event;
-          var x = start_x = opts.start_x;
-          var y = start_y = opts.start_y;
+          var x = start_x = opts.start_x/zoom;
+          var y = start_y = opts.start_y/zoom;
           var ar = [parseFloat(x),parseFloat(y)];
           var svg = d3.select("#svgcontent");
 
@@ -254,6 +262,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
           erase_path.el.datum(erase_path.data).attr('d', function(d) { return line(d) + 'Z'});
           // The returned object must include "started" with
           // a value of true in order for mouseUp to be triggered
+
           return {started: true};
         }
       },
@@ -261,7 +270,9 @@ if(d3.select(this).attr("id") != 'erase_line'){
       // on the editor canvas (not the tool panels)
       mouseMove: function(opts) {//console.error("mouse move...");
         // Check the mode on mousedown
+
         if(svgCanvas.getMode() == "eraser") {
+
             $("#strokestyle_div").hide();
             $("#fastcolorpicks").hide();
           var e = opts.event;

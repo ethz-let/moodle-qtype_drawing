@@ -599,7 +599,6 @@
         if(!z_info) return;
         var zoomlevel = z_info.zoom,
           bb = z_info.bbox;
-
         if(zoomlevel < .001) {
           changeZoom({value: .1});
           return;
@@ -610,7 +609,8 @@
         var duration = 500;
         var diff = (zoomlevel) - (res.zoom)
         var zoom = $('#zoom')[0]
-        var current_zoom = res.zoom
+        var current_zoom = res.zoom;
+
         var animateZoom = function(timestamp) {
           var progress = Date.now() - start
           var tick = progress / duration
@@ -626,15 +626,17 @@
             $("option[value="+ parseInt(zoomlevel*100) +"]", "#zoom_select").attr("selected", "selected")
           }
         }
-        animateZoom()
+        animateZoom();
 
 
 
         //if(autoCenter) {
         //  updateCanvas();
         //} else {
-        //  updateCanvas(false, {x: bb.x * zoomlevel + (bb.width * zoomlevel)/2, y: bb.y * zoomlevel + (bb.height * zoomlevel)/2});
+       //  updateCanvas(false, {x: bb.x * zoomlevel + (bb.width * zoomlevel)/2, y: bb.y * zoomlevel + (bb.height * zoomlevel)/2});
         //}
+      //  current_zoom = zoomlevel;
+        svgCanvas.setZoom(zoomlevel);
 
         if(svgCanvas.getMode() == 'zoom' && bb.width) {
           // Go to select if a zoom box was drawn
@@ -1887,6 +1889,7 @@
       // - hides any flyouts
       // - adds the tool_button_current class to the button passed in
       var toolButtonClick = function(button, noHiding) {
+        $('#zoom_panel').show();
         if ($(button).hasClass('disabled')) return false;
         if($(button).parent().hasClass('tools_flyout')) return true;
         var fadeFlyouts = fadeFlyouts || 'normal';
@@ -2656,6 +2659,7 @@
           methodDraw.SaveDrawingToMoodle();
 
           setSelectMode();
+          $('#zoom_panel').show();
 
         }
       };
@@ -2671,6 +2675,7 @@
           $('#canvas_panel').hide();
           methodDraw.SaveDrawingToMoodle();
           setSelectMode();
+          $('#zoom_panel').show();
         }
       };
 
