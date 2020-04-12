@@ -1691,8 +1691,8 @@
         var val = ctl.value;
         if(val == 0 && selectedElement && ['line', 'polyline'].indexOf(selectedElement.nodeName) >= 0) {
           val = ctl.value = 1;
-        }
-        if(svgCanvas.getMode() == 'fhpath'){ // dont allow stroke for drawing to go zero so it draws.
+        }console.error("wwwww",svgCanvas.getMode() );
+        if(svgCanvas.getMode() == 'fhpath' || svgCanvas.getMode() == 'line'){ // dont allow stroke for drawing to go zero so it draws.
           if(val == 0){
             val = ctl.value = 3.5;
           }
@@ -2192,48 +2192,84 @@
             $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
             svgCanvas.setStrokeWidth(3.5);
           }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickLine = function() {
         if (toolButtonClick('#tool_line')) {
           svgCanvas.setMode('line');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickSquare = function(){
         if (toolButtonClick('#tool_square')) {
           svgCanvas.setMode('square');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickRect = function(){
         if (toolButtonClick('#tool_rect')) {
           svgCanvas.setMode('rect');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickFHRect = function(){
         if (toolButtonClick('#tool_fhrect')) {
           svgCanvas.setMode('fhrect');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickCircle = function(){
         if (toolButtonClick('#tool_circle')) {
           svgCanvas.setMode('circle');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickEllipse = function(){
         if (toolButtonClick('#tool_ellipse')) {
           svgCanvas.setMode('ellipse');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
       var clickFHEllipse = function(){
         if (toolButtonClick('#tool_fhellipse')) {
           svgCanvas.setMode('fhellipse');
+          if(!$('#stroke_width').val() || $('#stroke_width').val() <= 0) {
+              $('#stroke_width').val(3.5); // Stroke should not have an inital effect.
+              svgCanvas.setStrokeWidth(3.5);
+            }
+          $('#preset_sizes_panel_id').show();
         }
       };
 
