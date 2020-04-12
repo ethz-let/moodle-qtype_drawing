@@ -261,6 +261,9 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
 
     function checkarayswithoutheadortail(a,b, tolerance){
         if(!tolerance) tolerance = 2;
+        if(b.length <= 3){
+            tolerance = 0;
+        }
         var difference = a.filter(x => b.indexOf(x) === -1);
         console.error("differenace", difference.length, difference);
         if(difference.length <= tolerance){
@@ -310,6 +313,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
 var newdatapaths = [];
 var formedpathsspecs = [];
 var newspecsarranged = allpathspecs;
+console.error("allpathspecs before", allpathspecs);
 
    erasePath = cleanPath(erasePath);
     if (erasePath.length === 1) {
@@ -327,6 +331,13 @@ var newspecsarranged = allpathspecs;
 
           }
 
+        if(newPaths.length == paths.length){
+            //process_less_paths(paths,newPaths, p);
+            console.error("DOT: equal paths returned after deletion?!");
+
+          }
+
+
         paths = newPaths;
         var newdatapaths = paths;
     }
@@ -343,6 +354,11 @@ var newspecsarranged = allpathspecs;
 
             }
 
+            if(newPaths.length == paths.length){
+                //process_less_paths(paths,newPaths, p);
+                console.error("LINE: equal paths returned after deletion?! path specs", allpathspecs.length, "and new paths length", paths.length );
+              }
+
             paths = newPaths;
 
             var newdatapaths = newPaths;
@@ -354,9 +370,9 @@ var newspecsarranged = allpathspecs;
 
 
     if(paths.length != allpathspecs.length){
-        console.error("final not equal.. path: ",paths.length, "new: ",allpathspecs.length );
+        console.error("final not equal.. path: ",paths.length, "new total pathspecs: ",allpathspecs.length );
         }
-    console.error("after", allpathspecs);
+
     console.error("allpathspecs after", allpathspecs);
 
     return [paths, allpathspecs];
