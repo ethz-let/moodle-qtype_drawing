@@ -3540,7 +3540,6 @@
 
       //Prevent browser from erroneously repopulating fields
       $('input,select').attr("autocomplete","off");
-
       // Associate all button actions as well as non-button keyboard shortcuts
       var Actions = function() {
         // sel:'selector', fn:function, evt:'event', key:[key, preventDefault, NoDisableInInput]
@@ -3597,8 +3596,8 @@
           {sel:'#tool_copy', fn: copySelected, evt: 'click', key: modKey+'c'},
           {sel:'#tool_paste', fn: pasteSelected, evt: 'click', key: modKey+'v'},
           {sel:'#tool_switch', fn: clickSwitch, evt: 'click', key: ['x', true]},
-          {sel:'#tool_bold', fn: clickBold, evt: 'mousedown', key: [modKey + 'B', true]},
-          {sel:'#tool_italic', fn: clickItalic, evt: 'mousedown',  key: [modKey + 'I', true]},
+          {sel:'#tool_bold', fn: clickBold, evt: 'click', key: [modKey + 'B', true]},
+          {sel:'#tool_italic', fn: clickItalic, evt: 'click',  key: [modKey + 'I', true]},
           //{sel:'#sidepanel_handle', fn: toggleSidePanel, key: ['X']},
           {sel:'#copy_save_done', fn: cancelOverlays, evt: 'click'},
 
