@@ -965,7 +965,11 @@ function flattenSVG(svg, options = {}) {
                     strokelinejoin: path.getAttribute('stroke-linejoin'),
                     transform: path.getAttribute('transform'),
                     xfilter: path.getAttribute('filter'),
-                    strokedasharray: path.getAttribute('stroke-dasharray')
+                    strokedasharray: path.getAttribute('stroke-dasharray'),
+                    opacity: path.getAttribute('opacity'),
+                    fillopacity: path.getAttribute('stroke-opacity'),
+                    strokeopacity: path.getAttribute('stroke-opacity')
+
 
                     // getComputedStyle doesn't seem to work until the JS loop that inserted it is done...
                     // stroke: path.getComputedStyle(path).stroke

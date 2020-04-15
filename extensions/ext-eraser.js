@@ -42,7 +42,10 @@ methodDraw.addExtension("eraser", function(S) {
     strokelinejoin: "round",
     transform: null,
     xfilter: null,
-    strokedasharray: null
+    strokedasharray: null,
+    opacity: 1,
+    fillopacity: 1,
+    strokeopacity: 1
   };
   var allpathspecs = [];
 
@@ -115,7 +118,10 @@ methodDraw.addExtension("eraser", function(S) {
                   strokelinejoin: m[iz].strokelinejoin,
                   transform: m[iz].transform,
                   xfilter: m[iz].xfilter,
-                  strokedasharray: m[iz].strokedasharray
+                  strokedasharray: m[iz].strokedasharray,
+                  opacity: m[iz].opacity,
+                  fillopacity: m[iz].fillopacity,
+                  strokeopacity: m[iz].strokeopacity,
                 };
 
                 allpathspecs.push(path_specs);
@@ -166,6 +172,10 @@ methodDraw.addExtension("eraser", function(S) {
               d3.select(this).attr('transform', allpathspecs[i].transform);
               d3.select(this).attr('filter', allpathspecs[i].xfilter);
               d3.select(this).attr('stroke-dasharray', allpathspecs[i].strokedasharray);
+              d3.select(this).attr('opacity', allpathspecs[i].opacity);
+              d3.select(this).attr('fill-opacity', allpathspecs[i].fillopacity);
+              d3.select(this).attr('stroke-opacity', allpathspecs[i].strokeopacity);
+
 
           });
 
@@ -228,7 +238,11 @@ if(d3.select(this).attr("id") != 'erase_line'){
         strokelinejoin: d3.select(this).attr("stroke-linejoin"),
         transform: d3.select(this).attr("transform"),
         xfilter: d3.select(this).attr("filter"),
-        strokedasharray: d3.select(this).attr("stroke-dasharray")
+        strokedasharray: d3.select(this).attr("stroke-dasharray"),
+        opacity: d3.select(this).attr("opacity"),
+        fillopacity: d3.select(this).attr("fill-opacity"),
+        strokeopacity: d3.select(this).attr("stroke-opacity")
+
       };
 
       allpathspecs.push(path_specs);
@@ -368,6 +382,8 @@ var p = gpaths.selectAll('path').data(opts);
              d3.select(this).attr('transform', updatedlinespecs[i].transform);
              d3.select(this).attr('filter', updatedlinespecs[i].xfilter);
              d3.select(this).attr('stroke-dasharray', updatedlinespecs[i].strokedasharray);
+             d3.select(this).attr('opacity', updatedlinespecs[i].opacity);
+
 
 
          });
