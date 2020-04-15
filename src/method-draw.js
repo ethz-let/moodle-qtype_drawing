@@ -228,10 +228,17 @@
               }
             }
           });
+         // Editor.ready(function() {
+          /*
+              questionID = svgCanvas.getHDQuestionID();
+              Editor.lastanswer = window.parent.$('#qtype_drawing_textarea_id_'+questionID).val();
+              console.error("saved from textarea");*/
 
           questionID = svgCanvas.getHDQuestionID();
-          Editor.lastanswer = window.parent.$('#qtype_drawing_textarea_id_'+questionID).val();
+          Editor.lastanswer = $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val();
          // console.error("saved from textarea");
+
+       //   });
           methodDraw.runCallbacks();
 
 
@@ -4472,11 +4479,12 @@
   			questionID = svgCanvas.getHDQuestionID();
   			CanvdrawingValue = getCurrentDrawingSVG();
 
-  			window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
-  			 // Trigger moodle quiz autosave :-)
-  			window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
+  		//	window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
+  			$('#qtype_drawing_textarea_id_'+questionID, window.parent.document).text(CanvdrawingValue);
 
-  			//window.parent.$('#qtype_drawing_last_saved_answer_id_'+questionID).text(CanvdrawingValue);
+  			 // Trigger moodle quiz autosave :-)
+  			//window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
+  			$('#qtype_drawing_drawingevent_'+questionID, window.parent.document).val(Math.random().toString(36).substring(7));
 
  		//	console.error("saved..", Editor.numsaved,CanvdrawingValue);
  // 	 }

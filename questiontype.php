@@ -121,7 +121,7 @@ class qtype_drawing extends question_type {
             		// Yes, this was an edit form which turned out to be a "Make copy", so we need to copy over the background image of the old question into a new record:
             		// First fetch the old one:
             		$oldfiles   = $fs->get_area_files($question->context->id, 'qtype_drawing', 'qtype_drawing_image_file', $question->pre_existing_question_id, 'id');
-            		print_r($oldfiles);exit;
+
             		if (count($oldfiles) >= 2) {
             			// Files indeed exist.
             			foreach ($oldfiles as $oldfile) {
