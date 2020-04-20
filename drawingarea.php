@@ -329,7 +329,7 @@ margin: 0 2px 0 0;
     <div class="menu_title"><?php print_string('view', 'qtype_drawing');?></div>
     <div class="menu_list" id="view_menu">
         <div class="menu_item push_button_pressed" id="tool_rulers"><?php print_string('viewrulers', 'qtype_drawing');?></div>
-        <div class="menu_item" id="tool_wireframe"><?php print_string('viewwireframe', 'qtype_drawing');?></div>
+        <div class="menu_item" id="tool_wireframe" style="display:none"><?php print_string('viewwireframe', 'qtype_drawing');?></div>
         <div class="menu_item" id="tool_snap"><?php print_string('snaptogrid', 'qtype_drawing');?></div>
 
         <div class="separator"></div>

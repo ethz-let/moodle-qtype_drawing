@@ -36,7 +36,7 @@ methodDraw.addExtension("view_grid", function(s) {
         'display': 'none'
     });
 
-    var canvBG = $('#canvas_background');
+    var canvBG = $('#background_image');
     canvBG.after(canvasgrid);
 
 
@@ -181,6 +181,17 @@ methodDraw.addExtension("view_grid", function(s) {
                     }
                 }
             }
-}]
+}],
+/*
+            mouseUp: function(opts) {
+                if(methodDraw.curConfig.showGrid === true){
+                    console.error("funny", methodDraw.curConfig.showGrid);
+                    $('#view_grid').addClass('push_button_pressed');
+                    $('#canvasGrid').attr('display', 'inline');
+                 //   updateGrid(svgCanvas.getZoom());
+
+                }
+
+            },*/
         };
     });

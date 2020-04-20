@@ -5559,7 +5559,7 @@ this.svgCanvasToString = function() {
   }
 
   //hide grid, otherwise shows a black canvas
-  $('#canvasGrid').attr('display', 'none');
+  //$('#canvasGrid').attr('display', 'none');
 
   var naked_svgs = [];
 
@@ -9410,8 +9410,44 @@ this.setFHDBackground = setFHDBackground = function (){
       svgCanvas.setResolution(dimensions[0],dimensions[1]);
     }
     image.src = whichbackground;
+  }else{
+      var bg =  getElem('canvasBackground');
+      var border = $(bg).find('rect')[0];
+      var bg_img = getElem('background_image');
+      border.setAttribute('fill','yellow');
+      if(!bg_img) {
+          bg_img = svgdoc.createElementNS(svgns, "image");
+          assignAttributes(bg_img, {
+            'id': 'background_image',
+            'width': '100%',
+            'height': '100%',
+            'preserveAspectRatio': 'none', //AMR xMinYMin
+            'style':'pointer-events:none'
+          });
+        }
+       // setHref(bg_img, url);
+        bg.appendChild(bg_img);
   }
-
+  /*
+console.error(dimensions);
+  canvas.createLayer("background");
+  cur_shape = canvas.addSvgElementFromJson({
+    "element": "rect",
+    "attr": {
+      "x": -1,
+      "y": -1,
+      "width": dimensions[0]+2,
+      "height": dimensions[1]+2,
+      "stroke": "none",
+      "id": "canvas_background",
+      "opacity": 1,
+      "fill": "#fff",
+      "style": "pointer-events:none"
+    }
+  });
+  canvas.setCurrentLayer("Layer 1")
+  canvas.setCurrentLayerPosition("1")
+*/
 }
 setFHDBackground(); // Amr background function call
 
@@ -9445,6 +9481,19 @@ this.setBackground = function(color, url) {
 
   } else if(bg_img) {
     bg_img.parentNode.removeChild(bg_img);
+  } else {
+      if(!bg_img) {
+          bg_img = svgdoc.createElementNS(svgns, "image");
+          assignAttributes(bg_img, {
+            'id': 'background_image',
+            'width': '100%',
+            'height': '100%',
+            'preserveAspectRatio': 'none', //AMR xMinYMin
+            'style':'pointer-events:none'
+          });
+        }
+       // setHref(bg_img, url);
+        bg.appendChild(bg_img);
   }
 }
 

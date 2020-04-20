@@ -480,6 +480,19 @@
             $('#tools_top').addClass('multiselected')
           }
           $('#selected_panel').show();
+          if (multiselected) {
+              $('#multiselected_panel').show();
+
+              $('.action_multi_selected').removeClass('disabled');
+              $('.menu_item action_selected').removeClass('disabled');
+              var menu_items = $('#cmenu_canvas li');
+              menu_items.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
+              menu_items
+                .enableContextMenuItems('#group')
+                .disableContextMenuItems('#ungroup');
+
+
+          }
           if(fhd_display_mode == 1){
             $('#multiselected_panel').hide();
           }
@@ -1271,7 +1284,16 @@
 
       // create a new layer background if it doesn't exist
       if (!document.getElementById('canvas_background')){
-       // createBackground();
+
+      //  $("#canvas_background").css('style','pointer-events:none;');
+     //   svgCanvas.clear();
+        //updateCanvas();
+     //   createBackground();
+     //   svgCanvas.setFHDBackground();
+      //  svgCanvas.updateCanvas($('#canvas_width').val(), $('#canvas_height').val());
+      //  svgCanvas.setBackground("fff","");
+      //  createBackground('red');
+
       }
     //  var fill = document.getElementById('canvas_background').getAttribute("fill");
 
@@ -1373,7 +1395,6 @@
         // If element has just been deleted, consider it null
         if(elem != null && !elem.parentNode) elem = null;
         if (multiselected && multiselected[0] != null && !multiselected[0].parentNode) multiselected = false;
-
 
         var currentLayerName = svgCanvas.getCurrentDrawing().getCurrentLayerName();
         var currentMode = svgCanvas.getMode();
@@ -1700,7 +1721,7 @@
         var val = ctl.value;
         if(val == 0 && selectedElement && ['line', 'polyline'].indexOf(selectedElement.nodeName) >= 0) {
           val = ctl.value = 1;
-        }console.error("wwwww",svgCanvas.getMode() );
+        }
         if(svgCanvas.getMode() == 'fhpath' || svgCanvas.getMode() == 'line'){ // dont allow stroke for drawing to go zero so it draws.
           if(val == 0){
             val = ctl.value = 3.5;
@@ -2603,7 +2624,7 @@
           svgCanvas.clear();
           svgCanvas.setResolution(dims[0], dims[1]);
           updateCanvas(true);
-          createBackground();
+        //  createBackground();
           svgCanvas.setFHDBackground();
           zoomImage();
           updateContextPanel();
@@ -3211,8 +3232,6 @@
         $("#qtype_drawing_tool_color15 > img").css("background-color", fill_color);//.css("outline", "1px "+curConfig.globalstrokecolor+" solid!important");
 
       }
-
-
 
 
           if (this.type == "canvas") {
