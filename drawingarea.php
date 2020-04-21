@@ -322,7 +322,7 @@ margin: 0 2px 0 0;
       <div class="separator"></div>
       <div class="menu_item action_multi_selected disabled" id="tool_group"><?php print_string('groupelements', 'qtype_drawing');?> <span class="shortcut">⌘G</span></div>
       <div class="menu_item action_group_selected disabled" id="tool_ungroup"><?php print_string('ungroupelements', 'qtype_drawing');?> <span class="shortcut">⌘⇧G</span></div>
-      <div class="separator"></div>
+      <!--<div class="separator"></div>-->
       <div class="menu_item action_path_convert_selected disabled" id="tool_topath" style="display:none;"><?php print_string('converttopath', 'qtype_drawing');?></div>
       <div class="menu_item action_path_selected disabled" id="tool_reorient" style="display:none;"><?php print_string('reorientpath', 'qtype_drawing');?></div>
     </div>

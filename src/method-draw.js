@@ -474,35 +474,41 @@
             $("#canvas_panel").show();
         }
 
-        if (selectedElement != null) {
-          $('#multiselected_panel').hide();
+        if (selectedElement != null && multiselected.length < 2) {
+            $('#multiselected_panel').hide();
+
+
+        //
+
+            /*
+             *
+             *     if (multiselected) {
+        $('#multiselected_panel').show();
+
+        $('.action_multi_selected').removeClass('disabled');
+        $('#tool_ungroup').addClass('disabled');
+        var menu_items = $('#cmenu_canvas li');
+        menu_items.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
+        menu_items
+          .enableContextMenuItems('#group')
+          .disableContextMenuItems('#ungroup');
+
+
+    }
+             */
 
           updateToolbar();
           if (multiselected.length) {//multiselected elements are the same
             $('#tools_top').addClass('multiselected')
           }
           $('#selected_panel').show();
-          if (multiselected) {
-              $('#multiselected_panel').show();
-
-              $('.action_multi_selected').removeClass('disabled');
-              $('.menu_item action_selected').removeClass('disabled');
-              var menu_items = $('#cmenu_canvas li');
-              menu_items.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
-              menu_items
-                .enableContextMenuItems('#group')
-                .disableContextMenuItems('#ungroup');
 
 
-          }
-          if(fhd_display_mode == 1){
-            $('#multiselected_panel').hide();
-          }
         }
         else if (multiselected.length) {
           $('.context_panel').hide()
           $('#tools_top').removeClass('multiselected')
-          $('#multiselected_panel').show();
+         // $('#multiselected_panel').show();
           $('#tool_bucket').removeClass( 'disabled');
           $('#selected_panel').show();
           if(fhd_display_mode == 1){
@@ -513,6 +519,16 @@
           $("#canvas_panel").show();
           $("#delete_panel").show();
           $("#strokewidth_div").show();
+
+      //    console.error("what do yo uwant?");
+
+          var menu_items = $('#cmenu_canvas li');
+
+          $('.action_multi_selected').removeClass('disabled');
+          $('.action_group_selected').addClass('disabled');
+          menu_items
+            .enableContextMenuItems('#group')
+            .disableContextMenuItems('#ungroup');
 
         }
         else {
@@ -1459,8 +1475,9 @@
         //hack to show the proper multialign box
         if (multiselected) {
           multiselected = multiselected.filter(Boolean);
-          elem = (svgCanvas.elementsAreSame(multiselected)) ? multiselected[0] : null
-          if (elem) $("#tools_top").addClass("multiselected")
+          elem = (svgCanvas.elementsAreSame(multiselected)) ? multiselected[0] : multiselected[0]
+          if (elem) $("#tools_top").addClass("multiselected");
+
         }
 
         if (!elem && !multiselected) {
@@ -1632,19 +1649,19 @@
         if (multiselected) {
 
           $('#tool_bucket').removeClass( 'disabled');
+          /*
           if( fhd_display_mode != 1){
               $('#multiselected_panel').show();
-          }else{
-              $('#multiselected_panel').hide();
-          }
+          }*/
 
           $("#stroke_panel").show();
           $("#canvas_panel").show();
           $("#delete_panel").show();
           $("#strokewidth_div").show();
 
-
+//console.error("funnnn");
           $('.action_multi_selected').removeClass('disabled');
+          $('.action_group_selected').addClass('disabled');
           menu_items
             .enableContextMenuItems('#group')
             .disableContextMenuItems('#ungroup');
