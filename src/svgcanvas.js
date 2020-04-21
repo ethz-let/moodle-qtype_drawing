@@ -8811,9 +8811,9 @@ var pushGroupProperties = this.pushGroupProperties = function(g, undoable) {
     }
 
     if(gattrs.filter) {
-      var cblur = this.getBlur(elem);
+      var cblur = canvas.getBlur(elem);
       var orig_cblur = cblur;
-      if(!gblur) gblur = this.getBlur(g);
+      if(!gblur) gblur = canvas.getBlur(g);
       if(cblur) {
         // Is this formula correct?
         cblur = (gblur-0) + (cblur-0);
