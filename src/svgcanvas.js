@@ -3750,6 +3750,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
   // Added mouseup to the container here.
   // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
   $(container).mousedown(mouseDown).mousemove(mouseMove).click(handleLinkInCanvas).dblclick(dblClick).mouseup(mouseUp);
+  $(container).bind( "taphold", dblClick );
 //  $(container).mousedown(mouseDown).mousemove(mouseMove).click(handleLinkInCanvas).dblclick(dblClick).mouseup(mouseUp);
 //  $(window).mouseup(mouseUp);
 
@@ -4203,7 +4204,8 @@ var textActions = canvas.textActions = function() {
 
       chardata = Array(len);
       textinput.focus();
-    $(curtext).unbind('dblclick', selectWord).dblclick(selectWord);
+    $(curtext).unbind('dblclick taphold', selectWord).dblclick(selectWord);
+
 
       if(!len) {
         var end = {x: textbb.x + (textbb.width/2), width: 0};
