@@ -245,6 +245,14 @@ height:45px!important;
 #svg_editor .jPicker td.Radio input{
 margin: 0 2px 0 0;
 }
+html {
+    height  : 100%;
+    overflow: hidden;
+}
+body {
+    height  : 100%;
+    overflow: auto;
+}
 </style>
 <title>moodle-qtype_drawing - ETHz</title>
 </head>

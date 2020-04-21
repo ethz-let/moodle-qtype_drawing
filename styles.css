@@ -84,7 +84,7 @@
     padding-top: 0px;
 	/*margin-top: 25px;*/
 	margin-top: auto;
-    height: 0;
+   /* height: 0;*/
 }
 .qtype_drawing_drawingwrapper iframe {
     position: absolute;
@@ -112,4 +112,5 @@
     height:100%;
     border:0 none;
     z-index:99999999999;
+    overscroll-behavior: contain;
 }
