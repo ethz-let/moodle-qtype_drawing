@@ -422,13 +422,35 @@ class qtype_drawing_renderer extends qtype_renderer {
 											var lastHeight;
 											var resize = function(e) {
     											var viewportHeight = doc.get("winHeight");
-    											if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
-                                                        if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
-    													//if(viewportHeight <= 500 ) viewportHeight = 650;
+    										//	if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
+                                                      //  if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
+    												//	if(viewportHeight <= 500 ) viewportHeight = 650;
+/*
     													   	  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
                                                                Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
     															lastHeight = Math.min(doc.get("docHeight"), doc.get("winHeight"));
-    											}
+*/
+
+        var quiz_timer_div = document.getElementById("quiz-time-left");
+        var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
+        if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
+           //  drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
+             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
+             var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
+             Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
+        } else {
+            if (drawing_fullsc_'.$question->id.'.hasChildNodes()) {
+           //     drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
+            }
+
+             var  calculatedheight = doc.get("winHeight");
+             Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
+
+          //  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
+        }
+
+
+    										//	}
 											};
 
                                           Y.on("domready", function(){
@@ -517,7 +539,7 @@ if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_dr
     Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
     Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height","100%");
 
-    if (document.getElementById("quiz-timer")) {
+   // if (document.getElementById("quiz-timer")) {
 
         var quiz_timer_div = document.getElementById("quiz-time-left");
         var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
@@ -536,7 +558,7 @@ if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_dr
 
           //  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
         }
-    }
+  //  }
 }else{
 
 	var viewportHeight = doc.get("winHeight");
