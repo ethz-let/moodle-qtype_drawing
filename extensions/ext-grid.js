@@ -172,12 +172,15 @@ methodDraw.addExtension("view_grid", function(s) {
                         methodDraw.curConfig.showGrid = showGrid = true;
                         $('#view_grid').addClass('push_button_pressed');
                         $('#canvasGrid').attr('display', 'inline');
+                        $('#background_image').css('opacity', '0.8');
+
                         updateGrid(svgCanvas.getZoom());
                     }
                     else {
                         methodDraw.curConfig.showGrid = showGrid = false;
                         $('#view_grid').removeClass('push_button_pressed');
                         $('#canvasGrid').attr('display', 'none');
+                        $('#background_image').css('opacity', '1');
                     }
                 }
             }

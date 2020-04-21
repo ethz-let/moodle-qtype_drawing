@@ -9411,7 +9411,9 @@ this.setFHDBackground = setFHDBackground = function (){
       svgCanvas.setResolution(dimensions[0],dimensions[1]);
     }
     image.src = whichbackground;
-  }else{
+  }
+
+  //else{
       var bg =  getElem('canvasBackground');
       var border = $(bg).find('rect')[0];
       var bg_img = getElem('background_image');
@@ -9428,7 +9430,7 @@ this.setFHDBackground = setFHDBackground = function (){
         }
        // setHref(bg_img, url);
         bg.appendChild(bg_img);
-  }
+ // }
   /*
 console.error(dimensions);
   canvas.createLayer("background");
