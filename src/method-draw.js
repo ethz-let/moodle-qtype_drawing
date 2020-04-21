@@ -46,6 +46,8 @@
       globalstrokecolor: '#000',
       globalfillcolor: '#fff',
     };
+
+    //alert("Is mainly Touch screen? " + svgedit.browser.isTouch());
     // showRulers: (svgedit.browser.isTouch()) ? false : true,
     var curPrefs = {}; //$.extend({}, defaultPrefs);
     var customHandlers = {};

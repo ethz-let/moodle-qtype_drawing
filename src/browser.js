@@ -29,7 +29,20 @@ var isIE_ = userAgent.indexOf('MSIE') >= 0;
 var isChrome_ = userAgent.indexOf('Chrome/') >= 0;
 var isWindows_ = userAgent.indexOf('Windows') >= 0;
 var isMac_ = userAgent.indexOf('Macintosh') >= 0;
-var isTouch_ = 'ontouchstart' in window;
+//var isTouch_ = 'ontouchstart' in window;
+if(window.matchMedia("(pointer: coarse)").matches) {
+    var isTouch_ = true;
+}else{
+    var isTouch_ = false;
+}
+
+var iOSx = !!navigator.platform && /iPad|iPhone|iPod|Android/.test(navigator.platform);
+if(iOSx == true){
+    var isTouch_ = true;
+}else{
+    var isTouch_ = false;
+}
+
 
 var supportsSelectors_ = (function() {
   return !!svg.querySelector;
@@ -146,11 +159,15 @@ svgedit.browser.isWindows = function() { return isWindows_; }
 svgedit.browser.isMac = function() { return isMac_; }
 
 svgedit.browser.isTouch = function() {
-return false; // Temporary for SEB 3.
-//return isTouch_;
+//return false; // Temporary for SEB 3.
+return isTouch_;
 
 }
+svgedit.browser.setIsTouch = function(val) {
 
+   isTouch_ = val;
+
+ }
 
 svgedit.browser.supportsSelectors = function() { return supportsSelectors_; }
 svgedit.browser.supportsXpath = function() { return supportsXpath_; }

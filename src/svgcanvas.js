@@ -3750,7 +3750,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
   // Added mouseup to the container here.
   // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
   $(container).mousedown(mouseDown).mousemove(mouseMove).click(handleLinkInCanvas).dblclick(dblClick).mouseup(mouseUp);
-  $(container).bind( "taphold", dblClick );
+ // $(container).bind( "taphold", dblClick );
 //  $(container).mousedown(mouseDown).mousemove(mouseMove).click(handleLinkInCanvas).dblclick(dblClick).mouseup(mouseUp);
 //  $(window).mouseup(mouseUp);
 
@@ -4017,7 +4017,6 @@ var textActions = canvas.textActions = function() {
   $("textarea#text").val(temprx);
   this.textContent = temprx;
   this.innerHTML = originaltxt;
-
   $( "#textedit_dialog" ).dialog({
     modal: true,
     closeOnEscape: true,
@@ -4204,7 +4203,7 @@ var textActions = canvas.textActions = function() {
 
       chardata = Array(len);
       textinput.focus();
-    $(curtext).unbind('dblclick taphold', selectWord).dblclick(selectWord);
+    $(curtext).unbind('dblclick', selectWord).dblclick(selectWord);
 
 
       if(!len) {
