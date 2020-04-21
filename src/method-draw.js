@@ -520,7 +520,7 @@
           $("#delete_panel").show();
           $("#strokewidth_div").show();
 
-      //    console.error("what do yo uwant?");
+     //    console.error("what do yo uwant?");
 
           var menu_items = $('#cmenu_canvas li');
 
@@ -532,7 +532,13 @@
 
         }
         else {
-          $('.context_panel').hide()
+            $('.context_panel').hide()
+          if(selectedElement != null){
+              updateToolbar();
+            //  $('.context_panel').show()
+              $('#selected_panel').show();
+          }
+
           $('#canvas_panel').show()
           $('#tool_bucket').addClass( 'disabled');
           $('#tools_top').removeClass('multiselected');
@@ -1648,6 +1654,7 @@
 
         if (multiselected) {
 
+
           $('#tool_bucket').removeClass( 'disabled');
           /*
           if( fhd_display_mode != 1){
@@ -1659,7 +1666,7 @@
           $("#delete_panel").show();
           $("#strokewidth_div").show();
 
-//console.error("funnnn");
+
           $('.action_multi_selected').removeClass('disabled');
           $('.action_group_selected').addClass('disabled');
           menu_items
@@ -1668,7 +1675,11 @@
         }
         if (!elem) {
           menu_items.disableContextMenuItems('#delete,#cut,#copy,#group,#ungroup,#move_front,#move_up,#move_down,#move_back');
+        }else{
+            $('#selected_panel').show();
+
         }
+
         // update history buttons
         if (undoMgr.getUndoStackSize() > 0) {
           $('#tool_undo').removeClass( 'disabled');
