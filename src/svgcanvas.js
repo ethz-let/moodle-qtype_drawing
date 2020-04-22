@@ -3747,10 +3747,41 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
     return false;
   };
 
+
+  (function($) {
+
+      // Based on https://gist.github.com/asgeo1/1652946
+
+      /**
+       * Bind an event handler to a "double tap" JavaScript event.
+       * @param {function} handler
+       * @param {number} [delay=300]
+       */
+      $.fn.doubletap = $.fn.doubletap || function(handler, delay) {
+        delay = delay == null ? 300 : delay;
+        this.bind('touchend', function(event) {
+          var now = new Date().getTime();
+          // The first time this will make delta a negative number.
+          var lastTouch = $(this).data('lastTouch') || now + 1;
+          var delta = now - lastTouch;
+          if (delta < delay && 0 < delta) {
+            // After we detect a doubletap, start over.
+            $(this).data('lastTouch', null);
+            if (handler !== null && typeof handler === 'function') {
+              handler(event);
+            }
+          } else {
+            $(this).data('lastTouch', now);
+          }
+        });
+      };
+
+    })(jQuery);
+
   // Added mouseup to the container here.
   // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
   $(container).mousedown(mouseDown).mousemove(mouseMove).click(handleLinkInCanvas).dblclick(dblClick).mouseup(mouseUp);
- // $(container).bind( "taphold", dblClick );
+  $(container).doubletap(dblClick );
 //  $(container).mousedown(mouseDown).mousemove(mouseMove).click(handleLinkInCanvas).dblclick(dblClick).mouseup(mouseUp);
 //  $(window).mouseup(mouseUp);
 
@@ -4008,15 +4039,16 @@ var textActions = canvas.textActions = function() {
       return Math.max(0, t>0? Math.min(elH, H-t) : Math.min(b, H));
   }
   function selectWord(evt) {
-
-   var originaltxt = this.innerHTML;
+      evt.preventDefault();
+   var originaltxt = evt.currentTarget.innerHTML;
    var temprx = originaltxt.replace(/<\/tspan>/ig,"\n");
    temprx = temprx.replace(/(<([^>]+)>)/ig, "");
 
 
   $("textarea#text").val(temprx);
-  this.textContent = temprx;
-  this.innerHTML = originaltxt;
+  evt.currentTarget.textContent = temprx;
+  evt.currentTarget.innerHTML = originaltxt;
+
   $( "#textedit_dialog" ).dialog({
     modal: true,
     closeOnEscape: true,
@@ -4032,6 +4064,7 @@ var textActions = canvas.textActions = function() {
       //var res = getResolution();
       var h =  $("#workarea").height();//res.h;
       var w = $("#workarea").width();//res.w,
+
       var top = Math.max(h / 2 - $(this).height()  / 2, 0);
       var left = Math.max(w / 2 - $(this).width() / 2, 0);
       $("#text_dialog_jq").css('left', left);
@@ -4203,7 +4236,52 @@ var textActions = canvas.textActions = function() {
 
       chardata = Array(len);
       textinput.focus();
-    $(curtext).unbind('dblclick', selectWord).dblclick(selectWord);
+      $(curtext).unbind('dblclick', selectWord).dblclick(selectWord);
+
+      $(curtext).doubletap(function(evt) {
+          evt.preventDefault();
+   var originaltxt = evt.currentTarget.innerHTML;
+   var temprx = originaltxt.replace(/<\/tspan>/ig,"\n");
+   temprx = temprx.replace(/(<([^>]+)>)/ig, "");
+
+
+  $("textarea#text").val(temprx);
+  evt.currentTarget.textContent = temprx;
+  evt.currentTarget.innerHTML = originaltxt;
+
+
+         $( "#textedit_dialog" ).dialog({
+           modal: true,
+           closeOnEscape: true,
+           create: function(event, ui) {
+             var widget = $(this).dialog("widget");
+             widget.attr('id', 'text_dialog_jq');
+             $(".ui-dialog-titlebar-close span", widget)
+                 .removeClass("ui-icon-closethick")
+                 .addClass("ui-icon-check");
+          },
+          open: function( event, ui ) {
+            //center the dialog within the viewport (i.e. visible area of the screen)
+             //var res = getResolution();
+             var h =  $("#workarea").height();//res.h;
+             var w = $("#workarea").width();//res.w,
+
+             var top = Math.max(h / 2 - $(this).height()  / 2, 0);
+             var left = Math.max(w / 2 - $(this).width() / 2, 0);
+             $("#text_dialog_jq").css('left', left);
+             $("#text_dialog_jq").css('top', top);
+
+         //  $(".ui-widget-overlay").live("click", function() {  $("#quick-links-modal").dialog("close"); } );
+          },
+          close: function(event, ui) {
+            $(this).dialog('destroy');//.remove();
+            $(this).show();
+         },
+
+        });
+
+        });
+   // $(curtext).unbind('doubletap', selectWord).doubletap(selectWord);
 
 
       if(!len) {

@@ -1000,4 +1000,5 @@ if($("#qtype_drawing_loading_image_"+qid, window.parent.document).length){
   });
 */
 //});
+
 </script>
