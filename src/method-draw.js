@@ -2820,7 +2820,10 @@
           $('#tool_snap').addClass('push_button_pressed');
         else
           $('#tool_snap').removeClass('push_button_pressed');
-        curConfig.gridSnapping = sg;
+          curConfig.gridSnapping = sg;
+
+        var eoptions = {gridSnapping: sg};
+        svgCanvas.setConfig(eoptions);
       }
 
       var minimizeModal = function() {

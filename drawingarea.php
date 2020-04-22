@@ -60,7 +60,7 @@ if($fhd->drawingmode == 1){
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/method-draw.css" type="text/css"/>
 <link rel="stylesheet" href="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>css/fonts.css" type="text/css"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <script>
 var qtype_drawing_str_comment = "<?php print_string("drawingcomment","qtype_drawing");?>";
 var qtype_drawing_str_newconfirmationmsg = "<?php print_string("newconfirmationmsg","qtype_drawing");?>";
@@ -253,6 +253,14 @@ body {
     height  : 100%;
     overflow: auto;
 }
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  select,
+  textarea,
+  input {
+    font-size: 16px;
+  }
+}
+
 </style>
 <title>moodle-qtype_drawing - ETHz</title>
 </head>
