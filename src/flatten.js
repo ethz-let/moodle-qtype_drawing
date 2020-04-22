@@ -171,7 +171,8 @@ SVGElement.prototype.getTransformToElement = SVGElement.prototype.getTransformTo
 
     // Get the relation matrix that converts path coordinates
     // to SVGroot's coordinate space
-    var matrix = pathDOM.getTransformToElement(svgDOM);
+    var matrix = svgedit.math.getMatrix(pathDOM);// pathDOM.getTransformToElement(svgDOM);
+
 
     // The following code can bake transformations
     // both normalized and non-normalized data
@@ -390,6 +391,7 @@ SVGElement.prototype.getTransformToElement = SVGElement.prototype.getTransformTo
       x2 = oldElem.getAttribute('x2');
       y2 = oldElem.getAttribute('y2');
       d = 'M' + x1 + ',' + y1 + 'L' + x2 + ',' + y2;
+
       break;
     case 'polyline':
       d = 'M' + oldElem.getAttribute('points');

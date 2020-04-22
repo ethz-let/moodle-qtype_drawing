@@ -94,7 +94,9 @@ methodDraw.addExtension("eraser", function(S) {
 
             xpaths = [];
             svgElement = [];
+          //  console.error(document.getElementById('svgcontent').innerHTML);
             xflatten(document.getElementById('svgcontent'));//, true, true, true
+           // console.error(document.getElementById('svgcontent').innerHTML);
             var svgElement = document.getElementById('svgcontent');
             var xpaths = flattenSVG(svgElement);
 

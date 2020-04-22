@@ -556,6 +556,7 @@ var absolutizePathData = function (pathData) {
             currentY = subpathY;
         }
     });
+
     return absolutizedPathData;
 };
 // @info
