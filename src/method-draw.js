@@ -478,6 +478,7 @@
             $('#multiselected_panel').hide();
 
 
+
         //
 
             /*
@@ -537,11 +538,20 @@
               updateToolbar();
             //  $('.context_panel').show()
               $('#selected_panel').show();
+
+              var menu_items = $('#cmenu_canvas li');
+              menu_items.enableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
+              $('.action_selected').removeClass('disabled');
+          }else{
+              var menu_items = $('#cmenu_canvas li');
+              menu_items.disableContextMenuItems('#delete,#cut,#copy,#move_front,#move_up,#move_down,#move_back');
+              $('.action_selected').addClass('disabled');
           }
 
-          $('#canvas_panel').show()
+          $('#canvas_panel').show();
           $('#tool_bucket').addClass( 'disabled');
           $('#tools_top').removeClass('multiselected');
+
 
         }
 
@@ -2059,15 +2069,19 @@
       });
 
       $('.menu_title')
-        .on('mousedown', function() {
-          $("#tools_shapelib").hide()
+        .on('mousedown', function(e) {
+          $("#tools_shapelib").hide();
           $("#menu_bar").toggleClass('active');
           menus.removeClass('open');
           $(this).parent().addClass('open');
+          e.preventDefault();
+          e.stopPropagation();
         })
-        .on('mouseover', function() {
+        .on('mouseover', function(e) {
            menus.removeClass('open');
            $(this).parent().addClass('open');
+           e.preventDefault();
+           e.stopPropagation();
          });
 
 
@@ -3957,6 +3971,10 @@
       });
 
       $('.contextMenu li').mousedown(function(ev) {
+        ev.preventDefault();
+      })
+
+      $('#menu_bar').contextmenu(function(ev) { // Prevent right click!
         ev.preventDefault();
       })
 
