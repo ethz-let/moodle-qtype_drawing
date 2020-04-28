@@ -968,7 +968,7 @@ function flattenSVG(svg, options = {}) {
                     xfilter: path.getAttribute('filter'),
                     strokedasharray: path.getAttribute('stroke-dasharray'),
                     opacity: path.getAttribute('opacity'),
-                    fillopacity: path.getAttribute('stroke-opacity'),
+                    fillopacity: path.getAttribute('fill-opacity'),
                     strokeopacity: path.getAttribute('stroke-opacity')
 
 
