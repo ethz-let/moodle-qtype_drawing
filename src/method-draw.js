@@ -54,6 +54,7 @@
     Editor.curConfig = curConfig;
     Editor.tool_scale = 1;
     Editor.numsaved = 0;
+    Editor.savingready = 0;
     Editor.lastanswer = '';
 
     Editor.setConfig = function(opts) {
@@ -3879,6 +3880,7 @@
 
         $('#rulers').toggle(!!curConfig.showRulers);
         console.log("FHD Ready..");
+        Editor.savingready = 1;
       });
 
       $('#canvas_height').dragInput({ min: 10,   max: null,  step: 10,  callback: changeCanvasSize,    cursor: false, dragAdjust: .1         });
@@ -4549,12 +4551,22 @@
   			questionID = svgCanvas.getHDQuestionID();
   			CanvdrawingValue = getCurrentDrawingSVG();
 
-  		//	window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
-  			$('#qtype_drawing_textarea_id_'+questionID, window.parent.document).text(CanvdrawingValue);
+           var svg = d3.select("#svgcontent");
+           var gpaths = svg.select('#paths');
+           var currentd =  gpaths.selectAll("path").node();
+           if(currentd && currentd != null){
+               //CanvdrawingValue.split('<g id="paths">').pop().split('</g>')[0]; // returns 'two')
+               //  window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
+                   $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).text(CanvdrawingValue);
+                    // Trigger moodle quiz autosave :-)
+                   //window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
+                 //  if(Editor.savingready == 1){
+                     $('#qtype_drawing_drawingevent_'+questionID, window.parent.document).val(Math.random().toString(36).substring(7));
+                 //  }
+           }
 
-  			 // Trigger moodle quiz autosave :-)
-  			//window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
-  			$('#qtype_drawing_drawingevent_'+questionID, window.parent.document).val(Math.random().toString(36).substring(7));
+
+
 
  		//	console.error("saved..", Editor.numsaved,CanvdrawingValue);
  // 	 }
