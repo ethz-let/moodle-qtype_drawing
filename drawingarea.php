@@ -420,7 +420,7 @@ body {
       <!--  <h4>Stroke</h4> -->
         <div class="toolset" data-title="<?php print_string('changestroke', 'qtype_drawing');?>" id="strokewidth_div">
           <label>
-            <input id="stroke_width" size="2" value="5" data-attr="stroke-width" min="1" max="99" step="1" />
+            <input id="stroke_width"  type="number" size="2" value="5" data-attr="stroke-width" min="1" max="99" step="1"/>
             <span class="icon_label"><?php print_string('strokewidth', 'qtype_drawing');?></span>
           </label>
         </div>
@@ -975,21 +975,24 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
 //$(document).ready(function () {
 
   methodDraw.ready(function() {
-  var svg = d3.select("#svgcontent");
-  var g_erase = svg.append('g').attr('id', 'erase');
+  	var svg = d3.select("#svgcontent");
+  	var g_erase = svg.append('g').attr('id', 'erase');
       // Get current student answer - if any!
-      var qid = $('#fhd_question_id').val();
+    var qid = $('#fhd_question_id').val();
+  //  console.error("checking if there was previos answer");
     //  var lastsavedanswerelem = window.parent.$("#qtype_drawing_last_saved_answer_id_"+qid).val();
-      if(methodDraw.lastanswer && 0 !== methodDraw.lastanswer.length){
+     if(methodDraw.lastanswer && 0 !== methodDraw.lastanswer.length){
         methodDraw.loadFromString(methodDraw.lastanswer);
-      }
-      var xo = window.parent;
-if($("#qtype_drawing_loading_image_"+qid, window.parent.document).length){
-    $("#qtype_drawing_loading_image_"+qid, window.parent.document).hide();
-}
+        console.error("loading answer from lastansswer");
+     }
+     // var xo = window.parent;
+    if($("#qtype_drawing_loading_image_"+qid, window.parent.document).length){
+        $("#qtype_drawing_loading_image_"+qid, window.parent.document).hide();
+    }
     //  window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
 
   });
+
 /*
   //var shouldreload =  window.parent.$('#qtype_drawing_shouldreload_<?php echo $id;?>');
   window.parent.$('#qtype_drawing_shouldreload_<?php echo $id;?>').change(function() {

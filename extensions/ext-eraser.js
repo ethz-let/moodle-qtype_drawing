@@ -385,6 +385,8 @@ var p = gpaths.selectAll('path').data(opts);
              d3.select(this).attr('filter', updatedlinespecs[i].xfilter);
              d3.select(this).attr('stroke-dasharray', updatedlinespecs[i].strokedasharray);
              d3.select(this).attr('opacity', updatedlinespecs[i].opacity);
+             d3.select(this).attr('stroke-opacity', updatedlinespecs[i].strokeopacity);
+             d3.select(this).attr('fill-opacity', updatedlinespecs[i].fillopacity);
 
 
 

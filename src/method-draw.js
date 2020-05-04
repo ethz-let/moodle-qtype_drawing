@@ -25,8 +25,8 @@
     var curConfig = {
       canvas_expansion: 1,
       dimensions: [100, 100],
-      initFill: {color: 'fff', opacity: 1},
-      initStroke: {width: 3.5, color: '000', opacity: 1},
+      initFill: {color: 'ffffff', opacity: 1},
+      initStroke: {width: 3.5, color: '000000', opacity: 1},
       initOpacity: 1,
       imgPath: 'images/',
       extPath: 'extensions/',
@@ -36,15 +36,15 @@
       wireframe: false,
       colorPickerCSS: false,
       gridSnapping: false,
-      gridColor: "#000",
+      gridColor: "#000000",
       baseUnit: 'px',
       snappingStep: 10,
       showRulers: true,
       show_outside_canvas: false,
       no_save_warning: true,
       initFont: 'Helvetica, Arial, sans-serif',
-      globalstrokecolor: '#000',
-      globalfillcolor: '#fff',
+      globalstrokecolor: '#000000',
+      globalfillcolor: '#ffffff',
     };
 
     //alert("Is mainly Touch screen? " + svgedit.browser.isTouch());
@@ -239,10 +239,13 @@
 
           questionID = svgCanvas.getHDQuestionID();
           Editor.lastanswer = $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val();
-         // console.error("saved from textarea");
+         // console.error("saved from textarea", Editor.lastanswer);
 
        //   });
           methodDraw.runCallbacks();
+
+        //  Editor.lastanswer = $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val();
+        //  console.error("Second try:  from textarea",$('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val());
 
 
           setTimeout(function() {
@@ -3880,6 +3883,7 @@
 
         $('#rulers').toggle(!!curConfig.showRulers);
         console.log("FHD Ready..");
+      //  console.error("Third try:  from textarea",$('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val());
         Editor.savingready = 1;
       });
 
@@ -4553,8 +4557,14 @@
 
            var svg = d3.select("#svgcontent");
            var gpaths = svg.select('#paths');
-           var currentd =  gpaths.selectAll("path").node();
-           if(currentd && currentd != null){
+           var path =  gpaths.selectAll("path").node();
+           var line =  gpaths.selectAll("line").node();
+           var polygon =  gpaths.selectAll("polygon").node();
+           var rect =  gpaths.selectAll("rect").node();
+           var text =  gpaths.selectAll("text").node();
+           var ellipse = gpaths.selectAll("ellipse").node();
+
+           if((path && path != null) || (line && line != null) || (polygon && polygon != null) || (rect && rect != null) || (text && text != null) || (ellipse && ellipse != null)){
                //CanvdrawingValue.split('<g id="paths">').pop().split('</g>')[0]; // returns 'two')
                //  window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
                    $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).text(CanvdrawingValue);
@@ -4563,12 +4573,13 @@
                  //  if(Editor.savingready == 1){
                      $('#qtype_drawing_drawingevent_'+questionID, window.parent.document).val(Math.random().toString(36).substring(7));
                  //  }
+                   //  console.error("saved..", Editor.numsaved,CanvdrawingValue);
            }
 
 
 
 
- 		//	console.error("saved..", Editor.numsaved,CanvdrawingValue);
+
  // 	 }
   	  });
 

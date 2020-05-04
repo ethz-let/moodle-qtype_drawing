@@ -2645,7 +2645,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
           tlist.appendItem(svgroot.createSVGTransform());
           tlist.appendItem(svgroot.createSVGTransform());
 
-          if(svgedit.browser.supportsNonScalingStroke()) {
+          if(svgedit.browser.supportsNonScalingStroke() && 2==1) {
             //Handle crash for newer Webkit: https://code.google.com/p/svg-edit/issues/detail?id=904
             //Chromium issue: https://code.google.com/p/chromium/issues/detail?id=114625
             // TODO: Remove this workaround (all isChrome blocks) once vendor fixes the issue
@@ -7425,6 +7425,54 @@ this.setMode = function(name) {
   $("#workarea").attr("class", name);
   cur_properties = (selectedElements[0] && selectedElements[0].nodeName == 'text') ? cur_text : cur_shape;
   current_mode = name;
+/*
+  if(selectedElements[0]){
+      cur_properties['stroke'] = selectedElements[0].getAttribute('stroke');
+      cur_properties['fill'] = selectedElements[0].getAttribute('fill');
+      cur_properties['stroke_width'] = selectedElements[0].getAttribute('stroke-width');
+      cur_properties['stroke_opacity'] = selectedElements[0].getAttribute('stroke-opacity');
+      cur_properties['fill_opacity'] = selectedElements[0].getAttribute('fill-opacity');
+      cur_properties['opacity'] = selectedElements[0].getAttribute('opacity');
+      cur_properties['font_size'] = selectedElements[0].getAttribute('font-size');
+      cur_properties['stroke_dasharray'] = selectedElements[0].getAttribute('stroke-dasharray');
+  }
+  this.setPaint('stroke', cur_properties['stroke']);
+  this.setPaint('fill', cur_properties['fill']);
+
+  methodDraw.paintBox.fill.update();
+  methodDraw.paintBox.stroke.update();
+
+//  console.error(cur_properties);
+
+  var sizes = $('.qtype_drawing_size_pen').filter(function(){
+      var size = $(this).data("size");
+      if(size == cur_properties['stroke_width']){
+
+          $(".qtype_drawing_size_pen div").removeClass("qtype_drawing_active_selection");
+          $("#"+this.id+" div").addClass("qtype_drawing_active_selection");
+        //  $(this).addClass("qtype_drawing_active_selection");
+      }
+  });
+
+
+ // this.setStrokeWidth();
+
+  $("#qtype_drawing_tool_color14 > img").css("outline", "1px solid "+cur_properties['stroke']);
+  $("#qtype_drawing_tool_color15 > img").css("background-color", cur_properties['fill']);
+
+  $(".qtype_drawing_color_divsquare").removeClass("qtype_drawing_selectedcolor");
+  $(".qtype_drawing_color_pallette").removeClass("qtype_drawing_selectedcolor");
+
+
+  var rows = $('.qtype_drawing_color_divsquare').filter(function(){
+      var color = $(this).css("background-color");
+      if(findrgb2hex(color) == cur_properties['stroke']){
+        //  console.error('color found..');
+          $(this).addClass("qtype_drawing_selectedcolor");
+      }
+  });
+*/
+
   if(current_mode == 'text'){
       $('#strokewidth_div').hide();
       $('#strokestyle_div').hide();
@@ -7461,7 +7509,7 @@ this.getColor = function(type) {
 // type - String indicating fill or stroke
 // val - The value to set the stroke attribute to
 // preventUndo - Boolean indicating whether or not this should be and undoable option
-this.setColor = function(type, val, preventUndo) {
+this.setColor = function(type, val, preventUndo) {console.error('set color called');
   cur_shape[type] = val;
   cur_properties[type + '_paint'] = {type:"solidColor"};
   var elems = [];
