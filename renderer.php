@@ -342,6 +342,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 			$studentanswer = $qa->get_last_qt_var('answer');
 			$qattempt = $qa->get_database_id();
 	  	qtype_drawing_renderer::translate_to_js();
+
+
 			if(!empty($background) && !$options->readonly){
 				$this->page->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.attemptquestion', array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight,$background[0] ));
 			}
@@ -393,6 +395,14 @@ class qtype_drawing_renderer extends qtype_renderer {
 				$canvas .=  '
 							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$question->id.'" style="min-height:'.$canvasinfo->backgroundheight.'px; min-width:'.$canvasinfo->backgroundwidth.'px">'.$studentmergedanswer.'</div>';
 			} else {
+		/*	    $background[1] = '<svg style="background-image: url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22498%22%20height%3D%22497%22%0D%0A%20%20%20%20%20%20%20%20viewBox%3D%22-0.5%200%20498%20497%22%20enable-background%3D%22new%20-0.5%200%20498%20497%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Ccircle%20fill%3D%22%23FFFF00%22%20stroke%3D%22%23000000%22%20stroke-width%3D%2215%22%20cx%3D%22248.5%22%20cy%3D%22248.5%22%20r%3D%22241%22%2F%3E%0D%0A%3Cellipse%20cx%3D%22144.166%22%20cy%3D%22180.166%22%20rx%3D%2244%22%20ry%3D%2253.833%22%2F%3E%0D%0A%3Cellipse%20cx%3D%22337.666%22%20cy%3D%22180.166%22%20rx%3D%2244%22%20ry%3D%2253.833%22%2F%3E%0D%0A%3Cpath%20d%3D%22M425.834%2C298c-14.334%2C20.5-78.127%2C131.167-174.5%2C131.167c-96.374%2C0-145.833-81.667-174.5-131.167%0D%0A%20%20%20%20%20%20%20%20c53.167%2C18.5%2C92.583%2C35.667%2C174.5%2C35.667C333.251%2C333.667%2C398.5%2C306.5%2C425.834%2C298z%22%2F%3E%0D%0A%3C%2Fsvg%3E%0D%0A);background-repeat: no-repeat; background-size: 498px 497px;" width="498" height="497" xmlns="http://www.w3.org/2000/svg">
+ <!--Created with ETHz Free-Hand Drawing qtype for moodle.-->
+ <g id="paths">
+  <title class="grouptitle">Layer 1</title>
+  <path stroke-linejoin="round" stroke-linecap="round" d="m49,39c0,1 0,2 0,6c0,3 0,7 0,12c0,5 0,9 0,11c0,7 0,10 0,14c0,3 -0.68926,6.08025 0,9c0.51374,2.17625 1,5 1,8c0,3 -0.45951,5.0535 0,7c0.51374,2.17625 1,3 1,4c0,1 0,2 0,2c0,0 -1,0 -5,0c-4,0 -10.95488,-3.07292 -19,-8c-4.97252,-3.04533 -13.07437,-6.88293 -21,-12c-6.05816,-3.91136 -8.07278,-5.8819 -13,-9c-3.04673,-1.92806 -5.4588,-3.69344 -6,-5c-0.38268,-0.92388 -1,-2 -1,-2c0,0 0,-1 0,-1c2,-1 5.98085,-1.12258 12,-2c7.97794,-1.16296 18,-2 30,-3c12,-1 28,-1 44,-1c16,0 33.05792,-1.40217 50,0c30.31018,2.50854 49.91475,10.2201 60,14c19.8418,7.4366 35.33781,15.24043 42,18c4.71088,1.95131 13.07278,4.8819 18,8c3.04672,1.92806 5.4588,3.69344 6,5c0.38269,0.92388 0.29454,2.34619 -2,4c-5.44197,3.92236 -16.02081,4.87891 -28,7c-16.02948,2.83826 -32.97919,3.4998 -51,4c-16.99345,0.47168 -23.23531,0.63045 -32,-3c-8.26343,-3.42282 -13.83521,-5.77375 -16,-11c-1.14805,-2.77164 0,-5 0,-8c0,-2 7.38296,-8.71724 22,-13c5.83736,-1.71033 18.02023,-3.86734 25,-5c11.03598,-1.79089 22,-4 32,-4c9,0 16.02725,-0.65984 24,0c6.06204,0.50171 15.69496,5.14795 22,11c5.72449,5.31321 8.22054,9.83128 12,15c2.12817,2.91047 4.33749,7.31001 6,10c1.487,2.40601 2,4 2,4l1,1l0,0" id="svg_1" stroke-width="3.5" stroke="#000000" fill="none"></path>
+ </g>
+
+</svg>';*/
 				$canvas .=  '
 					<script type="text/javascript" src="'.$CFG->wwwroot.'/question/type/drawing/js/embedapi.js"></script>
 					<script type="text/javascript">
@@ -421,7 +431,9 @@ class qtype_drawing_renderer extends qtype_renderer {
 											var padding = 150;
 											var lastHeight;
 											var resize = function(e) {
-    											var viewportHeight = doc.get("winHeight");
+
+    											var viewportHeight =  window.innerHeight; //doc.get("winHeight");
+
     										//	if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
                                                       //  if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
     												//	if(viewportHeight <= 500 ) viewportHeight = 650;
@@ -436,11 +448,12 @@ class qtype_drawing_renderer extends qtype_renderer {
         if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
            //  drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
              Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
-             var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
+             var  calculatedheight =  viewportHeight - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
+//doc.get("winHeight")
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
         } else {
 
-             var  calculatedheight = doc.get("winHeight");
+             var  calculatedheight = viewportHeight;// doc.get("winHeight");
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
 
           //  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");

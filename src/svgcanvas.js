@@ -7423,6 +7423,9 @@ this.setMode = function(name) {
   pathActions.clear();
   textActions.clear();
   $("#workarea").attr("class", name);
+
+
+
   cur_properties = (selectedElements[0] && selectedElements[0].nodeName == 'text') ? cur_text : cur_shape;
   current_mode = name;
 /*
@@ -7509,7 +7512,7 @@ this.getColor = function(type) {
 // type - String indicating fill or stroke
 // val - The value to set the stroke attribute to
 // preventUndo - Boolean indicating whether or not this should be and undoable option
-this.setColor = function(type, val, preventUndo) {console.error('set color called');
+this.setColor = function(type, val, preventUndo) {
   cur_shape[type] = val;
   cur_properties[type + '_paint'] = {type:"solidColor"};
   var elems = [];
@@ -9513,7 +9516,7 @@ this.updateCanvas = function(w, h) {
 
 
 
-this.setFHDBackground = setFHDBackground = function (){
+this.setFHDBackground = setFHDBackground = function (im){
 
     var imgelemval = 'qtype_drawing_background_image_value_'+ getHDQuestionID();
     var imgelemtype = 'qtype_drawing_background_image_type_'+ getHDQuestionID();
@@ -9527,7 +9530,7 @@ this.setFHDBackground = setFHDBackground = function (){
   		var base64img = btoa(whichbackground);
       whichbackground = 'data:image/svg+xml;base64,' + base64img;
     }
-
+if(im) whichbackground = im;
   if (whichbackground != ''){
     var image = new Image();
     image.onload = function () {
@@ -9579,6 +9582,10 @@ console.error(dimensions);
 */
 }
 setFHDBackground(); // Amr background function call
+
+//setFHDBackground('http://d31u1j2vbx6ya5.cloudfront.net/gei-assets/uploads/2019/07/How-to-make-transperant-Background.jpg');
+
+
 
 
 

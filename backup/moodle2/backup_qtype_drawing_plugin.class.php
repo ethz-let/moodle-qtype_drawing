@@ -51,7 +51,8 @@ class backup_qtype_drawing_plugin extends backup_qtype_plugin {
             'backgroundheight', 'preservear', 'drawingoptions'));
 
         $drawingannotation = new backup_nested_element('drawingannotation', array('id'),
-                                            array('drawingid', 'annotation', 'notes', 'timecreated'));
+                                            array('questionid', 'annotatedby','annotatedfor',
+                                                  'annotation', 'notes', 'timecreated', 'timemodified'));
         // Now the own qtype tree.
         $pluginwrapper->add_child($drawing);
         $drawing->add_child($drawingannotation);
@@ -62,9 +63,8 @@ class backup_qtype_drawing_plugin extends backup_qtype_plugin {
         $drawing->set_source_table('qtype_drawing',
                 array('questionid' => backup::VAR_PARENTID));
         // Anootations, per QuestionID.
-        $drawingannotation->set_source_sql('SELECT * FROM {qtype_drawing_annotations} WHERE drawingid =
-                                (select id from {qtype_drawing} where questionid = :questionid)',
-                                array('questionid' => backup::VAR_PARENTID));
+        $drawing->set_source_table('qtype_drawing_annotations',
+                        array('questionid' => backup::VAR_PARENTID));
 
         return $plugin;
     }

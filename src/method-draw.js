@@ -466,7 +466,59 @@
 
         var mode = svgCanvas.getMode();
         var orgelems = elems;
-        if(mode === "select") setSelectMode();
+        if(mode === "select"){
+            setSelectMode();
+        // In the event a gradient was flipped: MOREEE
+         selectedElement = (elems.length == 1 || elems[1] == null ? elems[0] : null);
+        if(selectedElement ) {
+           // updateContextPanel();
+          Editor.paintBox.fill.update();
+          Editor.paintBox.stroke.update();
+
+var strokecol = selectedElement.getAttribute("stroke");
+var fillcol = selectedElement.getAttribute("fill");
+var strokewid = selectedElement.getAttribute("stroke-width");
+          function findrgb2hex(rgb) {
+              rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+              function hex(x) {
+                  return ("0" + parseInt(x).toString(16)).slice(-2);
+              }
+              return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+          }
+
+
+          $("#qtype_drawing_tool_color14 > img").css("outline", "1px solid "+strokecol);
+          $("#qtype_drawing_tool_color15 > img").css("background-color",fillcol);
+
+          $(".qtype_drawing_color_divsquare").removeClass("qtype_drawing_selectedcolor");
+          $(".qtype_drawing_color_pallette").removeClass("qtype_drawing_selectedcolor");
+
+
+          var rows = $('.qtype_drawing_color_divsquare').filter(function(){
+              var color = $(this).css("background-color");
+             // console.error(findrgb2hex(color));
+              if(findrgb2hex(color) == strokecol){
+
+                  $(this).addClass("qtype_drawing_selectedcolor");
+              }
+          });
+
+
+          var sizes = $('.qtype_drawing_size_pen').filter(function(){
+              var size = $(this).data("size");
+              if(size == strokewid){
+
+                  $(".qtype_drawing_size_pen div").removeClass("qtype_drawing_active_selection");
+                  $("#"+this.id+" div").addClass("qtype_drawing_active_selection");
+                //  $(this).addClass("qtype_drawing_active_selection");
+              }
+          });
+
+
+        }
+
+
+        }
         if (mode === "pathedit") return updateContextPanel();
         // if elems[1] is present, then we have more than one element
         selectedElement = (elems.length == 1 || elems[1] == null ? elems[0] : null);
@@ -2731,6 +2783,7 @@
           flash($('#edit_menu'));
 
           undoMgr.undo();
+          d3.select("#erase").selectAll("*").remove();
           $('#canvas_panel').hide();
           methodDraw.SaveDrawingToMoodle();
 
@@ -2748,6 +2801,7 @@
         if (undoMgr.getRedoStackSize() > 0) {
           flash($('#edit_menu'));
           undoMgr.redo();
+          d3.select("#erase").selectAll("*").remove();
           $('#canvas_panel').hide();
           methodDraw.SaveDrawingToMoodle();
           setSelectMode();
@@ -3273,7 +3327,6 @@
       var fill_rect = document.querySelector('#tool_fill rect');
       var fill_color = fill_rect.getAttribute("fill");
       var stroke_color = stroke_rect.getAttribute("fill");
-
 
       if(this.type == 'stroke'){
         $("#qtype_drawing_tool_color14 > img").css("outline", "1px solid "+stroke_color);//.css("outline", "1px "+curConfig.globalstrokecolor+" solid!important");
@@ -3885,6 +3938,11 @@
         console.log("FHD Ready..");
       //  console.error("Third try:  from textarea",$('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val());
         Editor.savingready = 1;
+
+     //   svgCanvas.createLayer("Layer 2");
+    //    svgCanvas.setCurrentLayer("Layer 2");
+   //   svgCanvas.setCurrentLayerPosition("2"); console.log("new");
+
       });
 
       $('#canvas_height').dragInput({ min: 10,   max: null,  step: 10,  callback: changeCanvasSize,    cursor: false, dragAdjust: .1         });

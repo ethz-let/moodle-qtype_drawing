@@ -49,6 +49,9 @@ if($fhd->drawingmode == 1){
   $display_style = ' display: none!important;';
   $display_style_full = ' style="display: none!important;"';
 }
+require_once("../../../question/type/questiontypebase.php");
+$question = question_bank::load_question_data($id);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -358,7 +361,33 @@ body {
 
 
 <div id="tools_top" class="tools_panel">
+<?php
 
+$context = context::instance_by_id($question->contextid);
+if ((has_capability('mod/quiz:viewreports', $context) ||
+                has_capability('mod/quiz:preview', $context)) && 1==2) {
+?>
+      <div id="annotation_panel" class="context_panelv">
+       <h4>Annotation<!--  <?php print_string('annotation', 'qtype_drawing');?>--></h4>
+
+
+       <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%" id="fastcolorpicks">
+        <span>Color</span>
+
+  <div style="margin-top:15px; text-align:center;">
+<a href=";;">format-topics</a>  path-question safari dir-ltr lang-en yui-skin-sam yui3-skin-sam localhost--moodle pagelayout-popup course-4 context-38 category-1  jsenabled
+</div>
+
+
+
+      </div>
+
+      </div>
+<?php
+}else{
+?>
+
+<?php }?>
   <div id="canvas_panel" class="context_panel">
 
 

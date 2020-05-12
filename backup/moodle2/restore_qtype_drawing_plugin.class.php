@@ -86,7 +86,7 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
         // If the question has been created by restore, we need to create its
         // qtype_drawing_annotations too.
         if ($questioncreated) {
-            $data->drawingid = $newquestionid;
+            $data->questionid = $newquestionid;
             // Insert record.
             $newitemid = $DB->insert_record('qtype_drawing_annotations', $data);
             // Create mapping (needed for decoding links).
