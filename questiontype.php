@@ -67,7 +67,7 @@ class qtype_drawing extends question_type {
         global $DB;
         $originalrecord = $DB->get_record('qtype_drawing', array('questionid' => $questionid));
         $DB->delete_records('qtype_drawing', array('questionid' => $questionid));
-        $DB->delete_records('qtype_drawing_annotations', array('drawingid' => $originalrecord->id));
+        $DB->delete_records('qtype_drawing_annotations', array('questionid' => $originalrecord->id));
         parent::delete_question($questionid, $contextid);
     }
     public function save_question_options($question) {
