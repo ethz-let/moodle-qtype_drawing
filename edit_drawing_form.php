@@ -302,10 +302,15 @@ class qtype_drawing_edit_form extends question_edit_form {
         $canvassizearray = array();
         $canvassizearray[] =& $mform->createElement('text', 'backgroundwidth', get_string('backgroundwidth', 'qtype_drawing'),
                         array('size' => 4, 'maxlength' => 5, 'id' => 'qtype_drawing_backgroundwidth'));
+        $canvassizearray[] =& $mform->createElement('static', '', '', 'px  &nbsp;  &nbsp;', 'px &nbsp; &nbsp;');
         $canvassizearray[] =& $mform->createElement('text', 'backgroundheight', get_string('backgroundheight', 'qtype_drawing'),
                         array('size' => 4, 'maxlength' => 5, 'id' => 'qtype_drawing_backgroundheight'));
+        $canvassizearray[] =& $mform->createElement('static', '', '', 'px  &nbsp;  &nbsp;', 'px &nbsp; &nbsp;');
         $canvassizearray[] =& $mform->createElement('checkbox', 'preservear', get_string('preserveaspectratio', 'qtype_drawing'));
-        $mform->addGroup($canvassizearray, 'buttonar', get_string('canvassize', 'qtype_drawing'), array('px &nbsp;&nbsp;&nbsp;&nbsp; '), false);
+
+
+
+        $mform->addGroup($canvassizearray, 'buttonar', get_string('canvassize', 'qtype_drawing'), array(' '), false);
         $mform->setType('backgroundwidth', PARAM_INT);
         $mform->setDefault('backgroundwidth', $drawingconfig->defaultcanvaswidth);
         $mform->setType('backgroundheight', PARAM_INT);
@@ -347,7 +352,7 @@ class qtype_drawing_edit_form extends question_edit_form {
         */
 
      //   $mform->setExpanded('qtype_drawing_canvas_specs');
-        $this->add_interactive_settings();
+     //   $this->add_interactive_settings();
 
 
     }
