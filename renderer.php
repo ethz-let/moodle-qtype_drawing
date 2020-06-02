@@ -566,13 +566,14 @@ if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_dr
         if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
              drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
              Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
+             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("margin-top", "-1em");
              var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
         } else {
             if (drawing_fullsc_'.$question->id.'.hasChildNodes()) {
+
                 drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
             }
-
              var  calculatedheight = doc.get("winHeight");
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
 
@@ -592,6 +593,7 @@ if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_dr
     if (document.getElementById("quiz-timer")) {
      var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
      drawing_fullsc_'.$question->id.'.innerHTML = "";
+     Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("margin-top", "0em");
      Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
     }
 
@@ -640,7 +642,7 @@ if (document.getElementById("quiz-timer")) {
 				<input type="hidden" style="display:none" id="qtype_drawing_background_image_width_'.$question->id.'" value="'.$canvasinfo->backgroundwidth.'">
 				<input type="hidden" style="display:none" id="qtype_drawing_background_image_height_'.$question->id.'" value="'.$canvasinfo->backgroundheight.'">
 				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$question->id.'"><img id="qtype_drawing_loading_image_'.$question->id.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
-                <span id="quiz_timer_drawing_' . $question->id .'" style="display:none; margin-top:-1em; background-color:#fff"></span>
+                <span id="quiz_timer_drawing_' . $question->id .'" style="display:none; background-color:#fff"></span>
 				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' .$question->id . '" onclick="qtype_drawing_fullscreen_'.$question->id.'()">&nbsp;</span>
 					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$question->id.'"  onload="init_qtype_drawing_embed('.$question->id.')" ></iframe>
 				</div>
