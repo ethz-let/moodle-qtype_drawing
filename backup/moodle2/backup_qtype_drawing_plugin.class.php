@@ -61,9 +61,9 @@ class backup_qtype_drawing_plugin extends backup_qtype_plugin {
 
         // Set source to populate the data.
         $drawing->set_source_table('qtype_drawing',
-                array('questionid' => backup::VAR_PARENTID));
-        // Anootations, per QuestionID.
-        $drawing->set_source_table('qtype_drawing_annotations',
+                        array('questionid' => backup::VAR_PARENTID));
+        // Annotations, per QuestionID.
+        $drawingannotation->set_source_table('qtype_drawing_annotations',
                         array('questionid' => backup::VAR_PARENTID));
 
         return $plugin;
