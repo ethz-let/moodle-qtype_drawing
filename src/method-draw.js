@@ -54,6 +54,8 @@
     Editor.curConfig = curConfig;
     Editor.tool_scale = 1;
     Editor.numsaved = 0;
+    Editor.eyedroppertitle = qtype_drawing_str_eyedroppertool;
+    Editor.shapetitle = qtype_drawing_str_shapelibrary;
     Editor.savingready = 0;
     Editor.lastanswer = '';
 
@@ -337,10 +339,10 @@
             .toggleClass('prompt',(type=='prompt'));
           btn_holder.empty();
 
-          var ok = $('<input type="button" value="OK">').appendTo(btn_holder);
+          var ok = $('<input type="button" value="'+qtype_drawing_str_ok+'">').appendTo(btn_holder);
 
           if(type != 'alert') {
-            $('<input type="button" value="Cancel">')
+            $('<input type="button" value="'+qtype_drawing_str_cancel+'">')
               .appendTo(btn_holder)
               .on("click touchstart", function() { box.hide();callback(false)});
           }

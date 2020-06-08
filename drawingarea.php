@@ -70,6 +70,16 @@ var qtype_drawing_str_newconfirmationmsg = "<?php print_string("newconfirmationm
 var qtype_drawing_str_eraseconfirmationmsg = "<?php print_string("eraseconfirmationmsg","qtype_drawing");?>";
 var qtype_drawing_str_parsingerror = "<?php print_string("parsingerror","qtype_drawing");?>";
 var qtype_drawing_str_ignorechanges = "<?php print_string("ignorechanges","qtype_drawing");?>";
+var qtype_drawing_str_ok = "<?php print_string("ok","qtype_drawing");?>";
+var qtype_drawing_str_cancel = "<?php print_string("cancel","qtype_drawing");?>";
+var qtype_drawing_str_eyedroppertool = "<?php print_string("eyedroppertool","qtype_drawing");?>";
+var qtype_drawing_str_shapelibrary = "<?php print_string("shapelibrary","qtype_drawing");?>";
+var qtype_drawing_str_drag_markers = "<?php print_string("drawmarkers","qtype_drawing");?>";
+var qtype_drawing_str_solidcolor = "<?php print_string("solidcolor","qtype_drawing");?>";
+var qtype_drawing_str_lingrad = "<?php print_string("lingrad","qtype_drawing");?>";
+var qtype_drawing_str_radgrad = "<?php print_string("radgrad","qtype_drawing");?>";
+var qtype_drawing_str_new = "<?php print_string("new","qtype_drawing");?>";
+var qtype_drawing_str_current = "<?php print_string("current","qtype_drawing");?>";
 var fhd_display_mode = "<?php echo $reduced_mode;?>";
 </script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery.js"></script>
