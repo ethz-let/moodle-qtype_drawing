@@ -20,30 +20,31 @@
  * @package    qtype
  * @subpackage drawing
  * @copyright  ETHZ LET <amr.hourani@id.ethz.ch>
+ * @author Amr Hourani amr.hourani@id.ethz.ch, Kristina Isacson kristina.isacson@let.ethz.ch
  * @license  http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'FreeHand Drawing (ETH)';
+$string['pluginname'] = 'Freehand drawing (ETH)';
 $string['pluginname_help'] = 'In response to a question the respondent draws a solution on a predefined image. There is only one right answer possible.';
 $string['pluginname_link'] = 'question/type/drawing';
-$string['pluginnameadding'] = 'Adding a Hand Drawing question';
-$string['pluginnameediting'] = 'Editing a Hand Drawing question';
+$string['pluginnameadding'] = 'Adding a Freehand drawing question';
+$string['pluginnameediting'] = 'Editing a Freehand drawing question';
 $string['pluginnamesummary'] = 'In response to a question the respondent draws an answer on an predefined image. There is only one right answer possible.';
 $string['threshold_for_correct_answers'] = 'Threshold for correct answers (%)';
 
 $string['answer'] = 'Answer: {$a}';
 $string['correctansweris'] = 'The correct answer is: {$a}.';
 $string['pleaseenterananswer'] = 'Please enter an answer.';
-$string['drawing_background_image'] = 'Background Image';
+$string['drawing_background_image'] = 'Background image';
 $string['drawingrawdata'] = '';
-$string['backgroundfilemustbegiven'] = 'You must specify a file as a background image for the Hand drawing.';
+$string['backgroundfilemustbegiven'] = 'You must specify a file as a background image for the Freehand drawing.';
 $string['drawingmustbegiven'] = 'You must make a drawing.';
 $string['drawanswer'] = 'Draw answer';
 $string['drawing'] = 'Drawing';
 $string['accepted_background_image_file_types'] = 'Accepted file types';
 $string['nobackgroundimageselectedyet'] = 'No background image selected yet.';
 $string['are_you_sure_you_want_to_erase_the_canvas'] = 'Are you sure you want to erase your drawing?';
-$string['are_you_sure_you_want_to_pick_a_new_bgimage'] = 'Do you really want to change the image? this might have an effect on the students who drew before.';
+$string['are_you_sure_you_want_to_pick_a_new_bgimage'] = 'Do you really want to change the image? This might have an effect on the students who drew before.';
 $string['are_you_sure_you_want_to_change_the_drawing_radius'] = 'If you change the drawing radius now, it will erase your solution. Are you okay with that?';
 $string['set_radius'] = 'Set size of the pencil (pixel)';
 $string['threshold_must_be_reasonable'] = 'You must select a reasonable threshold.';
@@ -57,12 +58,12 @@ $string['exitfullscreen'] = 'Exit Full Screen';
 $string['zoomin'] = 'Zoom in';
 $string['zoomout'] = 'Zoom out';
 $string['redo_drawing'] = 'Redo';
-$string['privacy:metadata'] = 'The free hand drawing plugin does not store any personal data.';
+$string['privacy:metadata'] = 'The freehand drawing plugin does not store any personal data.';
 $string['canvasspecs'] = 'Drawing specifications';
 $string['basicmode'] = 'Standard mode';
 $string['advancedmode'] = 'Advanced mode';
 $string['drawingmode'] = 'Drawing mode';
-$string['drawingmode_help'] = 'Whether draing is in advanced mode, or in simple mode';
+$string['drawingmode_help'] = 'Whether drawing is in advanced mode, or in simple mode';
 $string['backgroundwidth'] = 'Drawing width';
 $string['backgroundheight'] = 'Drawing height';
 $string['preserveaspectratio'] = 'Preserve aspect ratio';
@@ -159,7 +160,7 @@ $string['color'] = 'Color';
 $string['file'] = 'File';
 $string['edit'] = 'Edit';
 $string['erasedrawing'] = 'Erase Drawing';
-$string['drawingcomment'] = 'Created with ETHz Free-Hand Drawing qtype for moodle.';
+$string['drawingcomment'] = 'Created with ETHz Freehand drawing qtype for moodle.';
 $string['newconfirmationmsg'] = 'Do you want to open a new file?\nThis will also erase your undo history';
 $string['eraseconfirmationmsg'] = '<strong>Do you want to clear the drawing?</strong>\nThis will also erase your undo history';
 $string['parsingerror'] = 'There were parsing errors in your SVG source.\nRevert back to original SVG source?';
@@ -170,11 +171,10 @@ $string['defaultcanvasheight'] = 'Default drawing area (Canvas) height';
 $string['defaultcanvasheight_help'] = 'Default drawing area (Canvas) height - help information';
 $string['allowteachertochosemode'] = 'Allow teachers to choose drawing mode?';
 $string['allowteachertochosemode_help'] = 'Allow teachers to choose drawing mode? - Help info';
-$string['configintro'] = 'Free-hand drawing site-level configuration';
+$string['configintro'] = 'Freehand drawing site-level configuration';
 $string['tasktitle'] = 'Title';
 $string['maxpoints'] = 'Max points';
 $string['stem'] = 'Stem';
 $string['enterstemhere'] = 'Enter stem here';
 $string['generalfeedback'] = 'General feedback';
 $string['generalfeedback_help'] = 'General feedback help';
-
