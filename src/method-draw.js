@@ -56,6 +56,7 @@
     Editor.numsaved = 0;
     Editor.eyedroppertitle = qtype_drawing_str_eyedroppertool;
     Editor.shapetitle = qtype_drawing_str_shapelibrary;
+    Editor.viewgridtitle = qtype_drawing_str_viewgrid;
     Editor.savingready = 0;
     Editor.lastanswer = '';
 

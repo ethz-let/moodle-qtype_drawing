@@ -164,7 +164,7 @@ methodDraw.addExtension("view_grid", function(s) {
             type: "menu",
             after: "tool_wireframe",
             panel: "view_menu",
-            title: "View Grid",
+            title: methodDraw.viewgridtitle,
             events: {
                 'click': function() {
                     var gr = !$('#view_grid').hasClass('push_button_pressed');

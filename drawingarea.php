@@ -80,6 +80,7 @@ var qtype_drawing_str_lingrad = "<?php print_string("lingrad","qtype_drawing");?
 var qtype_drawing_str_radgrad = "<?php print_string("radgrad","qtype_drawing");?>";
 var qtype_drawing_str_new = "<?php print_string("new","qtype_drawing");?>";
 var qtype_drawing_str_current = "<?php print_string("current","qtype_drawing");?>";
+var qtype_drawing_str_viewgrid = "<?php print_string("viewgrid","qtype_drawing");?>";
 var fhd_display_mode = "<?php echo $reduced_mode;?>";
 </script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery.js"></script>

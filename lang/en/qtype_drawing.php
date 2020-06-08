@@ -188,3 +188,4 @@ $string['lingrad'] = 'Linear Gradient';
 $string['radgrad'] = 'Radial Gradient';
 $string['new'] = 'New';
 $string['current'] = 'Current';
+$string['viewgrid'] = 'View Grid';
