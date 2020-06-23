@@ -231,13 +231,13 @@ YUI.add('moodle-qtype_drawing-form', function(Y) {
 				if(iframe && iframe.contentWindow.document.getElementById('canvas_width')){
 					iframe.contentWindow.document.getElementById('canvas_width').value = width;
 					iframe.contentWindow.document.getElementById('canvas_height').value = height;
-				}	console.error("1e..");
+				}
 				svgCanvas.setResolution(width, height);
 				svgCanvas.updateCanvas(width, height);
-					console.error("2..");
-				console.error("we are loading attempt..");
-				if(background != null){	console.error("we are loading background..");
-					if(datatype =='svg'){	console.error("we are loading svg..");
+
+
+				if(background != null){
+					if(datatype =='svg'){
 						// Remove any characters outside the Latin1 range
 						background = background.replace(/(\r\n|\n|\r)/gm," ");
 						var decoded = encodeURIComponent(background);
@@ -265,7 +265,7 @@ console.error(background);
     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
     // Check if loading is complete
     if (iframeDoc.readyState == 'complete' || iframeDoc.readyState == 'interactive') {
-			console.error("ifrmale reloaded..");
+
 			loadimg();
         clearInterval(timer);
         return;
@@ -458,6 +458,9 @@ svgCanvas.updateCanvas(width, height);
 				Y.one(SELECTORS.CANVASHEIGHT).set('value', this.originalheight);
 			}
 		//	Y.one('#id_qtype_drawing_drawing_background_image_selected').set('src', imgURL);
+		 //  Y.one('.filepicker-filename').append("<br /><br />" + '<div style="background-color:#000; width:100%;height:100%"> <img src="' + imgURL + '" class="img-thumbnail">xxx</div>');//.set('src', imgURL);
+
+			Y.one('.filepicker-filename').append("<br /><br />" + '<div style="background-color: #000; background-blend-mode: multiply; display:inline-block"><img src="'+imgURL+'" style="width: 100%; height: auto;"></div>');//.set('src', imgURL);
 
 /*
 			var frame = document.getElementById("qtype_drawing_editor_"+questionID);

@@ -266,8 +266,6 @@ class qtype_drawing_edit_form extends question_edit_form {
 
         		//$mform->addElement('hidden', 'pre_existing_background_data', '', array('id'=>'pre_existing_background_data'));
         		//$mform->setType('pre_existing_background_data', PARAM_RAW);
-
-
         	}
         }
 
