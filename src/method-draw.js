@@ -335,12 +335,49 @@
         $('#dialog_container').draggable({cancel:'#dialog_content, #dialog_buttons *', containment: 'window'});
         var box = $('#dialog_box'), btn_holder = $('#dialog_buttons');
 
-        var dbox = function(type, msg, callback, defText) {
-          $('#dialog_content').html('<p>'+msg.replace(/\n/g,'</p><p>')+'</p>')
-            .toggleClass('prompt',(type=='prompt'));
+        var dbox = function(type, msg, callback, defText, removeallitems) {
+
+            if(removeallitems !== 1){
+                $('#dialog_content').html('<p>'+msg.replace(/\n/g,'</p><p>')+'</p>').toggleClass('prompt',(type=='prompt'));
+            }
           btn_holder.empty();
 
-          var ok = $('<input type="button" value="'+qtype_drawing_str_ok+'">').appendTo(btn_holder);
+          var ok = $('<input type="button" style="right:10px; left:initial" value="'+qtype_drawing_str_ok+'">').appendTo(btn_holder);
+
+          if(removeallitems == 1){
+              $('#dialog_container').css("position","absolute");
+              $('#dialog_container').css("top","30px");
+              $('#dialog_container').css("left","100px");
+              $('#dialog_container').css("right","100px");
+              $('#dialog_container').css("bottom","30px");
+              $('#dialog_container').css("background-color","#fff");
+              $('#dialog_container').css("border-radius","3px");
+              $('#dialog_container').css("opacity","1");
+              $('#dialog_container').css("z-index","6");
+              $('#dialog_container').css("padding","15px 0");
+              $('#dialog_container').css("width","initial");
+              $('#dialog_container').css("height","initial");
+              $('#dialog_container').css("margin-left","initial");
+              $('#dialog_container').css("margin-top","initial");
+              $('#dialog_content').css("height","100%");
+              $('#dialog_content').css("overflow","auto");
+              /*
+              var originalbgimg = $('#qtype_drawing_original_bg_id_'+questionid, window.parent.document).val();
+              var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+questionid, window.parent.document).val();
+              var imgelemtype = 'qtype_drawing_background_image_type_'+ questionid;
+              var imgwidth = $('#qtype_drawing_background_image_width_'+questionid, window.parent.document).val();
+              var imgheight = $('#qtype_drawing_background_image_height_'+questionid, window.parent.document).val();
+
+              var backgroundtype = window.parent.document.getElementById(imgelemtype).value;
+*/
+            //  $('#dialog_content').html('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation" width="'+imgwidth+'" height="'+imgheight+'">' + originalbgimg + originalstdanswer + msg + '</svg>');
+              $('#dialog_content').html(msg);
+
+          } else {
+              $('#dialog_container').removeAttr("style");
+          }
+
+
 
           if(type != 'alert') {
             $('<input type="button" value="'+qtype_drawing_str_cancel+'">')
@@ -370,6 +407,9 @@
         }
         // is_ready=true; //NNANNA
         $.alert = function(msg, cb) { dbox('alert', msg, cb);};
+        $.anottationalert = function(msg, cb) { dbox('alert', msg);};
+        $.anottationdrawing = function(msg, cb) { dbox('alert', msg,null,null,1, questionid);};
+
         $.confirm = function(msg, cb) { dbox('confirm', msg, cb);};
         $.process_cancel = function(msg, cb) {  dbox('process', msg, cb);};
         $.prompt = function(msg, txt, cb) { dbox('prompt', msg, cb, txt);};
@@ -2958,6 +2998,119 @@ var strokewid = selectedElement.getAttribute("stroke-width");
         svgCanvas.save(saveOpts);
       };
 
+
+      var clickSaveannotation = function(){
+
+          $.ajax({
+              url: 'saveannotation.php',
+              method: "POST",
+              data: { id: questionid, sesskey: sesskey, stid:stid, annotation: getCurrentDrawingSVG()},
+              cache: false,
+              success: function(str) {
+                  if(str == 'OK'){
+                      $.anottationalert(qtype_drawing_str_annotationsaved, str);
+                  } else {
+                      $.anottationalert("ERROR: " + JSON.stringify(str), str);
+                  }
+
+              },
+              error: function(xhr, stat, err) {
+                if(xhr.status != 404 && xhr.responseText) {
+                    $.anottationalert("Error: "+ xhr.responseText );
+                } else {
+                    $.anottationalert("Unable to save annotation" + ": \n"+err);
+                }
+              }
+            });
+        };
+
+
+        var clickShowannotation = function(){
+
+            var originalbgimg = $('#qtype_drawing_original_bg_id_'+questionid, window.parent.document).val();
+
+            var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+questionid, window.parent.document).val();
+            var imgwidth = $('#qtype_drawing_background_image_width_'+questionid, window.parent.document).val();
+            var imgheight = $('#qtype_drawing_background_image_height_'+questionid, window.parent.document).val();
+            var backgroundtype = $('#qtype_drawing_real_org_bg_'+ questionid, window.parent.document).val();
+
+
+            if($(this).data("type") == 1){
+                if(backgroundtype == 'svg'){
+                    var getresult = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotationView1" width="'+imgwidth+'" height="'+imgheight+'">' + originalbgimg + originalstdanswer + '</svg>';
+                }else{
+                    var getresult = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotationView2" width="'+imgwidth+'" height="'+imgheight+'">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width="'+imgwidth+'" height="'+imgheight+'"><image xlink:href="'+originalbgimg+'" width="'+imgwidth+'" height="'+imgheight+'" preserveAspectRatio="none"></image></svg>' + originalstdanswer + '</svg>';
+                }
+
+                $.anottationdrawing(getresult, null,null, 1, questionid);
+                return;
+            }else if($(this).data("type") == 2){
+
+                $.ajax({
+                    url: 'getannotation.php',
+                    method: "GET",
+                    data: { id: questionid, sesskey: sesskey, stid: stid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
+                    cache: false,
+                    success: function(str) {
+                        if(str.result == 'OK'){
+                            if(backgroundtype == 'svg'){
+                                var getresult = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotationView3" width="'+imgwidth+'" height="'+imgheight+'">' + originalbgimg + originalstdanswer + str.drawing + '</svg>';
+                            }else{
+                                var getresult = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotationView4" width="'+imgwidth+'" height="'+imgheight+'">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width="'+imgwidth+'" height="'+imgheight+'"><image xlink:href="'+originalbgimg+'" width="'+imgwidth+'" height="'+imgheight+'" preserveAspectRatio="none"></image></svg>'  + originalstdanswer + str.drawing + '</svg>';
+
+                            }
+                            $.anottationdrawing(getresult, null,null, 1, questionid);
+
+                        } else {
+                            $.anottationdrawing("ERROR: " + JSON.stringify(str), str);
+                        }
+
+                    },
+                    error: function(xhr, stat, err) {
+                      if(xhr.status != 404 && xhr.responseText) {
+                          $.anottationdrawing("Error: "+ xhr.responseText );
+                      } else {
+                          $.anottationdrawing("Unable to get annotation" + ": \n"+err);
+                      }
+                    }
+                  });
+
+                 return;
+            }
+
+          //  $('#dialog_content').html('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation" width="'+imgwidth+'" height="'+imgheight+'">' + originalbgimg + originalstdanswer + msg + '</svg>');
+
+
+            $.ajax({
+                url: 'getannotation.php',
+                method: "GET",
+                data: { id: questionid, sesskey: sesskey, stid: stid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
+                cache: false,
+                success: function(str) {
+                    if(str.result == 'OK'){
+                        if(backgroundtype == 'svg'){
+                            var getresult = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotationView5" width="'+imgwidth+'" height="'+imgheight+'">' + originalbgimg + originalstdanswer + str.drawing + '</svg>';
+                        }else{
+                            var getresult = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotationView6" width="'+imgwidth+'" height="'+imgheight+'">' + '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  width="'+imgwidth+'" height="'+imgheight+'"><image xlink:href="'+originalbgimg+'" width="'+imgwidth+'" height="'+imgheight+'" preserveAspectRatio="none"></image></svg>' + originalstdanswer + str.drawing  + '</svg>';
+
+                        }
+                        $.anottationdrawing(getresult, str, null,null, 1, questionid);
+                    } else {
+                        $.anottationdrawing("ERROR: " + JSON.stringify(str), str);
+                    }
+
+                },
+                error: function(xhr, stat, err) {
+                  if(xhr.status != 404 && xhr.responseText) {
+                      $.anottationdrawing("Error: "+ xhr.responseText );
+                  } else {
+                      $.anottationdrawing("Unable to get annotation" + ": \n"+err);
+                  }
+                }
+              });
+          };
+
+
       var saveSourceEditor = function(){
         if (!editingsource) return;
 
@@ -3695,6 +3848,9 @@ var strokewid = selectedElement.getAttribute("stroke-width");
           {sel:'#tool_zoom', fn: clickZoom, evt: 'mouseup', key: ['Z', true]},
           {sel:'#tool_clear', fn: clickClear, evt: 'mouseup', key: [modKey + 'N', true]},
           {sel:'#tool_save', fn: function() { editingsource ? saveSourceEditor(): clickSave() }, evt: 'mouseup', key: [modKey + 'S', true]},
+          {sel:'#tool_saveannotation', fn: clickSaveannotation, evt: 'click'},
+          {sel:'.tool_showannotation', fn: clickShowannotation, evt: 'click'},
+          {sel:'#showoriginalanswer', fn: clickShowannotation, evt: 'click'},
           {sel:'#tool_export', fn: clickExport, evt: 'mouseup'},
           {sel:'#tool_open', fn: clickOpen, evt: 'mouseup'},
           {sel:'#tool_import', fn: clickImport, evt: 'mouseup'},

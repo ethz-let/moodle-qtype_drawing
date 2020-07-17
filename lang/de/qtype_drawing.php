@@ -189,3 +189,11 @@ $string['radgrad'] = 'Radialer Verlauf';
 $string['new'] = 'Neu';
 $string['current'] = 'Aktuell';
 $string['viewgrid'] = 'Raster anzeigen';
+$string['annotation'] = 'Annotation';
+$string['originalanswer'] = 'Original drawing';
+$string['by'] = 'By: ';
+$string['saveannotation'] = 'Save annotation';
+$string['annotationsaved'] = 'Annotation saved.';
+$string['saving'] = 'Saving..';
+$string['studentview'] = 'Student View';
+

@@ -9523,14 +9523,32 @@ this.setFHDBackground = setFHDBackground = function (im){
     var whichbackground = window.parent.document.getElementById(imgelemval).value;
     var backgroundtype = window.parent.document.getElementById(imgelemtype).value;
 
-    if(backgroundtype =='svg'){
-      // Remove any characters outside the Latin1 range
+    if(backgroundtype =='svg'){/*
+      // Remove any characters outside the Latin1 range.
       whichbackground = whichbackground.replace(/(\r\n|\n|\r)/gm," ");
+
       var decoded = encodeURIComponent(whichbackground);
-  		var base64img = btoa(whichbackground);
+      //console.error(whichbackground);
+  	  var base64img = btoa(whichbackground);
       whichbackground = 'data:image/svg+xml;base64,' + base64img;
+*/
+
+        const blob = new Blob([whichbackground], {type: 'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        const image = document.createElement('img');
+       // image.addEventListener('load', () => URL.revokeObjectURL(url), {once: true});
+        whichbackground = url;
+
+
+      /*
+      whichbackground =  URL.createObjectURL(
+              new Blob([whichbackground], {
+                  type: 'image/svg+xml;charset=utf8'
+                  })
+                );
+      */
     }
-if(im) whichbackground = im;
+  if(im) whichbackground = im;
   if (whichbackground != ''){
     var image = new Image();
     image.onload = function () {
@@ -9540,9 +9558,12 @@ if(im) whichbackground = im;
       svgCanvas.setResolution(dimensions[0],dimensions[1]);
     }
     image.src = whichbackground;
+    image.onerror = function () {
+        alert("Error in background image.");
+     }
+
   }
 
-  //else{
       var bg =  getElem('canvasBackground');
       var border = $(bg).find('rect')[0];
       var bg_img = getElem('background_image');
@@ -9556,30 +9577,9 @@ if(im) whichbackground = im;
             'preserveAspectRatio': 'none', //AMR xMinYMin
             'style':'pointer-events:none'
           });
-        }
-       // setHref(bg_img, url);
-        bg.appendChild(bg_img);
- // }
-  /*
-console.error(dimensions);
-  canvas.createLayer("background");
-  cur_shape = canvas.addSvgElementFromJson({
-    "element": "rect",
-    "attr": {
-      "x": -1,
-      "y": -1,
-      "width": dimensions[0]+2,
-      "height": dimensions[1]+2,
-      "stroke": "none",
-      "id": "canvas_background",
-      "opacity": 1,
-      "fill": "#fff",
-      "style": "pointer-events:none"
-    }
-  });
-  canvas.setCurrentLayer("Layer 1")
-  canvas.setCurrentLayerPosition("1")
-*/
+      }
+      bg.appendChild(bg_img);
+
 }
 setFHDBackground(); // Amr background function call
 

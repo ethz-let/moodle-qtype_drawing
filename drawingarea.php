@@ -33,7 +33,9 @@ require_once ('../../../config.php');
 require_login();
 $reduced_mode = 0;
 $id = required_param('id', PARAM_INT);
-$sesskey = required_param('sesskey', PARAM_INT);
+$readonly = optional_param('readonly', 0, PARAM_INT);
+$stid= optional_param('stid', 0, PARAM_INT);
+$sesskey = required_param('sesskey', PARAM_RAW);
 
 if(!confirm_sesskey()){
   die();
@@ -82,6 +84,12 @@ var qtype_drawing_str_new = "<?php print_string("new","qtype_drawing");?>";
 var qtype_drawing_str_current = "<?php print_string("current","qtype_drawing");?>";
 var qtype_drawing_str_viewgrid = "<?php print_string("viewgrid","qtype_drawing");?>";
 var fhd_display_mode = "<?php echo $reduced_mode;?>";
+var qtype_drawing_str_annotationsaved = "<?php print_string("annotationsaved","qtype_drawing");?>";
+var qtype_drawing_str_saving = "<?php print_string("saving","qtype_drawing");?>";
+var qtype_drawing_str_saveannotation = "<?php print_string("saveannotation","qtype_drawing");?>";
+var questionid = <?php echo $id;?>;
+var sesskey = '<?php echo $sesskey;?>';
+var stid = <?php echo $stid;?>;
 </script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/pathseg.js"></script>
@@ -374,19 +382,49 @@ body {
 <div id="tools_top" class="tools_panel">
 <?php
 
-$context = context::instance_by_id($question->contextid);
-if ((has_capability('mod/quiz:viewreports', $context) ||
-                has_capability('mod/quiz:preview', $context)) && 1==2) {
+
+if (has_capability('mod/quiz:grade', context::instance_by_id($question->contextid)) && $readonly == 1) {
 ?>
       <div id="annotation_panel" class="context_panelv">
-       <h4>Annotation<!--  <?php print_string('annotation', 'qtype_drawing');?>--></h4>
+       <h4><?php print_string('annotation', 'qtype_drawing');?></h4>
 
 
-       <div class="stroke_tool draginput" style="width:145px;padding-bottom:2px; height:100%" id="fastcolorpicks">
-        <span>Color</span>
+       <div class="annotation_tool draginput" style="width:145px;padding-bottom:2px; height:100%" id="annotation_tool">
+      <span><input type="button" name="saveannotation" id="tool_saveannotation" value="<?php print_string('saveannotation', 'qtype_drawing');?>" style="background: #4F80FF;
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 14px;
+    border: none;
+    line-height: 140%;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: sans-serif;
+    white-space: normal;
+    height:initial;
 
-  <div style="margin-top:15px; text-align:center;">
-<a href=";;">format-topics</a>  path-question safari dir-ltr lang-en yui-skin-sam yui3-skin-sam localhost--moodle pagelayout-popup course-4 context-38 category-1  jsenabled
+"></span>
+  <div style="padding:20px"></div>
+  <div style="margin-top:10px; color: #4F80FF;font-size:12px; margin-left:-20px; margin-right:1px;text-align:left">
+	<?php
+	echo '<ul>';
+	$fields = array('questionid' =>  $question->id, 'annotatedfor' => $stid);
+	if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields,'timemodified DESC')){
+
+	    foreach($annotations as $teacherannotation){
+	        $user = $DB->get_record('user', array('id' => $teacherannotation->annotatedby));
+
+	     //   $annotate_str = preg_replace("/[\r\n]+/", "\n", $teacherannotation->annotation);
+	        $annotate_str =  preg_replace('/\v(?:[\v\h]+)/', '', $teacherannotation->annotation);
+	        echo '<li><a href="#" id="showannotationid_'.$teacherannotation->id.'" style="color:#fff" class="tool_showannotation" data-type="0" data-annotationid="'.$teacherannotation->id.'">'.fullname($user).'</a> '.userdate($teacherannotation->timemodified).' ('.get_string('ago', 'core_message', format_time(time() - $teacherannotation->timemodified)).')</li>';
+
+	    }
+	}
+	echo '<li><a href="#" id="showoriginalanswer" style="color:#fff" class="tool_showannotation" data-type="1" data-annotationid="-1">'.get_string('originalanswer', 'qtype_drawing').'</a></li>';
+	echo '<li><a href="#" id="studentview" style="color:#fff" class="tool_showannotation" data-type="2" data-annotationid="-1">'.get_string('studentview', 'qtype_drawing').'</a></li>';
+
+	echo '</ul>';
+	?>
+
 </div>
 
 
@@ -951,6 +989,17 @@ if ((has_capability('mod/quiz:viewreports', $context) ||
     <form>
       <textarea id="svg_source_textarea" spellcheck="false"></textarea>
     </form>
+    <div id="tool_source_back" class="toolbar_button">
+      <button id="tool_source_cancel" class="cancel"><?php print_string('cancel', 'qtype_drawing');?></button>
+      <button id="tool_source_save" class="ok"><?php print_string('applychanges', 'qtype_drawing');?></button>
+    </div>
+  </div>
+</div>
+
+
+<div id="svg_source_annotation">
+  <div id="svg_source_annotation"></div>
+  <div id="svg_source_annoitation_container">
     <div id="tool_source_back" class="toolbar_button">
       <button id="tool_source_cancel" class="cancel"><?php print_string('cancel', 'qtype_drawing');?></button>
       <button id="tool_source_save" class="ok"><?php print_string('applychanges', 'qtype_drawing');?></button>
