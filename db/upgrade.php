@@ -36,9 +36,9 @@ function xmldb_qtype_drawing_upgrade($oldversion) {
     if ($oldversion < 2020042103) {
         // Define field drawing_usage to control display of result table.
         $table = new xmldb_table('qtype_drawing_annotations');
-        
+
         $index = new xmldb_index('mdl_qtypdrawanno_dra_ix', XMLDB_INDEX_NOTUNIQUE, array('drawingid'));
-       // print_r($index);exit;
+
         if ($dbman->index_exists($table, $index)) {
             $dbman->drop_index($table, $index);
         }
@@ -50,7 +50,7 @@ function xmldb_qtype_drawing_upgrade($oldversion) {
         if (!$dbman->field_exists($table, 'questionid')) {
             $field = new xmldb_field('questionid', XMLDB_TYPE_INTEGER, '10', null, null, false, null);
             $dbman->add_field($table, $field);
-            
+
             // Conditionally add index questionid.
             $index = new xmldb_index('questionid_idx', XMLDB_INDEX_NOTUNIQUE, array('questionid'));
             if (!$dbman->index_exists($table, $index)) {
@@ -70,6 +70,18 @@ function xmldb_qtype_drawing_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
         upgrade_plugin_savepoint(true, 2020042103, 'qtype', 'drawing');
+    }
+    if ($oldversion < 2020062900) {
+        // Define field drawing_usage to control display of result table.
+        $table = new xmldb_table('qtype_drawing_annotations');
+        if ($dbman->field_exists($table, 'attemptid')) {
+            $field = new xmldb_field('attemptid');
+            $dbman->drop_field($table, $field);
+        }
+        // Re-add it.
+        $field = new xmldb_field('attemptid', XMLDB_TYPE_CHAR, '16', null, XMLDB_NOTNULL, false, null);
+        $dbman->add_field($table, $field);
+        upgrade_plugin_savepoint(true, 2020062900, 'qtype', 'drawing');
     }
     return true;
 }

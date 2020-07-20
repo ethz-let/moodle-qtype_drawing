@@ -37,6 +37,7 @@ $id = required_param('id', PARAM_INT);
 $annotationid = required_param('annotationid', PARAM_INT);
 $sesskey = required_param('sesskey', PARAM_RAW);
 $stid = required_param('stid', PARAM_INT);
+$attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $type = optional_param('type', 0, PARAM_INT);
 
 if(!isloggedin() || !confirm_sesskey()){
@@ -61,7 +62,7 @@ if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
 // Get original student answer.
 if($type == 0){
   // Check if annotation exists, and return it.
-  $fields = array('questionid' =>  $id, 'id' => $annotationid, 'annotatedfor' => $stid);
+    $fields = array('questionid' =>  $id, 'attemptid' => $attemptid, 'id' => $annotationid, 'annotatedfor' => $stid);
   if(!$drawingannotation = $DB->get_record('qtype_drawing_annotations', $fields)){
     echo json_encode(array('result' => 'No Such annotation.'));
     die;
@@ -69,7 +70,7 @@ if($type == 0){
   echo json_encode(array('result' => 'OK', 'drawing' => $drawingannotation->annotation));
 } else if($type == 2){
   // Check if annotation exists, and return it.
-  $fields = array('questionid' =>  $id, 'annotatedfor' => $stid);
+  $fields = array('questionid' =>  $id,  'attemptid' => $attemptid, 'annotatedfor' => $stid);
   if(!$drawingannotations = $DB->get_records('qtype_drawing_annotations', $fields)){
       echo json_encode(array('result' => 'OK', 'drawing' => ''));
     die;

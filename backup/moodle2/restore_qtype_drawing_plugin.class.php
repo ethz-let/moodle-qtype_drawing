@@ -87,13 +87,28 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
         // qtype_drawing_annotations too.
         if ($questioncreated) {
             $data->questionid = $newquestionid;
+
+            if (isset($data->annotatedfor) &&  $data->annotatedfor > 0) {
+                $data->annotatedfor = $this->get_mappingid('annotatedfor', $data->annotatedfor);
+            }
+            if (isset($data->annotatedby) &&  $data->annotatedby > 0) {
+                $data->annotatedby = $this->get_mappingid('annotatedby', $data->annotatedby);
+            }
+
             // Insert record.
             $newitemid = $DB->insert_record('qtype_drawing_annotations', $data);
             // Create mapping (needed for decoding links).
             $this->set_mapping('qtype_drawing_annotations', $oldid, $newquestionid);
         }
     }
+    public function after_execute_question() {
+        global $DB;
+        // Now that all the questions have been restored, let's process
+        // the created question_multianswer sequences (list of question ids).
+
+    }
     public function recode_response($questionid, $sequencenumber, array $response) {
+        //print_r($response);exit;
         if (array_key_exists('_order', $response)) {
             $response['_order'] = $this->recode_choice_order($response['_order']);
         }

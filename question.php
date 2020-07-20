@@ -45,7 +45,7 @@ class qtype_drawing_question extends question_graded_by_strategy implements ques
     }
 
     public function get_expected_data() {
-        return array('answer' => PARAM_RAW_TRIMMED);
+        return array('answer' => PARAM_RAW_TRIMMED, 'uniqueuattemptid' => PARAM_RAW_TRIMMED);
     }
 
     public function summarise_response(array $response) {

@@ -337,15 +337,18 @@ class qtype_drawing_renderer extends qtype_renderer {
 		$question = $qa->get_question();
 		$canvasinfo = $DB->get_record('qtype_drawing', array('questionid' => $question->id));
 		$currentAnswer = $qa->get_last_qt_var('answer');
-
+		$attemptid = $qa->get_last_qt_var('uniqueuattemptid');
+		if(!$attemptid){
+		    $attemptid= random_string(16);
+		}
+		$uniqueattemptinputname = $qa->get_qt_field_name('uniqueuattemptid');
+		print_r($attemptid);
 		$step = $qa->get_last_step_with_qt_var('answer');
 		$originaluserid = $step->get_user_id();
 
 		$inputname = $qa->get_qt_field_name('answer');
 		$background = self::get_image_for_question($question);
 		$studentanswer = $qa->get_last_qt_var('answer');
-
-		$qattempt = $qa->get_database_id();
 	  	qtype_drawing_renderer::translate_to_js();
         $isannotator = 0;
 	  	if (has_capability('mod/quiz:grade', context::instance_by_id($question->contextid))) {
@@ -355,7 +358,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 			if(!empty($background) && !$options->readonly){
 				$this->page->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.attemptquestion', array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight,$background[0] ));
 			}
-			$canvas = "<div class=\"qtype_drawing_id_" . $question->id ."\" data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
+			$canvas = "<input type=\"hidden\" name=\"$uniqueattemptinputname\"value = \"$attemptid\"> <div class=\"qtype_drawing_id_" . $question->id ."\" data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
 			if ($options->readonly) {
 				$readonlyCanvas = ' readonly-canvas';
 
@@ -412,8 +415,34 @@ class qtype_drawing_renderer extends qtype_renderer {
 				$canvas .=  '
 							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$question->id.'" style="height:'.$canvasinfo->backgroundheight.'px; width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.$studentmergedanswer.'</div>';
 				$questiontext = $question->format_questiontext($qa);
+				$annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
 
-				$result = html_writer::tag('div', $questiontext . $canvas, array('class' => 'qtext'));
+
+				if($background[0] == 'svg'){
+				    $annotation_str .= $background[1];
+				    $annotation_str .= $studentanswer;
+				} else {
+
+				    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
+				    $annotation_str .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'" width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
+				    $annotation_str .= '</svg>';
+				    //$annotation_str .= $studentmergedanswer;
+				    $annotation_str .= $studentanswer;
+
+				}
+
+				// Display annotations to the student, if any.
+				global $USER;
+				$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id);
+				if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)){
+				    foreach($annotations as $annotation){
+				        $annotation_str .= $annotation->annotation;
+				    }
+
+				}
+
+				$annotation_str .= '</svg>';
+				$result = html_writer::tag('div', $questiontext . $annotation_str, array('class' => 'qtext'));
 
 				if ($qa->get_state() == question_state::$invalid) {
 				    $result .= html_writer::nonempty_tag('div',
@@ -449,7 +478,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 				    // Get all annotations, if any, plus student answer and background.
 				    global $USER;
-				    $fields = array('questionid' =>  $question->id, 'annotatedfor' => $originaluserid);
+				    $fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $originaluserid);
 				    if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)){
 
 /*
@@ -766,7 +795,7 @@ if (document.getElementById("quiz-timer")) {
 				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$question->id.'"><img id="qtype_drawing_loading_image_'.$question->id.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
                 <span id="quiz_timer_drawing_' . $question->id .'" style="display:none; background-color:#fff"></span>
 				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' .$question->id . '" onclick="qtype_drawing_fullscreen_'.$question->id.'()">&nbsp;</span>
-					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&stid='.$originaluserid.'&readonly='.$options->readonly.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$question->id.'"  onload="init_qtype_drawing_embed('.$question->id.')" ></iframe>
+					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&attemptid='.$attemptid.'&stid='.$originaluserid.'&readonly='.$options->readonly.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$question->id.'"  onload="init_qtype_drawing_embed('.$question->id.')" ></iframe>
 				</div>
 				';
 			// AMIII }

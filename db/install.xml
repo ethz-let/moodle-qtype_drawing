@@ -24,6 +24,7 @@
     <TABLE NAME="qtype_drawing_annotations" COMMENT="Teacher annotation for Hand Drawing qtype">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
+        <FIELD NAME="attemptid" TYPE="char" LENGTH="16" NOTNULL="true" SEQUENCE="false"  COMMENT="Unique and never changes in restore."/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="annotatedby" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="annotatedfor" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>

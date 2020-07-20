@@ -35,6 +35,7 @@ $reduced_mode = 0;
 $id = required_param('id', PARAM_INT);
 $readonly = optional_param('readonly', 0, PARAM_INT);
 $stid= optional_param('stid', 0, PARAM_INT);
+$attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $sesskey = required_param('sesskey', PARAM_RAW);
 
 if(!confirm_sesskey()){
@@ -90,6 +91,7 @@ var qtype_drawing_str_saveannotation = "<?php print_string("saveannotation","qty
 var questionid = <?php echo $id;?>;
 var sesskey = '<?php echo $sesskey;?>';
 var stid = <?php echo $stid;?>;
+var attemptid = '<?php echo $attemptid;?>';
 </script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/pathseg.js"></script>
@@ -388,7 +390,6 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
       <div id="annotation_panel" class="context_panelv">
        <h4><?php print_string('annotation', 'qtype_drawing');?></h4>
 
-
        <div class="annotation_tool draginput" style="width:145px;padding-bottom:2px; height:100%" id="annotation_tool">
       <span><input type="button" name="saveannotation" id="tool_saveannotation" value="<?php print_string('saveannotation', 'qtype_drawing');?>" style="background: #4F80FF;
     color: #fff;
@@ -403,11 +404,20 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
     height:initial;
 
 "></span>
+
+		<script>
+			var answertxtarea = $('#qtype_drawing_original_stdanswer_id_'+questionid, window.parent.document).val();
+			if(answertxtarea.length == 0){
+				$("#tool_saveannotation").attr('disabled','disabled');
+				$("#tool_saveannotation").css('background','#ddd');
+			}
+		</script>
+
   <div style="padding:20px"></div>
   <div style="margin-top:10px; color: #4F80FF;font-size:12px; margin-left:-20px; margin-right:1px;text-align:left">
 	<?php
 	echo '<ul>';
-	$fields = array('questionid' =>  $question->id, 'annotatedfor' => $stid);
+	$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid);
 	if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields,'timemodified DESC')){
 
 	    foreach($annotations as $teacherannotation){

@@ -36,6 +36,7 @@ require_once ('../../../config.php');
 $id = required_param('id', PARAM_INT);
 $sesskey = required_param('sesskey', PARAM_RAW);
 $stid = required_param('stid', PARAM_INT);
+$attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $annotation = required_param('annotation', PARAM_RAW);
 
 if(!isloggedin() || !confirm_sesskey()){
@@ -68,6 +69,7 @@ if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)){
     $annotationrecord->annotation = $annotation;
     $annotationrecord->annotatedby = $USER->id;
     $annotationrecord->annotatedfor = $stid;
+    $annotationrecord->attemptid = $attemptid;
     $annotationrecord->notes = '';
     $DB->update_record('qtype_drawing_annotations', $annotationrecord);
 } else {
@@ -80,6 +82,7 @@ if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)){
    $annotationrecord->annotation = $annotation;
    $annotationrecord->annotatedby = $USER->id;
    $annotationrecord->annotatedfor = $stid;
+   $annotationrecord->attemptid = $attemptid;
    $annotationrecord->notes = '';
    $DB->insert_record('qtype_drawing_annotations', $annotationrecord);
 }

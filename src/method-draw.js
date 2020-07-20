@@ -3004,7 +3004,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
           $.ajax({
               url: 'saveannotation.php',
               method: "POST",
-              data: { id: questionid, sesskey: sesskey, stid:stid, annotation: getCurrentDrawingSVG()},
+              data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, annotation: getCurrentDrawingSVG()},
               cache: false,
               success: function(str) {
                   if(str == 'OK'){
@@ -3045,11 +3045,10 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                 $.anottationdrawing(getresult, null,null, 1, questionid);
                 return;
             }else if($(this).data("type") == 2){
-
                 $.ajax({
                     url: 'getannotation.php',
                     method: "GET",
-                    data: { id: questionid, sesskey: sesskey, stid: stid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
+                    data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
                     cache: false,
                     success: function(str) {
                         if(str.result == 'OK'){
