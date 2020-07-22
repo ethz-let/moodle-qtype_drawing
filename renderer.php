@@ -208,7 +208,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 					//destroy all the image resources to free up memory
 					@imagedestroy($correctAnswerImg);
 					@imagedestroy($studentAnswerImg);
-					@imagedestroy($dest_image);//print_error($matchingPixels + $teacherOnlyPixels + $studentOnlyPixels);
+					@imagedestroy($dest_image);
 
 
 					return array($imgresult,($matchingPixels / ($matchingPixels + $teacherOnlyPixels + $studentOnlyPixels))*100);			//$matchPercentage
@@ -342,7 +342,6 @@ class qtype_drawing_renderer extends qtype_renderer {
 		    $attemptid= random_string(16);
 		}
 		$uniqueattemptinputname = $qa->get_qt_field_name('uniqueuattemptid');
-		print_r($attemptid);
 		$step = $qa->get_last_step_with_qt_var('answer');
 		$originaluserid = $step->get_user_id();
 
@@ -481,29 +480,6 @@ class qtype_drawing_renderer extends qtype_renderer {
 				    $fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $originaluserid);
 				    if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)){
 
-/*
-				        $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation">';
-
-				        $studentmergedanswer = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$studentmergedanswer);
-				        $studentmergedanswer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$studentmergedanswer);
-
-				        $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$question->id."\" style=\"display:none\" value=\"$background[0]\">";
-
-				        if($background[0] == 'svg'){
-				            $annotation_str .= $background[1];
-				            $annotation_str .= $studentanswer;
-				        } else {
-
-				            $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
-				            $annotation_str .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'" width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
-				            $annotation_str .= '</svg>';
-				            //$annotation_str .= $studentmergedanswer;
-				            $annotation_str .= $studentanswer;
-
-				        }
-
-*/
-
 				        foreach($annotations as $annotation_drawing){
 
 				            if($annotation_drawing->annotatedby == $USER->id){
@@ -514,34 +490,12 @@ class qtype_drawing_renderer extends qtype_renderer {
 				            $annotation_str .= $annotation_drawing->annotation;
 				        }
 
-				     //   $studentmergedanswer = str_replace('<svg',"<svg style='$backgroundstyle;background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;' ",$studentanswer);
-				     //   $annotation_str .= $studentmergedanswer;
-
 				        $annotation_str .= '</svg>';
-/*
-				        $canvas .= "<textarea id=\"qtype_drawing_original_bg_id_".$question->id."\" style=\"display:none\">$background[1]</textarea>";
-				        $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$question->id."\" style=\"display:none\">$studentanswer</textarea>";
-*/
-/*
-				        echo "before: ";
-				        echo     $background[0].'<br>'.$background[1].'<hr />';
-*/
-
-				     //   if($background[0] == 'svg'){
-    				       $background[1] = $annotation_str;
-
-    				           $background[0] = 'svg';
-
-
-
-
-				    } else {//echo $background[1] ;exit;
-				        // Display Student answer as background for annotation.
-				       // $background[0] = $originalbgtype;
+    				    $background[1] = $annotation_str;
+    				    $background[0] = 'svg';
+				    } else {
 				        $background[0] = 'svg';
 				        $background[1] = $annotation_str.'</svg>';
-				       // echo '<pre>'.$annotation_str.'</pre>';exit;
-				        //$currentAnswer
 				        $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$question->id."\" style=\"display:none\" data-info=\"original_student_answer\"></textarea>";
 
 				    }
@@ -549,7 +503,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 				}
 
 
-			}  //// AMIII else {
+			}
 			if(!is_array($background) || !array_key_exists(1, $background)){
 			    $background[0] = '';
 			    $background[1] = '';
@@ -561,15 +515,13 @@ class qtype_drawing_renderer extends qtype_renderer {
 					function init_qtype_drawing_embed(qid) {
 							var frame = document.getElementById("qtype_drawing_editor_"+qid);
 							svgCanvas = new embedded_svg_edit(frame);
-					  	svgCanvas.setHDQuestionID(qid);
-						//	 frame.style = "height:" + frame.contentWindow.document.body.scrollHeight + "px; width: " + frame.contentWindow.document.body.offsetWidth + "px" ;
-							var drawingwrapper = document.getElementById("qtype_drawing_drawingwrapper_"+qid);
+					  	    svgCanvas.setHDQuestionID(qid);
+						    var drawingwrapper = document.getElementById("qtype_drawing_drawingwrapper_"+qid);
 							drawingwrapper.style = "height:"+frame.contentWindow.document.body.offsetHeight + "px";
 
 
 					}
 					</script>
-
 
 					<script type="text/javascript">
 							//<![CDATA[
@@ -583,16 +535,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 											var lastHeight;
 											var resize = function(e) {
 
-    											var viewportHeight =  window.innerHeight; //doc.get("winHeight");
+    											var viewportHeight =  window.innerHeight;
 
-    										//	if(lastHeight !== Math.min(doc.get("docHeight"), viewportHeight)){
-                                                      //  if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
-    												//	if(viewportHeight <= 500 ) viewportHeight = 650;
-/*
-    													   	  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
-                                                               Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
-    															lastHeight = Math.min(doc.get("docHeight"), doc.get("winHeight"));
-*/
 
         var quiz_timer_div = document.getElementById("quiz-time-left");
         var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
@@ -600,89 +544,35 @@ class qtype_drawing_renderer extends qtype_renderer {
            //  drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
              Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
              var  calculatedheight =  viewportHeight - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
-//doc.get("winHeight")
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
         } else {
-
              var  calculatedheight = viewportHeight;// doc.get("winHeight");
              Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
-
-          //  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
         }
 
-if(!Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized") && calculatedheight > 650){
-Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "650px");
-Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", "650px");
+        if(!Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized") && calculatedheight > 650){
+            Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "650px");
+            Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", "650px");
 
-} else{
+        } else{
 
-    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", calculatedheight +"px");
-    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height", calculatedheight +"px");
-}
-
-
-    										//	}
-											};
-
-                                          Y.on("domready", function(){
-                                            resize();
-                                          });
+            Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", calculatedheight +"px");
+            Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height", calculatedheight +"px");
+        }
 
 
 
-											Y.on("windowresize", resize);
+	  };
 
-/*
-											var quiz_is_timed = 0;
-											Y.one("#qtype_drawing_togglebutton_id_'.$question->id.'").on("click", function (e) {console.error("fullscreencalled");
-											Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').toggleClass("qtype_drawing_maximized");
-											Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
-											if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")) {
-												Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("margin-top", "0px");
-                                                var viewportHeight = Y.one("#qtype_drawing_editor_"+'.$question->id.').getStyle("height");
-												Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight  +"px");
-												Y.one("#qtype_drawing_drawingwrapper_'.$question->id.'").set("height","100%");
-												Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", "100%");
-												Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
-                                               // Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("max-height","100px");
-                                                document.getElementById("qtype_drawing_editor_'.$question->id.'").style.maxHeight = Y.one("body").get("winHeight")+"px";
-                                                //Y.one("#qtype_drawing_stem_'.$question->id.'").setStyle("display", "block");
+      Y.on("domready", function(){
+        resize();
+      });
 
-											}else{
-												Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", doc.get("winHeight") - 25 + "px");
-											}
-											if (document.getElementById("quiz-timer")) {
-													var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-													drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-													var quiz_timer_div = document.getElementById("quiz-time-left");
-													if(quiz_timer_div && quiz_timer_div && quiz_timer_div.innerHTML === ""){
-															Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
-															Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
-													} else {
-															Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
-													}
-											}
-											 if (!Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized") && lastHeight > 0) {
-													 var viewportHeight_resized = doc.get("winHeight");
-													 if(viewportHeight_resized && viewportHeight_resized > 600) viewportHeight_resized = 600;
-																Y.one("#qtype_drawing_editor_'.$question->id.'").set("height", viewportHeight_resized);
-																Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized + "px");
-																if (document.getElementById("quiz-timer")) {
-																	var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-																	drawing_fullsc_'.$question->id.'.innerHTML = "";
-																	Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
-																}
-														}
-														if(quiz_timer_div && quiz_timer_div.innerHTML !== "" && Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")){
-															 var viewportHeight_resized = doc.get("winHeight");
-															 var timer_height = document.getElementById("quiz_timer_drawing_'.$question->id.'").clientHeight;
-															 viewportHeight_resized = viewportHeight_resized - timer_height;
-															 Y.one("#qtype_drawing_editor_'.$question->id.'").set("height", viewportHeight_resized);
-															 Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized +10 + "px");
-															 Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("top", "20px");
-														}
-											});*/
-									});
+
+
+	  Y.on("windowresize", resize);
+
+	  });
 
 
 
@@ -690,102 +580,63 @@ Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", "65
 
 function qtype_drawing_fullscreen_'.$question->id.'(){
 
-var doc = Y.one("body");
-var drawing_iframeid = "#qtype_drawing_editor_"+'.$question->id.';
-var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_"+'.$question->id.';
+    var doc = Y.one("body");
+    var drawing_iframeid = "#qtype_drawing_editor_"+'.$question->id.';
+    var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_"+'.$question->id.';
 
-var frame = Y.one("#qtype_drawing_editor_"+'.$question->id.');
-var padding = 150;
-var lastHeight;
-var quiz_is_timed = 0;
-Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').toggleClass("qtype_drawing_maximized");
-Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
-
-
-
-if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")) {
-    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height","100%");
-    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height","100%");
-
+    var frame = Y.one("#qtype_drawing_editor_"+'.$question->id.');
+    var padding = 150;
+    var lastHeight;
+    var quiz_is_timed = 0;
+    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').toggleClass("qtype_drawing_maximized");
     Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
-    Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height","100%");
 
-   // if (document.getElementById("quiz-timer")) {
+    if (Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")) {
+        Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height","100%");
+        Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height","100%");
 
-        var quiz_timer_div = document.getElementById("quiz-time-left");
-        var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-        if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
-             drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
-             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("margin-top", "-1em");
-             var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
-             Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
-        } else {
-            if (drawing_fullsc_'.$question->id.'.hasChildNodes()) {
-
-                drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
-            }
-             var  calculatedheight = doc.get("winHeight");
-             Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
-
-          //  Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
-        }
-  //  }
-}else{
-
-	var viewportHeight = doc.get("winHeight");
-    if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
-	Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
-    Y.one("#qtype_drawing_editor_"+'.$question->id.').set("height", viewportHeight + "px");
-
-    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
-    Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height", viewportHeight +"px");
-
-    if (document.getElementById("quiz-timer")) {
-     var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-     drawing_fullsc_'.$question->id.'.innerHTML = "";
-     Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("margin-top", "0em");
-     Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
-    }
+        Y.one("#qtype_drawing_editor_'.$question->id.'").set("height","100%");
+        Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height","100%");
 
 
-
-}
-/*
-if (document.getElementById("quiz-timer")) {
-    var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-    drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-    var quiz_timer_div = document.getElementById("quiz-time-left");
-    if(quiz_timer_div && quiz_timer_div && quiz_timer_div.innerHTML === ""){
-        Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
-        Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height","100%");
-    } else {
-        Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
-    }
-}
- if (!Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized") && lastHeight > 0) {
-     var viewportHeight_resized = doc.get("winHeight");
-     if(viewportHeight_resized && viewportHeight_resized > 600) viewportHeight_resized = 600;
-          Y.one("#qtype_drawing_editor_'.$question->id.'").set("height", viewportHeight_resized);
-          Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized + "px");
-          if (document.getElementById("quiz-timer")) {
+            var quiz_timer_div = document.getElementById("quiz-time-left");
             var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
-            drawing_fullsc_'.$question->id.'.innerHTML = "";
-            Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
-          }
-      }
-      if(quiz_timer_div && quiz_timer_div.innerHTML !== "" && Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').hasClass("qtype_drawing_maximized")){
-         var viewportHeight_resized = doc.get("winHeight");
-         var timer_height = document.getElementById("quiz_timer_drawing_'.$question->id.'").clientHeight;
-         viewportHeight_resized = viewportHeight_resized - timer_height;
-         Y.one("#qtype_drawing_editor_'.$question->id.'").set("height", viewportHeight_resized);
-         Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("height", viewportHeight_resized +10 + "px");
-         Y.one("#qtype_drawing_editor_'.$question->id.'").setStyle("top", "20px");
-      }
-*/
+            if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
+                 drawing_fullsc_'.$question->id.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
+                 Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "block");
+                 Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("margin-top", "-1em");
+                 var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_"+'.$question->id.').get("clientHeight");
+                 Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
+            } else {
+                if (drawing_fullsc_'.$question->id.'.hasChildNodes()) {
+                    drawing_fullsc_'.$question->id.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
+                }
+                var  calculatedheight = doc.get("winHeight");
+                Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", calculatedheight+ "px");
+
+            }
+    } else {
+
+    	var viewportHeight = doc.get("winHeight");
+        if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
+    	Y.one("#qtype_drawing_editor_"+'.$question->id.').setStyle("height", viewportHeight + "px");
+        Y.one("#qtype_drawing_editor_"+'.$question->id.').set("height", viewportHeight + "px");
+
+        Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').setStyle("height", viewportHeight +"px");
+        Y.one("#qtype_drawing_drawingwrapper_"+'.$question->id.').set("height", viewportHeight +"px");
+
+        if (document.getElementById("quiz-timer")) {
+             var drawing_fullsc_'.$question->id.' = document.getElementById("quiz_timer_drawing_'.$question->id.'");
+             drawing_fullsc_'.$question->id.'.innerHTML = "";
+             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("margin-top", "0em");
+             Y.one("#quiz_timer_drawing_"+'.$question->id.').setStyle("display", "none");
+        }
+
+    }
+
 }
 
-							</script>
+</script>
 
 
 				<textarea style="display:none" id="qtype_drawing_background_image_value_'.$question->id.'">'.$background[1].'</textarea>
