@@ -38,11 +38,22 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
         $this->add_question_question_answers($paths);
 
         $paths[] = new restore_path_element('drawing', $this->get_pathfor('/drawing'));
-        $paths[] = new restore_path_element('drawingannotation', $this->get_pathfor('/drawing/drawingannotation'));
+        $paths[] = new restore_path_element('drawingannotation', $this->get_pathfor('/drawingannotations/drawingannotation'));
 
         return $paths; // And we return the interesting paths.
     }
 
+    /**
+     * Detect if the question is created or mapped.
+     *
+     * @return bool
+     */
+    protected function is_question_created() {
+        $oldquestionid = $this->get_old_parentid('question');
+        $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
+
+        return $questioncreated;
+    }
     /**
      * Process the qtype/drawing element.
      */
@@ -55,17 +66,16 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
         // Detect if the question is created or mapped.
         $oldquestionid   = $this->get_old_parentid('question');
         $newquestionid   = $this->get_new_parentid('question');
-        $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
 
         // If the question has been created by restore, we need to create its
         // qtype_drawing_options too.
-        if ($questioncreated) {
+        if ($this->is_question_created()) {
             // Adjust some columns.
             $data->questionid = $newquestionid;
             // Insert record.
             $newitemid = $DB->insert_record('qtype_drawing', $data);
             // Create mapping (needed for decoding links).
-            $this->set_mapping('qtype_drawing', $oldid, $newquestionid);
+            $this->set_mapping('qtype_drawing', $oldid, $newitemid);
         }
     }
 
@@ -85,20 +95,20 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
 
         // If the question has been created by restore, we need to create its
         // qtype_drawing_annotations too.
-        if ($questioncreated) {
+        if ($this->is_question_created()) {
             $data->questionid = $newquestionid;
 
             if (isset($data->annotatedfor) &&  $data->annotatedfor > 0) {
-                $data->annotatedfor = $this->get_mappingid('annotatedfor', $data->annotatedfor);
+                $data->annotatedfor = $this->get_mappingid('user', $data->annotatedfor);
             }
             if (isset($data->annotatedby) &&  $data->annotatedby > 0) {
-                $data->annotatedby = $this->get_mappingid('annotatedby', $data->annotatedby);
+                $data->annotatedby = $this->get_mappingid('user', $data->annotatedby);
             }
 
             // Insert record.
             $newitemid = $DB->insert_record('qtype_drawing_annotations', $data);
             // Create mapping (needed for decoding links).
-            $this->set_mapping('qtype_drawing_annotations', $oldid, $newquestionid);
+            $this->set_mapping('qtype_drawing_annotations', $oldid, $newitemid);
         }
     }
     public function after_execute_question() {

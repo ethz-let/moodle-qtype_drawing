@@ -393,9 +393,11 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 			    $originalbgtype = $background[0];
 
-				if($background[0] == 'svg') {
-				    $background[1] = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$background[1]);
-				    $background[1] = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$background[1]);
+				if($background[0] == 'svg') {/*
+				   // $background[1] = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$background[1]);*/
+				    $background[1] = preg_replace("/<\\?xml.*\\?>/",'',$background[1]);
+				   // $background[1] = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$background[1]);
+				    $background[1]= preg_replace("/<\!DOCTYPE.*\>/", '', $background[1]);
 				    $background[1] = trim(preg_replace('/\s+/', ' ', $background[1]));
 				    $finalbackground = 'data:image/svg+xml;utf8,'.rawurlencode($background[1]);
 				} else {
@@ -457,8 +459,10 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 				    $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation">';
 
-				    $studentmergedanswer = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$studentmergedanswer);
-				    $studentmergedanswer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$studentmergedanswer);
+				   /* $studentmergedanswer = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$studentmergedanswer);*/
+				    $studentmergedanswer = preg_replace("/<\\?xml.*\\?>/", '', $studentmergedanswer);
+				    $studentmergedanswer = preg_replace("/<\!DOCTYPE.*\>/", '', $studentmergedanswer);
+				   // $studentmergedanswer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$studentmergedanswer);
 
 				    $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$question->id."\" style=\"display:none\" value=\"$background[0]\">";
 

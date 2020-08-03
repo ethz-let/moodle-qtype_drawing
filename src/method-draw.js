@@ -3083,7 +3083,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
             $.ajax({
                 url: 'getannotation.php',
                 method: "GET",
-                data: { id: questionid, sesskey: sesskey, stid: stid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
+                data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
                 cache: false,
                 success: function(str) {
                     if(str.result == 'OK'){

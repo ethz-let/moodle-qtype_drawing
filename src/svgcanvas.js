@@ -9532,7 +9532,7 @@ this.setFHDBackground = setFHDBackground = function (im){
   	  var base64img = btoa(whichbackground);
       whichbackground = 'data:image/svg+xml;base64,' + base64img;
 */
-
+      //  console.error(whichbackground);
         const blob = new Blob([whichbackground], {type: 'image/svg+xml'});
         const url = URL.createObjectURL(blob);
         const image = document.createElement('img');
@@ -9548,6 +9548,7 @@ this.setFHDBackground = setFHDBackground = function (im){
                 );
       */
     }
+
   if(im) whichbackground = im;
   if (whichbackground != ''){
     var image = new Image();
