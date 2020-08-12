@@ -9560,7 +9560,7 @@ this.setFHDBackground = setFHDBackground = function (im){
     }
     image.src = whichbackground;
     image.onerror = function () {
-        alert("Error in background image.");
+        alert("Error in background image. Background image most likely not in clean SVG format.");
      }
 
   }
