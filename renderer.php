@@ -338,8 +338,12 @@ class qtype_drawing_renderer extends qtype_renderer {
 		$canvasinfo = $DB->get_record('qtype_drawing', array('questionid' => $question->id));
 		$currentAnswer = $qa->get_last_qt_var('answer');
 		$attemptid = $qa->get_last_qt_var('uniqueuattemptid');
-		if(!$attemptid){
-		    $attemptid= random_string(16);
+		// Special and dirty case for the old version of the plugin when annotation was not added yet.
+		if($options->readonly && !$attemptid){
+		    $attemptid = substr(md5($currentAnswer), 0, 14).'XX';
+		}
+		if(!$attemptid){ // First time attempt.
+		    $attemptid = random_string(16);
 		}
 		$uniqueattemptinputname = $qa->get_qt_field_name('uniqueuattemptid');
 		$step = $qa->get_last_step_with_qt_var('answer');

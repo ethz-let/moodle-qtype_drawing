@@ -59,7 +59,7 @@ if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
 }
 
 // Check if record exists.
-$fields = array('questionid' =>  $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid);
+$fields = array('questionid' =>  $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid, 'attemptid' => $attemptid);
 if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)){
     // Update annotation.
     $annotationrecord = new stdClass;
