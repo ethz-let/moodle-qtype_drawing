@@ -420,7 +420,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 				$canvas .=  '
 							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$question->id.'" style="height:'.$canvasinfo->backgroundheight.'px; width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.$studentmergedanswer.'</div>';
 				$questiontext = $question->format_questiontext($qa);
-				$annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
+				$annotation_str = '<div id="qtype_drawing_final_student_toggle_annotation_'.$question->id.'"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
 
 
 				if($background[0] == 'svg'){
@@ -446,8 +446,32 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 				}
 
-				$annotation_str .= '</svg>';
-				$result = html_writer::tag('div', $questiontext . $annotation_str, array('class' => 'qtext'));
+				$annotation_str .= '</svg></div>';
+
+				// If toggle to show only the answer for the student without annotation.
+				$annotation_str .= '<div id="qtype_drawing_final_student_toggle_answer_'.$question->id.'" style="display:none">'.$studentmergedanswer.'</div>';
+
+				$annotation_toggle_script = '
+                    <script type="text/javascript">
+
+                        function qtype_drawing_toggle_annotation_'.$question->id.'(){
+
+                               var annotationdrawing = document.getElementById("qtype_drawing_final_student_toggle_annotation_'.$question->id.'");
+                               var studentdrawing = document.getElementById("qtype_drawing_final_student_toggle_answer_'.$question->id.'");
+                               var togglebtnanswers = document.getElementById("id_qtype_drawing_toggle_annotation_'.$question->id.'");
+                                 if (studentdrawing.style.display === "none") {
+                                    studentdrawing.style.display = "block";
+                                    annotationdrawing.style.display = "none";
+                                    togglebtnanswers.value = "'.get_string('showannotation', 'drawing').'";
+                                  } else {
+                                    studentdrawing.style.display = "none";
+                                    annotationdrawing.style.display = "block";
+                                    togglebtnanswers.value = "'.get_string('showanswer', 'drawing').'";
+                                  }
+                        }
+                    </script>
+                 ';
+				$result = html_writer::tag('div', $annotation_toggle_script.'<span style="float:right"><input type="button" value="'.get_string('showanswer','drawing').'" id="id_qtype_drawing_toggle_annotation_'.$question->id.'" onclick="qtype_drawing_toggle_annotation_'.$question->id.'()"></span>'.$questiontext . $annotation_str, array('class' => 'qtext'));
 
 				if ($qa->get_state() == question_state::$invalid) {
 				    $result .= html_writer::nonempty_tag('div',
@@ -490,10 +514,10 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 				        foreach($annotations as $annotation_drawing){
 
-				            if($annotation_drawing->annotatedby == $USER->id){
+				           if($annotation_drawing->annotatedby == $USER->id){
 				                $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$question->id."\" style=\"display:none\" data-info=\"last_annotation_by_user\">$annotation_drawing->annotation</textarea>";
 				                continue;
-				            }
+				           }
 
 				            $annotation_str .= $annotation_drawing->annotation;
 				        }
@@ -575,8 +599,6 @@ class qtype_drawing_renderer extends qtype_renderer {
       Y.on("domready", function(){
         resize();
       });
-
-
 
 	  Y.on("windowresize", resize);
 

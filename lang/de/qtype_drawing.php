@@ -196,4 +196,5 @@ $string['saveannotation'] = 'Save annotation';
 $string['annotationsaved'] = 'Annotation saved.';
 $string['saving'] = 'Saving..';
 $string['studentview'] = 'Student View';
-
+$string['showanswer'] = 'Show answer';
+$string['showannotation'] = 'Show annotation';
