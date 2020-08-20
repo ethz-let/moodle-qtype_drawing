@@ -415,6 +415,11 @@ class qtype_drawing_renderer extends qtype_renderer {
 				$annotatorhideshow = '';
 
 				$studentmergedanswer = str_replace('<svg',"<svg style='$backgroundstyle;background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;' ",$studentanswer);
+				$disabletoggleannotationbtn = 0;
+				if(!$studentmergedanswer){
+				 //   $studentmergedanswer = "<svg style='$backgroundstyle;background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;' width='$canvasinfo->backgroundwidth' height='$canvasinfo->backgroundheight'></svg>";
+				    $disabletoggleannotationbtn = 1;
+				}
 				if($isannotator == 0){
 
 				$canvas .=  '
@@ -444,6 +449,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 				        $annotation_str .= $annotation->annotation;
 				    }
 
+				} else {
+				    $disabletoggleannotationbtn = 1;
 				}
 
 				$annotation_str .= '</svg></div>';
@@ -462,16 +469,20 @@ class qtype_drawing_renderer extends qtype_renderer {
                                  if (studentdrawing.style.display === "none") {
                                     studentdrawing.style.display = "block";
                                     annotationdrawing.style.display = "none";
-                                    togglebtnanswers.value = "'.get_string('showannotation', 'drawing').'";
+                                    togglebtnanswers.value = "'.get_string('showannotation', 'qtype_drawing').'";
                                   } else {
                                     studentdrawing.style.display = "none";
                                     annotationdrawing.style.display = "block";
-                                    togglebtnanswers.value = "'.get_string('showanswer', 'drawing').'";
+                                    togglebtnanswers.value = "'.get_string('showanswer', 'qtype_drawing').'";
                                   }
                         }
                     </script>
                  ';
-				$result = html_writer::tag('div', $annotation_toggle_script.'<span style="float:right"><input type="button" value="'.get_string('showanswer','drawing').'" id="id_qtype_drawing_toggle_annotation_'.$question->id.'" onclick="qtype_drawing_toggle_annotation_'.$question->id.'()"></span>'.$questiontext . $annotation_str, array('class' => 'qtext'));
+				$tglbtnspan = '';
+				if($disabletoggleannotationbtn != 1){
+				    $tglbtnspan = '<span style="float:right"><input type="button" value="'.get_string('showanswer','qtype_drawing').'" id="id_qtype_drawing_toggle_annotation_'.$question->id.'" onclick="qtype_drawing_toggle_annotation_'.$question->id.'()"></span>';
+				}
+				$result = html_writer::tag('div', $annotation_toggle_script.$tglbtnspan.$questiontext . $annotation_str, array('class' => 'qtext'));
 
 				if ($qa->get_state() == question_state::$invalid) {
 				    $result .= html_writer::nonempty_tag('div',
