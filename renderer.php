@@ -408,7 +408,8 @@ class qtype_drawing_renderer extends qtype_renderer {
 					$finalbackground = $background[1];
 				}
 				if(!$finalbackground || trim($finalbackground) == ''){
-				    $backgroundstyle = "background: #fff";
+				  //  $backgroundstyle = "background: #fff";
+				    $backgroundstyle = "";
 				} else {
 				    $backgroundstyle = "background-image: url($finalbackground)";
 				}
