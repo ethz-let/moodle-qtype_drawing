@@ -57,10 +57,16 @@ if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
   die;
 }
 
-$result = '';
-$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid, 'annotatedby' => $USER->id);
-if ($annotations = $DB->get_record('qtype_drawing_annotations', $fields)){
-      $result = userdate($annotations->timemodified).' ('.get_string('ago', 'core_message', format_time(time() + 1 - $annotations->timemodified)).')';
+$result = array();
+$order = array();
+$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid);
+if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields, 'timemodified DESC')){
+  foreach ($annotations as $annotation) {
+      $result[$annotation->annotatedby] = userdate($annotation->timemodified).' ('.get_string('ago', 'core_message', format_time(time() + 1 - $annotation->timemodified)).')';
+      $order[] = 'block'.$annotation->annotatedby;
+  }
+  $order[] = "block0";
+  $order[] = "block1";
 }
 
-echo json_encode(array('result' => $result, 'userid' => $USER->id));
+echo json_encode(array('result' => $result, 'order' => $order));

@@ -3016,8 +3016,25 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                           method: "GET",
                           data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid},
                           cache: false,
-                          success: function(str) {
-                                  $('#teacherannotationdate_'+str.userid).html(str.result);
+                          success: function(array_annotations) {
+
+                              for (i in array_annotations.result) {
+                                  $('#teacherannotationdate_'+i).html(array_annotations.result[i]);
+
+                                }
+
+                              var sorting_array = array_annotations.order;
+                              // Do sorting based on last change!
+                              // get all li with data attribute
+                              var $li = $('li[data-block]');
+                              // sort them based on the index
+                              $li.sort(function(a, b) {
+                                return sorting_array.indexOf($(a).data('block')) - sorting_array.indexOf($(b).data('block'));
+                              })
+                              // update the order by appending back to it's parent
+                              .appendTo($li.parent());
+
+
                           }
                         });
 
