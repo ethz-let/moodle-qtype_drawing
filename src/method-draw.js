@@ -3009,6 +3009,21 @@ var strokewid = selectedElement.getAttribute("stroke-width");
               success: function(str) {
                   if(str == 'OK'){
                       $.anottationalert(qtype_drawing_str_annotationsaved, str);
+                      // Load last change.
+
+                      $.ajax({
+                          url: 'loadannotationdetails.php',
+                          method: "GET",
+                          data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid},
+                          cache: false,
+                          success: function(str) {
+
+                                  $('#teacherannotations').html(str.result);
+
+                          }
+                        });
+
+
                   } else {
                       $.anottationalert("ERROR: " + JSON.stringify(str), str);
                   }
