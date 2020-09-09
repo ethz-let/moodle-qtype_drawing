@@ -3018,7 +3018,6 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                           cache: false,
                           success: function(str) {
                                   $('#teacherannotationdate_'+str.userid).html(str.result);
-
                           }
                         });
 
