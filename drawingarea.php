@@ -173,7 +173,7 @@ top:0px!important;
 height:45px!important;
 }
 #tools_top{
-  overflow:scroll;
+  overflow: auto;
 }
 /* color box
 #palette{
