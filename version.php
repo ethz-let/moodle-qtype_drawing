@@ -29,4 +29,4 @@ $plugin->component = 'qtype_drawing';
 $plugin->requires  = 2013050600;
 $plugin->release = 1;
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->version = 2020090902;
+$plugin->version = 2020090903;
