@@ -422,7 +422,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
 	    foreach($annotations as $teacherannotation){
 	        $user = $DB->get_record('user', array('id' => $teacherannotation->annotatedby));
 	        $annotate_str =  preg_replace('/\v(?:[\v\h]+)/', '', $teacherannotation->annotation);
-	        echo '<li><a href="#" id="showannotationid_'.$teacherannotation->id.'" style="color:#fff" class="tool_showannotation" data-type="0" data-annotationid="'.$teacherannotation->id.'">'.fullname($user).'</a> '.userdate($teacherannotation->timemodified).' ('.get_string('ago', 'core_message', format_time(time() - $teacherannotation->timemodified)).')</li>';
+	        echo '<li><a href="#" id="showannotationid_'.$teacherannotation->id.'" style="color:#fff" class="tool_showannotation" data-type="0" data-annotationid="'.$teacherannotation->id.'">'.fullname($user).'</a> <div id="teacherannotationdate_'.$user->id.'">'.userdate($teacherannotation->timemodified).' ('.get_string('ago', 'core_message', format_time(time() - $teacherannotation->timemodified)).')</div></li>';
 	    }
 	}
 	echo '<li><a href="#" id="showoriginalanswer" style="color:#fff" class="tool_showannotation" data-type="1" data-annotationid="-1">'.get_string('originalanswer', 'qtype_drawing').'</a></li>';

@@ -3017,8 +3017,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                           data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid},
                           cache: false,
                           success: function(str) {
-
-                                  $('#teacherannotations').html(str.result);
+                                  $('#teacherannotationdate_'+str.userid).html(str.result);
 
                           }
                         });

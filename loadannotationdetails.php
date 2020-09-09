@@ -36,6 +36,7 @@ require_once ('../../../config.php');
 $id = required_param('id', PARAM_INT);
 $sesskey = required_param('sesskey', PARAM_RAW);
 $stid = required_param('stid', PARAM_INT);
+
 $attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 if(!isloggedin() || !confirm_sesskey()){
   echo json_encode(array('result' => 'Session lost.'));
@@ -56,17 +57,10 @@ if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
   die;
 }
 
-$result = '<ul>';
-$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid);
-if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields,'timemodified DESC')){
-    foreach($annotations as $teacherannotation){
-        $user = $DB->get_record('user', array('id' => $teacherannotation->annotatedby));
-        $annotate_str =  preg_replace('/\v(?:[\v\h]+)/', '', $teacherannotation->annotation);
-        $result .= '<li><a href="#" id="showannotationid_'.$teacherannotation->id.'" style="color:#fff" class="tool_showannotation" data-type="0" data-annotationid="'.$teacherannotation->id.'">'.fullname($user).'</a> '.userdate($teacherannotation->timemodified).' ('.get_string('ago', 'core_message', format_time(time() + 1 - $teacherannotation->timemodified)).')</li>';
-    }
+$result = '';
+$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid, 'annotatedby' => $USER->id);
+if ($annotations = $DB->get_record('qtype_drawing_annotations', $fields)){
+      $result = userdate($annotations->timemodified).' ('.get_string('ago', 'core_message', format_time(time() + 1 - $annotations->timemodified)).')';
 }
-$result .= '<li><a href="#" id="showoriginalanswer" style="color:#fff" class="tool_showannotation" data-type="1" data-annotationid="-1">'.get_string('originalanswer', 'qtype_drawing').'</a></li>';
-$result .= '<li><a href="#" id="studentview" style="color:#fff" class="tool_showannotation" data-type="2" data-annotationid="-1">'.get_string('studentview', 'qtype_drawing').'</a></li>';
 
-$result .= '</ul>';
-echo json_encode(array('result' => $result));
+echo json_encode(array('result' => $result, 'userid' => $USER->id));
