@@ -5956,14 +5956,15 @@ this.getSvgString = function() {
 };
 
 this.setHDQuestionID = function(val) {
-	if(!val || val=='undefined' || typeof val == 'undefined'){
-		console.log("setHDQuestionID value passed as undefined: "+val);
-	}
+    if(!val || val=='undefined' || typeof val == 'undefined'){
+        console.log("setHDQuestionID value passed as undefined: "+val);
+    }
     this.HandDrawingQuestionID = val;
 };
 
 var getHDQuestionID = this.getHDQuestionID = function() {
-    return $('#fhd_question_id').val();
+return attemptid;
+    //return $('#fhd_question_id').val();
 };
 
 // Function: randomizeIds
@@ -7593,48 +7594,48 @@ var setGradient = this.setGradient = function(type) {
 }
 /*
 var setImageBackground= function(val) {
-	var elem = addSvgElementFromJson({
-		"element": "image",
-		"attr": {
-			"x": ( svgcontent.getAttribute('x') - bgimg_with ) / 2,
-			"y": ( svgcontent.getAttribute('y') - bgimg_height ) / 2,
-			"width": bgimg_with,
-			"height": bgimg_height,
-			"id": 'ImgBckgd',
-			"opacity": 1,
-			"style": "pointer-events:inherit",
-		}
-	});
-	setHref(elem, last_good_img_url);
-	preventClickDefault(elem);
-	if(!elem) return;
-	var attrs = $(elem).attr(['width', 'height']);
-	var setsize = (!attrs.width || !attrs.height);
-	var cur_href = getHref(elem);
-	// Do nothing if no URL change or size change
-	if(cur_href !== val) {
-		setsize = true;
-	} else if(!setsize) return;
-	var batchCmd = new BatchCommand("Change Image URL");
-	setHref(elem, val);
-	batchCmd.addSubCommand(new ChangeElementCommand(elem, {
-		"#href": cur_href
-	}));
-	if(setsize) {
-		$(new Image()).load(function() {
-			var changes = $(elem).attr(['width', 'height']);
-			$(elem).attr({
-				width: this.width,
-				height: this.height
-			});
-			selectorManager.requestSelector(elem).resize();
-			batchCmd.addSubCommand(new ChangeElementCommand(elem, changes));
-			addCommandToHistory(batchCmd);
-			call("changed", [elem]);
-		}).attr('src',val);
-	} else {
-		addCommandToHistory(batchCmd);
-	}
+    var elem = addSvgElementFromJson({
+        "element": "image",
+        "attr": {
+            "x": ( svgcontent.getAttribute('x') - bgimg_with ) / 2,
+            "y": ( svgcontent.getAttribute('y') - bgimg_height ) / 2,
+            "width": bgimg_with,
+            "height": bgimg_height,
+            "id": 'ImgBckgd',
+            "opacity": 1,
+            "style": "pointer-events:inherit",
+        }
+    });
+    setHref(elem, last_good_img_url);
+    preventClickDefault(elem);
+    if(!elem) return;
+    var attrs = $(elem).attr(['width', 'height']);
+    var setsize = (!attrs.width || !attrs.height);
+    var cur_href = getHref(elem);
+    // Do nothing if no URL change or size change
+    if(cur_href !== val) {
+        setsize = true;
+    } else if(!setsize) return;
+    var batchCmd = new BatchCommand("Change Image URL");
+    setHref(elem, val);
+    batchCmd.addSubCommand(new ChangeElementCommand(elem, {
+        "#href": cur_href
+    }));
+    if(setsize) {
+        $(new Image()).load(function() {
+            var changes = $(elem).attr(['width', 'height']);
+            $(elem).attr({
+                width: this.width,
+                height: this.height
+            });
+            selectorManager.requestSelector(elem).resize();
+            batchCmd.addSubCommand(new ChangeElementCommand(elem, changes));
+            addCommandToHistory(batchCmd);
+            call("changed", [elem]);
+        }).attr('src',val);
+    } else {
+        addCommandToHistory(batchCmd);
+    }
 }
 */
 // Function: findDuplicateGradient
@@ -9529,7 +9530,7 @@ this.setFHDBackground = setFHDBackground = function (im){
 
       var decoded = encodeURIComponent(whichbackground);
       //console.error(whichbackground);
-  	  var base64img = btoa(whichbackground);
+      var base64img = btoa(whichbackground);
       whichbackground = 'data:image/svg+xml;base64,' + base64img;
 */
       //  console.error(whichbackground);

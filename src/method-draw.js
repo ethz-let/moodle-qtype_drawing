@@ -241,9 +241,8 @@
               console.error("saved from textarea");*/
 
           questionID = svgCanvas.getHDQuestionID();
-          Editor.lastanswer = $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).val();
+          Editor.lastanswer = $('#qtype_drawing_textarea_id_'+attemptid, window.parent.document).val();
          // console.error("saved from textarea", Editor.lastanswer);
-
        //   });
           methodDraw.runCallbacks();
 
@@ -3057,12 +3056,12 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
         var clickShowannotation = function(){
 
-            var originalbgimg = $('#qtype_drawing_original_bg_id_'+questionid, window.parent.document).val();
+            var originalbgimg = $('#qtype_drawing_original_bg_id_'+attemptid, window.parent.document).val();
 
-            var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+questionid, window.parent.document).val();
-            var imgwidth = $('#qtype_drawing_background_image_width_'+questionid, window.parent.document).val();
-            var imgheight = $('#qtype_drawing_background_image_height_'+questionid, window.parent.document).val();
-            var backgroundtype = $('#qtype_drawing_real_org_bg_'+ questionid, window.parent.document).val();
+            var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+attemptid, window.parent.document).val();
+            var imgwidth = $('#qtype_drawing_background_image_width_'+attemptid, window.parent.document).val();
+            var imgheight = $('#qtype_drawing_background_image_height_'+attemptid, window.parent.document).val();
+            var backgroundtype = $('#qtype_drawing_real_org_bg_'+ attemptid, window.parent.document).val();
 
 
             if($(this).data("type") == 1){
@@ -4728,15 +4727,15 @@ var strokewid = selectedElement.getAttribute("stroke-width");
     }
     function getCurrentDrawingSVG() {
       var current_svg_drawing = svgCanvas.getSvgString();
-	    return current_svg_drawing;
+        return current_svg_drawing;
     }
     function getCurrentMoodleQuestionID() {
       var current_qid_drawing = svgCanvas.getHDQuestionID();
-  	  if(current_qid_drawing == 'undefined') { // try again, maybe loading didnt work?
-  		  var current_qid_drawing = svgCanvas.getHDQuestionID();
-  		  console.error("We lost QuestionID - tried again and result came: "+current_qid_drawing);
-  	  }
-	  return current_qid_drawing;
+      if(current_qid_drawing == 'undefined') { // try again, maybe loading didnt work?
+          var current_qid_drawing = svgCanvas.getHDQuestionID();
+          console.error("We lost QuestionID - tried again and result came: "+current_qid_drawing);
+      }
+      return current_qid_drawing;
     }
     Editor.ready = function(cb) {
       if(!is_ready) {
@@ -4794,12 +4793,12 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
 
     Editor.SaveDrawingToMoodle = function() {
-  	  Editor.ready(function() {Editor.numsaved++;
+      Editor.ready(function() {Editor.numsaved++;
 
-  //	if(Editor.numsaved > 2){
-  			// save for moodle
-  			questionID = svgCanvas.getHDQuestionID();
-  			CanvdrawingValue = getCurrentDrawingSVG();
+  //    if(Editor.numsaved > 2){
+            // save for moodle
+            questionID = svgCanvas.getHDQuestionID();
+            CanvdrawingValue = getCurrentDrawingSVG();
 
            var svg = d3.select("#svgcontent");
            var gpaths = svg.select('#paths');
@@ -4813,11 +4812,11 @@ var strokewid = selectedElement.getAttribute("stroke-width");
            if((path && path != null) || (line && line != null) || (polygon && polygon != null) || (rect && rect != null) || (text && text != null) || (ellipse && ellipse != null)){
                //CanvdrawingValue.split('<g id="paths">').pop().split('</g>')[0]; // returns 'two')
                //  window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
-                   $('#qtype_drawing_textarea_id_'+questionID, window.parent.document).text(CanvdrawingValue);
+                   $('#qtype_drawing_textarea_id_'+attemptid, window.parent.document).text(CanvdrawingValue);
                     // Trigger moodle quiz autosave :-)
                    //window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
                  //  if(Editor.savingready == 1){
-                     $('#qtype_drawing_drawingevent_'+questionID, window.parent.document).val(Math.random().toString(36).substring(7));
+                     $('#qtype_drawing_drawingevent_'+attemptid, window.parent.document).val(Math.random().toString(36).substring(7));
                  //  }
                    //  console.error("saved..", Editor.numsaved,CanvdrawingValue);
            }
@@ -4826,8 +4825,8 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
 
 
- // 	 }
-  	  });
+ //      }
+      });
 
   };
 

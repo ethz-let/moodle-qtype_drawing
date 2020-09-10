@@ -39,18 +39,18 @@ $attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $sesskey = required_param('sesskey', PARAM_RAW);
 
 if(!confirm_sesskey()){
-  die();
+    die();
 }
 if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
-  print_error("No such question.");
+    print_error("No such question.");
 }
 $reduced_mode = 0;
 $display_style = '';
 $display_style_full = ' style="display: inline-block;"';
 if($fhd->drawingmode == 1){
-  $reduced_mode = 1;
-  $display_style = ' display: none!important;';
-  $display_style_full = ' style="display: none!important;"';
+    $reduced_mode = 1;
+    $display_style = ' display: none!important;';
+    $display_style_full = ' style="display: none!important;"';
 }
 require_once("../../../question/type/questiontypebase.php");
 $question = question_bank::load_question_data($id);
@@ -406,7 +406,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
 "></span>
 
 		<script>
-			var answertxtarea = $('#qtype_drawing_original_stdanswer_id_'+questionid, window.parent.document).val();
+			var answertxtarea = $('#qtype_drawing_original_stdanswer_id_'+attemptid, window.parent.document).val();
 			if(answertxtarea.length == 0){
 				$("#tool_saveannotation").attr('disabled','disabled');
 				$("#tool_saveannotation").css('background','#ddd');
