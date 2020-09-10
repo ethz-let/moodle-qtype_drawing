@@ -241,7 +241,7 @@
               console.error("saved from textarea");*/
 
           questionID = svgCanvas.getHDQuestionID();
-          Editor.lastanswer = $('#qtype_drawing_textarea_id_'+attemptid, window.parent.document).val();
+          Editor.lastanswer = $('#qtype_drawing_textarea_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
          // console.error("saved from textarea", Editor.lastanswer);
        //   });
           methodDraw.runCallbacks();
@@ -3056,12 +3056,12 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
         var clickShowannotation = function(){
 
-            var originalbgimg = $('#qtype_drawing_original_bg_id_'+attemptid, window.parent.document).val();
+            var originalbgimg = $('#qtype_drawing_original_bg_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
 
-            var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+attemptid, window.parent.document).val();
-            var imgwidth = $('#qtype_drawing_background_image_width_'+attemptid, window.parent.document).val();
-            var imgheight = $('#qtype_drawing_background_image_height_'+attemptid, window.parent.document).val();
-            var backgroundtype = $('#qtype_drawing_real_org_bg_'+ attemptid, window.parent.document).val();
+            var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
+            var imgwidth = $('#qtype_drawing_background_image_width_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
+            var imgheight = $('#qtype_drawing_background_image_height_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
+            var backgroundtype = $('#qtype_drawing_real_org_bg_'+ attemptid+uniquefieldnameattemptid, window.parent.document).val();
 
 
             if($(this).data("type") == 1){
@@ -4812,11 +4812,11 @@ var strokewid = selectedElement.getAttribute("stroke-width");
            if((path && path != null) || (line && line != null) || (polygon && polygon != null) || (rect && rect != null) || (text && text != null) || (ellipse && ellipse != null)){
                //CanvdrawingValue.split('<g id="paths">').pop().split('</g>')[0]; // returns 'two')
                //  window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
-                   $('#qtype_drawing_textarea_id_'+attemptid, window.parent.document).text(CanvdrawingValue);
+                   $('#qtype_drawing_textarea_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).text(CanvdrawingValue);
                     // Trigger moodle quiz autosave :-)
                    //window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
                  //  if(Editor.savingready == 1){
-                     $('#qtype_drawing_drawingevent_'+attemptid, window.parent.document).val(Math.random().toString(36).substring(7));
+                     $('#qtype_drawing_drawingevent_'+attemptid+uniquefieldnameattemptid, window.parent.document).val(Math.random().toString(36).substring(7));
                  //  }
                    //  console.error("saved..", Editor.numsaved,CanvdrawingValue);
            }

@@ -34,8 +34,9 @@ require_login();
 $reduced_mode = 0;
 $id = required_param('id', PARAM_INT);
 $readonly = optional_param('readonly', 0, PARAM_INT);
-$stid= optional_param('stid', 0, PARAM_INT);
+$stid = optional_param('stid', 0, PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
+$uniquefieldnameattemptid = required_param('uniquefieldnameattemptid', PARAM_RAW_TRIMMED);
 $sesskey = required_param('sesskey', PARAM_RAW);
 
 if(!confirm_sesskey()){
@@ -92,6 +93,7 @@ var questionid = <?php echo $id;?>;
 var sesskey = '<?php echo $sesskey;?>';
 var stid = <?php echo $stid;?>;
 var attemptid = '<?php echo $attemptid;?>';
+var uniquefieldnameattemptid = '<?php echo $uniquefieldnameattemptid;?>';
 </script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery.js"></script>
 <script type="text/javascript" src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/pathseg.js"></script>
@@ -406,7 +408,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
 "></span>
 
 		<script>
-			var answertxtarea = $('#qtype_drawing_original_stdanswer_id_'+attemptid, window.parent.document).val();
+			var answertxtarea = $('#qtype_drawing_original_stdanswer_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
 			if(answertxtarea.length == 0){
 				$("#tool_saveannotation").attr('disabled','disabled');
 				$("#tool_saveannotation").css('background','#ddd');

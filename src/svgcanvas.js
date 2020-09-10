@@ -5963,7 +5963,7 @@ this.setHDQuestionID = function(val) {
 };
 
 var getHDQuestionID = this.getHDQuestionID = function() {
-return attemptid;
+return attemptid + uniquefieldnameattemptid;
     //return $('#fhd_question_id').val();
 };
 

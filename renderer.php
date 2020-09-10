@@ -348,6 +348,8 @@ class qtype_drawing_renderer extends qtype_renderer {
         }
 
         $uniqueattemptinputname = $qa->get_qt_field_name('uniqueuattemptid');
+        $uniquefieldnameattemptid = '_'.str_replace(':', '_', $uniqueattemptinputname);
+
         $step = $qa->get_last_step_with_qt_var('answer');
         $originaluserid = $step->get_user_id();
 
@@ -371,16 +373,16 @@ class qtype_drawing_renderer extends qtype_renderer {
             $readonlyCanvas = '';
             $inputnamelastsaved = $inputname.'_lastsaved';
             $inputnamewifidata = $inputname.'_wifidata';
-            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid."\" style=\"display:none\">$currentAnswer</textarea>
+            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$currentAnswer</textarea>
 
-            <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$attemptid."\" id=\"qtype_drawing_drawingevent_".$attemptid."\" value=\"\">
-                <input type=\"hidden\" name=\"qtype_drawing_shouldreload_".$attemptid."\" id=\"qtype_drawing_shouldreload_".$attemptid."\" value=\"\">";
+            <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\" id=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">
+                <input type=\"hidden\" name=\"qtype_drawing_shouldreload_".$attemptid.$uniquefieldnameattemptid."\" id=\"qtype_drawing_shouldreload_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">";
         }
-        //<textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved\" id=\"qtype_drawing_last_saved_answer_id_".$attemptid."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea>
+        //<textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved\" id=\"qtype_drawing_last_saved_answer_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea>
         if($readonlyCanvas && $readonlyCanvas != '') {
             /*
-             $tempfile = 'qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$attemptid.'.png';
-             $tempfile1 = '1qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$attemptid.'.png';
+             $tempfile = 'qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$attemptid.$uniquefieldnameattemptid.'.png';
+             $tempfile1 = '1qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$attemptid.$uniquefieldnameattemptid.'.png';
              $tempfullpath = $CFG->tempdir.'/'.$tempfile;
              $tempfullpath1 = $CFG->tempdir.'/'.$tempfile1;
              $sesskey = sesskey();
@@ -420,7 +422,7 @@ class qtype_drawing_renderer extends qtype_renderer {
             if($isannotator == 0){
 
                 $canvas .=  '
-							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$attemptid.'" style="height:'.$canvasinfo->backgroundheight.'px; width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.$studentmergedanswer.'</div>';
+							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'" style="height:'.$canvasinfo->backgroundheight.'px; width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.$studentmergedanswer.'</div>';
                 $questiontext = $question->format_questiontext($qa);
                 $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
 
@@ -459,8 +461,8 @@ class qtype_drawing_renderer extends qtype_renderer {
                 return $result;
             } else {
 
-                $canvas .= "<textarea id=\"qtype_drawing_original_bg_id_".$attemptid."\" style=\"display:none\">$background[1]</textarea>";
-                $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$attemptid."\" style=\"display:none\">$studentanswer</textarea>";
+                $canvas .= "<textarea id=\"qtype_drawing_original_bg_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$background[1]</textarea>";
+                $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$studentanswer</textarea>";
 
 
                 $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation">';
@@ -470,7 +472,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                 $studentmergedanswer = preg_replace("/<\!DOCTYPE.*\>/", '', $studentmergedanswer);
                 // $studentmergedanswer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$studentmergedanswer);
 
-                $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$attemptid."\" style=\"display:none\" value=\"$background[0]\">";
+                $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\" value=\"$background[0]\">";
 
                 if($background[0] == 'svg'){
                     $annotation_str .= $background[1];
@@ -493,7 +495,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                     foreach($annotations as $annotation_drawing){
 
                         if($annotation_drawing->annotatedby == $USER->id){
-                            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid."\" style=\"display:none\" data-info=\"last_annotation_by_user\">$annotation_drawing->annotation</textarea>";
+                            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\" data-info=\"last_annotation_by_user\">$annotation_drawing->annotation</textarea>";
                             continue;
                         }
 
@@ -506,7 +508,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                 } else {
                     $background[0] = 'svg';
                     $background[1] = $annotation_str.'</svg>';
-                    $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid."\" style=\"display:none\" data-info=\"original_student_answer\"></textarea>";
+                    $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\" data-info=\"original_student_answer\"></textarea>";
 
                 }
 
@@ -537,10 +539,10 @@ class qtype_drawing_renderer extends qtype_renderer {
 							//<![CDATA[
 									YUI().use("node", "event", function(Y) {
 											var doc = Y.one("body");
-											var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.'";
-											var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.'";
+											var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'";
+											var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.$uniquefieldnameattemptid.'";
 
-											var frame = Y.one("#qtype_drawing_editor_'.$attemptid.'");
+											var frame = Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'");
 											var padding = 150;
 											var lastHeight;
 											var resize = function(e) {
@@ -549,25 +551,25 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 
         var quiz_timer_div = document.getElementById("quiz-time-left");
-        var drawing_fullsc_'.$attemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.'");
+        var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
         if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
-           //  drawing_fullsc_'.$attemptid.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-             Y.one("#quiz_timer_drawing_'.$attemptid.'").setStyle("display", "block");
-             var  calculatedheight =  viewportHeight - Y.one("#quiz_timer_drawing_'.$attemptid.'").get("clientHeight");
-             Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height", calculatedheight+ "px");
+           //  drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
+             Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "block");
+             var  calculatedheight =  viewportHeight - Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").get("clientHeight");
+             Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
         } else {
              var  calculatedheight = viewportHeight;// doc.get("winHeight");
-             Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height", calculatedheight+ "px");
+             Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
         }
 
-        if(!Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").hasClass("qtype_drawing_maximized") && calculatedheight > 650){
-            Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height", "650px");
-            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").setStyle("height", "650px");
+        if(!Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").hasClass("qtype_drawing_maximized") && calculatedheight > 650){
+            Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", "650px");
+            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", "650px");
 
         } else{
 
-            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").setStyle("height", calculatedheight +"px");
-            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").set("height", calculatedheight +"px");
+            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight +"px");
+            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").set("height", calculatedheight +"px");
         }
 
 
@@ -588,58 +590,58 @@ class qtype_drawing_renderer extends qtype_renderer {
 
 //]]
 
-function qtype_drawing_fullscreen_'.$attemptid.'(){
+function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'(){
 
     var doc = Y.one("body");
-    var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.'";
-    var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.'";
+    var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'";
+    var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.$uniquefieldnameattemptid.'";
 
-    var frame = Y.one("#qtype_drawing_editor_'.$attemptid.'");
+    var frame = Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'");
     var padding = 150;
     var lastHeight;
     var quiz_is_timed = 0;
-    Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").toggleClass("qtype_drawing_maximized");
-    Y.one("#qtype_drawing_editor_'.$attemptid.'").set("height","100%");
+    Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").toggleClass("qtype_drawing_maximized");
+    Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").set("height","100%");
 
-    if (Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").hasClass("qtype_drawing_maximized")) {
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").set("height","100%");
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").setStyle("height","100%");
+    if (Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").hasClass("qtype_drawing_maximized")) {
+        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").set("height","100%");
+        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height","100%");
 
-        Y.one("#qtype_drawing_editor_'.$attemptid.'").set("height","100%");
-        Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height","100%");
+        Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").set("height","100%");
+        Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height","100%");
 
 
             var quiz_timer_div = document.getElementById("quiz-time-left");
-            var drawing_fullsc_'.$attemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.'");
+            var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
             if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
-                 drawing_fullsc_'.$attemptid.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-                 Y.one("#quiz_timer_drawing_'.$attemptid.'").setStyle("display", "block");
-                 Y.one("#quiz_timer_drawing_'.$attemptid.'").setStyle("margin-top", "-1em");
-                 var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_'.$attemptid.'").get("clientHeight");
-                 Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height", calculatedheight+ "px");
+                 drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
+                 Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "block");
+                 Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("margin-top", "-1em");
+                 var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").get("clientHeight");
+                 Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
             } else {
-                if (drawing_fullsc_'.$attemptid.'.hasChildNodes()) {
-                    drawing_fullsc_'.$attemptid.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
+                if (drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.hasChildNodes()) {
+                    drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
                 }
                 var  calculatedheight = doc.get("winHeight");
-                Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height", calculatedheight+ "px");
+                Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
 
             }
     } else {
 
     	var viewportHeight = doc.get("winHeight");
         if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
-    	Y.one("#qtype_drawing_editor_'.$attemptid.'").setStyle("height", viewportHeight + "px");
-        Y.one("#qtype_drawing_editor_'.$attemptid.'").set("height", viewportHeight + "px");
+    	Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", viewportHeight + "px");
+        Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").set("height", viewportHeight + "px");
 
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").setStyle("height", viewportHeight +"px");
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.'").set("height", viewportHeight +"px");
+        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", viewportHeight +"px");
+        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").set("height", viewportHeight +"px");
 
         if (document.getElementById("quiz-timer")) {
-             var drawing_fullsc_'.$attemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.'");
-             drawing_fullsc_'.$attemptid.'.innerHTML = "";
-             Y.one("#quiz_timer_drawing_'.$attemptid.'").setStyle("margin-top", "0em");
-             Y.one("#quiz_timer_drawing_'.$attemptid.'").setStyle("display", "none");
+             var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
+             drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.innerHTML = "";
+             Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("margin-top", "0em");
+             Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "none");
         }
 
     }
@@ -649,14 +651,14 @@ function qtype_drawing_fullscreen_'.$attemptid.'(){
 </script>
 
 
-				<textarea style="display:none" id="qtype_drawing_background_image_value_'.$attemptid.'">'.$background[1].'</textarea>
-				<input type="hidden" style="display:none" id="qtype_drawing_background_image_type_'.$attemptid.'" value="'.$background[0].'">
-				<input type="hidden" style="display:none" id="qtype_drawing_background_image_width_'.$attemptid.'" value="'.$canvasinfo->backgroundwidth.'">
-				<input type="hidden" style="display:none" id="qtype_drawing_background_image_height_'.$attemptid.'" value="'.$canvasinfo->backgroundheight.'">
-				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$attemptid.'"><img id="qtype_drawing_loading_image_'.$attemptid.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
-                <span id="quiz_timer_drawing_' . $attemptid .'" style="display:none; background-color:#fff"></span>
-				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' . $attemptid . '" onclick="qtype_drawing_fullscreen_'.$attemptid.'()">&nbsp;</span>
-					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&attemptid='.$attemptid.'&stid='.$originaluserid.'&readonly='.$options->readonly.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$attemptid.'"  onload="init_qtype_drawing_embed(\''.$attemptid.'\')" ></iframe>
+				<textarea style="display:none" id="qtype_drawing_background_image_value_'.$attemptid.$uniquefieldnameattemptid.'">'.$background[1].'</textarea>
+				<input type="hidden" style="display:none" id="qtype_drawing_background_image_type_'.$attemptid.$uniquefieldnameattemptid.'" value="'.$background[0].'">
+				<input type="hidden" style="display:none" id="qtype_drawing_background_image_width_'.$attemptid.$uniquefieldnameattemptid.'" value="'.$canvasinfo->backgroundwidth.'">
+				<input type="hidden" style="display:none" id="qtype_drawing_background_image_height_'.$attemptid.$uniquefieldnameattemptid.'" value="'.$canvasinfo->backgroundheight.'">
+				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'"><img id="qtype_drawing_loading_image_'.$attemptid.$uniquefieldnameattemptid.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
+                <span id="quiz_timer_drawing_' . $attemptid . $uniquefieldnameattemptid .'" style="display:none; background-color:#fff"></span>
+				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' . $attemptid . $uniquefieldnameattemptid. '" onclick="qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'()">&nbsp;</span>
+					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&attemptid='.$attemptid.'&stid='.$originaluserid.'&uniquefieldnameattemptid='.$uniquefieldnameattemptid.'&readonly='.$options->readonly.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'"  onload="init_qtype_drawing_embed(\''.$attemptid.$uniquefieldnameattemptid.'\')" ></iframe>
 				</div>
 				';
         // AMIII }
