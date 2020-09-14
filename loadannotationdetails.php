@@ -56,7 +56,7 @@ if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
   echo json_encode(array('result' => 'Question not found'));
   die;
 }
-
+/*
 $result = array();
 $order = array();
 $fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid);
@@ -68,5 +68,19 @@ if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields, 'timem
   $order[] = "block0";
   $order[] = "block1";
 }
+*/
 
-echo json_encode(array('result' => $result, 'order' => $order));
+$result .= '<ul id="listofannotaions">';
+$fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid);
+if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields,'timemodified DESC')){
+    foreach($annotations as $teacherannotation){
+        $user = $DB->get_record('user', array('id' => $teacherannotation->annotatedby));
+        $annotate_str =  preg_replace('/\v(?:[\v\h]+)/', '', $teacherannotation->annotation);
+        $result .= '<li id="annotationelem_'.$user->id.'" class="annotaionelems" data-block="block'.$user->id.'"><a href="#" id="showannotationid_'.$teacherannotation->id.'" style="color:#fff" class="tool_showannotation" data-type="0" data-annotationid="'.$teacherannotation->id.'">'.fullname($user).'</a> <div id="teacherannotationdate_'.$user->id.'">'.userdate($teacherannotation->timemodified).' ('.get_string('ago', 'core_message', format_time(time() + 1 - $teacherannotation->timemodified)).')</div></li>';
+    }
+}
+$result .= '<li data-block="block0"><a href="#" id="showoriginalanswer" style="color:#fff" class="tool_showannotation" data-type="1" data-annotationid="-1">'.get_string('originalanswer', 'qtype_drawing').'</a></li>';
+$result .= '<li data-block="block1"><a href="#" id="studentview" style="color:#fff" class="tool_showannotation" data-type="2" data-annotationid="-1">'.get_string('studentview', 'qtype_drawing').'</a></li>';
+
+$result .= '</ul>';
+echo json_encode(array('result' => $result, 'works' => 'OK'));

@@ -386,8 +386,9 @@ body {
 <div id="tools_top" class="tools_panel">
 <?php
 
-
+    $useupdateannotationjs = 0;
 if (has_capability('mod/quiz:grade', context::instance_by_id($question->contextid)) && $readonly == 1) {
+    $useupdateannotationjs = 1;
 ?>
       <div id="annotation_panel" class="context_panelv">
        <h4><?php print_string('annotation', 'qtype_drawing');?></h4>
@@ -428,7 +429,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
 	    }
 	}
 	echo '<li data-block="block0"><a href="#" id="showoriginalanswer" style="color:#fff" class="tool_showannotation" data-type="1" data-annotationid="-1">'.get_string('originalanswer', 'qtype_drawing').'</a></li>';
-	echo '<li data-block="block1"><a href="#" id="studentview" style="color:#fff" class="tool_showannotation" data-type="2" data-annotationid="-1">'.get_string('studentview', 'qtype_drawing').'</a></li>';
+	echo '<li data-block="block1" onclick="methodDraw.updateAnnotationDetails()"><a href="#" id="studentview" style="color:#fff" class="tool_showannotation" data-type="2" data-annotationid="-1">'.get_string('studentview', 'qtype_drawing').'</a></li>';
 
 	echo '</ul>';
 	?>
@@ -1088,6 +1089,9 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
     }
     //  window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
 
+    <?php if($useupdateannotationjs == 1){?>
+    window.setInterval(methodDraw.updateAnnotationDetails, 10000);
+    <?php }?>
   });
 
 /*

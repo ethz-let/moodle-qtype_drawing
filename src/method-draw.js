@@ -2997,7 +2997,21 @@ var strokewid = selectedElement.getAttribute("stroke-width");
         svgCanvas.save(saveOpts);
       };
 
-
+      Editor.updateAnnotationDetails = function(){
+          $.ajax({
+              url: 'loadannotationdetails.php',
+              method: "GET",
+              data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid},
+              cache: false,
+              success: function(array_annotations) {
+                  if(array_annotations.works == 'OK'){
+                     $('#teacherannotations').html(array_annotations.result);
+                     $( ".tool_showannotation" ).on( "click", clickShowannotation );
+                     $( "#showoriginalanswer" ).on( "click", clickShowannotation );
+                  }
+              }
+            });
+      }
       var clickSaveannotation = function(){
 
           $.ajax({
@@ -3009,7 +3023,8 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                   if(str == 'OK'){
                       $.anottationalert(qtype_drawing_str_annotationsaved, str);
                       // Load last change.
-
+                      methodDraw.updateAnnotationDetails();
+/*
                       $.ajax({
                           url: 'loadannotationdetails.php',
                           method: "GET",
@@ -3036,7 +3051,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
                           }
                         });
-
+*/
 
                   } else {
                       $.anottationalert("ERROR: " + JSON.stringify(str), str);
@@ -3055,7 +3070,6 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
 
         var clickShowannotation = function(){
-
             var originalbgimg = $('#qtype_drawing_original_bg_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
 
             var originalstdanswer = $('#qtype_drawing_original_stdanswer_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).val();
