@@ -424,7 +424,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                 $canvas .=  '
 							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'" style="height:'.$canvasinfo->backgroundheight.'px; width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.$studentmergedanswer.'</div>';
                 $questiontext = $question->format_questiontext($qa);
-                $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
+                $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
 
 
                 if($background[0] == 'svg'){
@@ -432,7 +432,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                     $annotation_str .= $studentanswer;
                 } else {
 
-                    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
+                    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
                     $annotation_str .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'" width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
                     $annotation_str .= '</svg>';
                     //$annotation_str .= $studentmergedanswer;
@@ -465,7 +465,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                 $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$studentanswer</textarea>";
 
 
-                $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation">';
+                $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation" width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
 
                 /* $studentmergedanswer = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$studentmergedanswer);*/
                 $studentmergedanswer = preg_replace("/<\\?xml.*\\?>/", '', $studentmergedanswer);
@@ -479,7 +479,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                     $annotation_str .= $studentanswer;
                 } else {
 
-                    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'px" height="'.$canvasinfo->backgroundheight.'px">';
+                    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
                     $annotation_str .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'" width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
                     $annotation_str .= '</svg>';
                     //$annotation_str .= $studentmergedanswer;
