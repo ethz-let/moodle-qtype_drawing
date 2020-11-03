@@ -1084,8 +1084,8 @@ $('div#textedit_dialog').on('dialogclose', function(event) {
         console.error("loading answer from lastansswer");
      }
      // var xo = window.parent;
-    if($("#qtype_drawing_loading_image_"+qid, window.parent.document).length){
-        $("#qtype_drawing_loading_image_"+qid, window.parent.document).hide();
+    if($("#qtype_drawing_loading_image_"+attemptid+uniquefieldnameattemptid, window.parent.document).length){
+        $("#qtype_drawing_loading_image_"+attemptid+uniquefieldnameattemptid, window.parent.document).hide();
     }
     //  window.parent.$("#qtype_drawing_loading_image_"+qid).hide();
 
