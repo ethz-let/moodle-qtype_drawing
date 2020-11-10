@@ -133,7 +133,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
         // the remaining points are assembled into a new path
         if (last !== i) {
             newPath = path.slice(last, path.length);
-            if (newPath) { //console.error("new DOT path created", newPath, p);
+            if (newPath) { ////console.error("new DOT path created", newPath, p);
                 newPaths.push(newPath);
 
             }
@@ -156,7 +156,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
             if (p0_locationIndex.indexOf(1) === -1) {
                 newPaths.push(path);
              //   allpathspecs.push(allpathspecs[whichindex]);
-             //   console.error("funny 4");
+             //   //console.error("funny 4");
                 return;
             }
         }
@@ -198,7 +198,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                     newPath.push(x);
                     newPaths.push(newPath);
                   //  allpathspecs.push(allpathspecs[whichindex]);
-                 //   console.error("funny 5");
+                 //   //console.error("funny 5");
 
                     i++;
                     last = i;
@@ -226,7 +226,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                     if (newPath.length > 1) {
                         newPaths.push(newPath);
                   //      allpathspecs.push(allpathspecs[whichindex]);
-                  //      console.error("funny 6");
+                  //      //console.error("funny 6");
                     }
 
                     // we will put the second intersection point into the current position
@@ -247,14 +247,14 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
         // assemble the remaining points into a new path
         if (last !== i) {
             newPath = path.slice(last, path.length);
-            if (newPath) {//console.error("here we created a new path! CAPSULE "+ whichindex);
+            if (newPath) {////console.error("here we created a new path! CAPSULE "+ whichindex);
                 newPaths.push(newPath);
 
              //   allpathspecs.push(allpathspecs[whichindex]);
-             //   console.error("funny 7");
+             //
             }
         }
-     //   console.error("final path count: ",newPaths.length, "on index ",whichindex);
+     //   //console.error("final path count: ",newPaths.length, "on index ",whichindex);
 
     } // end capsuleErase
 
@@ -264,7 +264,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
             tolerance = 0;
         }
         var difference = a.filter(x => b.indexOf(x) === -1);
-        console.error("differenace", difference.length, difference);
+        //console.error("differenace", difference.length, difference);
         if(difference.length <= tolerance){
             return true;
         }else{
@@ -273,7 +273,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
     }
 
     function process_more_paths(paths,newPaths, p){
-        console.error("newpaths",p, "different",newPaths.length - paths.length, p+ (newPaths.length - paths.length), paths, newPaths);
+        //console.error("newpaths",p, "different",newPaths.length - paths.length, p+ (newPaths.length - paths.length), paths, newPaths);
         var totalprocessedpaths = 0;
         for(m = 0; m < newPaths.length ;m++){
             if(typeof paths[m] !== 'undefined'){
@@ -284,14 +284,14 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                         break;
                     }
                     m++;
-                    console.error("MORE: second process in same differenece!");
+                    //console.error("MORE: second process in same differenece!");
                   }
             }
         }
     }
 
     function process_less_paths(paths,newPaths, p){
-        console.error("lesspaths",p, "different",newPaths.length - paths.length, p+ (newPaths.length - paths.length), paths, newPaths);
+        //console.error("lesspaths",p, "different",newPaths.length - paths.length, p+ (newPaths.length - paths.length), paths, newPaths);
         var totalprocessedpaths = 0;
         for(m = 0; m < newPaths.length ;m++){
             if(typeof paths[m] !== 'undefined'){
@@ -302,7 +302,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                         break;
                     }
                     m++;
-                    console.error("LESS: second process in same differenece!");
+                    //console.error("LESS: second process in same differenece!");
                 }
             }
         }
@@ -331,7 +331,7 @@ var newspecsarranged = allpathspecs;
 
         if(newPaths.length == paths.length){
             //process_less_paths(paths,newPaths, p);
-            console.error("DOT: equal paths returned after deletion?!");
+            //console.error("DOT: equal paths returned after deletion?!");
 
           }
 
@@ -354,7 +354,7 @@ var newspecsarranged = allpathspecs;
 
             if(newPaths.length == paths.length){
                 //process_less_paths(paths,newPaths, p);
-              //  console.error("LINE: equal paths returned after deletion?! path specs", allpathspecs.length, "and new paths length", paths.length );
+              //  //console.error("LINE: equal paths returned after deletion?! path specs", allpathspecs.length, "and new paths length", paths.length );
               }
 
             paths = newPaths;
@@ -368,10 +368,10 @@ var newspecsarranged = allpathspecs;
 
 
     if(paths.length != allpathspecs.length){
-        // console.error("final not equal.. path: ",paths.length, "new total pathspecs: ",allpathspecs.length );
+        // //console.error("final not equal.. path: ",paths.length, "new total pathspecs: ",allpathspecs.length );
     }
 
-  //  console.error("allpathspecs after", allpathspecs);
+  //  //console.error("allpathspecs after", allpathspecs);
 
     return [paths, allpathspecs];
     // diff between just two arrays:
@@ -512,28 +512,28 @@ for(var y=0; y<newdatapaths.length;y++){
         if(stringifyPathEraseContains(original_drawing_paths[x], newdatapaths[y])){
         //  allpathspecs[y] = allpathspecs[x];
             brandnewspecs.push(allpathspecs[x]);
-            //console.error("ZZZ",brandnewspecs);
-        //  console.error("specs: we assigned spec of new path ",y, brandnewspecs[y],  "to specs from path ", x, allpathspecs[x], original_drawing_paths[x], newdatapaths[y] );
+            ////console.error("ZZZ",brandnewspecs);
+        //  //console.error("specs: we assigned spec of new path ",y, brandnewspecs[y],  "to specs from path ", x, allpathspecs[x], original_drawing_paths[x], newdatapaths[y] );
             break;
         }
     }
 }
-//console.error("brand new specs are: ",brandnewspecs);
+////console.error("brand new specs are: ",brandnewspecs);
 /*
  for(var x=0; x<original_drawing_paths.length;x++){
      for(var y=0; y<newdatapaths.length;y++){
          if(stringifyPathEraseContains(original_drawing_paths[x], newdatapaths[y])){
             // excludefromremoval.push(x);
             allpathspecs[y] = allpathspecs[x];
-            console.error("specs: we assigned spec of new path ",y, allpathspecs[y],  "to specs from path ", x, allpathspecs[x]);
+            //console.error("specs: we assigned spec of new path ",y, allpathspecs[y],  "to specs from path ", x, allpathspecs[x]);
         }else{
-            console.error("specs: newpath ",y, "was not part of orginal path",x );
+            //console.error("specs: newpath ",y, "was not part of orginal path",x );
         }
      }
  }
 */
  ////////////////////////
-//console.error("new paths have been created!", newdatapaths, allpathspecs, paths, whatlineschanged);
+////console.error("new paths have been created!", newdatapaths, allpathspecs, paths, whatlineschanged);
 
 original_drawing_paths = [];
 allpathspecs = [];
@@ -582,7 +582,7 @@ return [newdatapaths, brandnewspecs];
     if(newdatapaths.length < allpathspecs.length){
 
         var howmanytorem = allpathspecs.length - newdatapaths.length;
-    //  console.error(howmanytorem, "need to be removed from allpathspecs array. what changed are ", whatlineschanged.length);
+    //  //console.error(howmanytorem, "need to be removed from allpathspecs array. what changed are ", whatlineschanged.length);
 
         for(var i=0; i < whatlineschanged.length; i++){
             var whichv = whatlineschanged[i]; //allpathspecs[]
@@ -880,7 +880,7 @@ function getCircleIntersection (aX, aY, bX, bY, cX, cY, r, iozeb) {
     var intersection = [(aX + ac_proj_ab*u_vec_ab[0] + b*u_vec_ab[0]), (aY + ac_proj_ab*u_vec_ab[1] + b*u_vec_ab[1])];
     if ( intersection[0] === aX && intersection[1] === aY ) return null;
 
-    //console.error("getCircleIntersection", iozeb, linospecs[iozeb], intersection);
+    ////console.error("getCircleIntersection", iozeb, linospecs[iozeb], intersection);
 
     return intersection;
 }
@@ -921,7 +921,7 @@ function getCircleIntersections (aX, aY, bX, bY, cX, cY, r, iozeb) {
     var intersections = [[(vec_cd[0] - u_vec_ab[0]*x), (vec_cd[1] - u_vec_ab[1]*x)], [(vec_cd[0] + u_vec_ab[0]*x), (vec_cd[1] + u_vec_ab[1]*x)]];
     if ( intersections[0][0] === aX && intersections[0][1] === aY ) return null;
 
-    //console.error("getCircleIntersections", iozeb, linospecs[iozeb], intersections);
+    ////console.error("getCircleIntersections", iozeb, linospecs[iozeb], intersections);
 
     return intersections;
 }
@@ -1004,7 +1004,7 @@ function getCapsuleIntersection (aX, aY, locationIndex, bX, bY, c0_x, c0_y, c1_x
     }
     if (intersection[0] === aX && intersection[1] === aY) return null;
 
-    //console.error("getCapsuleIntersection", iozeb, linospecs[iozeb], intersection);
+    ////console.error("getCapsuleIntersection", iozeb, linospecs[iozeb], intersection);
     return intersection;
 }
 
@@ -1051,7 +1051,7 @@ function getCapsuleIntersections (aX, aY, bX, bY, c0_x, c0_y, c1_x, c1_y, r, ioz
     if ((intersection0[0] === bX && intersection0[1] === bY) ||
          (intersection1[0] === aX && intersection1[1] === aY)) return null;
     else {
-            //console.error("getCapsuleIntersectionS", iozeb, linospecs[iozeb]);
+            ////console.error("getCapsuleIntersectionS", iozeb, linospecs[iozeb]);
         return [intersection0, intersection1];
     }
 }
