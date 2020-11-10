@@ -257,7 +257,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
      //   console.error("final path count: ",newPaths.length, "on index ",whichindex);
 
     } // end capsuleErase
-    console.error("before", paths);
 
     function checkarayswithoutheadortail(a,b, tolerance){
         if(!tolerance) tolerance = 2;
@@ -313,7 +312,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
 var newdatapaths = [];
 var formedpathsspecs = [];
 var newspecsarranged = allpathspecs;
-console.error("allpathspecs before", allpathspecs);
 
    erasePath = cleanPath(erasePath);
     if (erasePath.length === 1) {
@@ -356,7 +354,7 @@ console.error("allpathspecs before", allpathspecs);
 
             if(newPaths.length == paths.length){
                 //process_less_paths(paths,newPaths, p);
-                console.error("LINE: equal paths returned after deletion?! path specs", allpathspecs.length, "and new paths length", paths.length );
+              //  console.error("LINE: equal paths returned after deletion?! path specs", allpathspecs.length, "and new paths length", paths.length );
               }
 
             paths = newPaths;
@@ -370,10 +368,10 @@ console.error("allpathspecs before", allpathspecs);
 
 
     if(paths.length != allpathspecs.length){
-        console.error("final not equal.. path: ",paths.length, "new total pathspecs: ",allpathspecs.length );
-        }
+        // console.error("final not equal.. path: ",paths.length, "new total pathspecs: ",allpathspecs.length );
+    }
 
-    console.error("allpathspecs after", allpathspecs);
+  //  console.error("allpathspecs after", allpathspecs);
 
     return [paths, allpathspecs];
     // diff between just two arrays:
@@ -476,16 +474,9 @@ if(newdatapaths.length < original_drawing_paths.length){
                 original_drawing_paths = temp_original_drawing_paths;
                 allpathspecs = temp_paths_specs;
             }
-        /*
-            console.error("FDFDFD", excludefromremoval);
-            console.error("FDFDFD-X", temp_original_drawing_paths.length);
-            console.error("FDFDFD-XY", temp_original_drawing_paths);
-            console.error("FDFDFD-XY-1", original_drawing_paths);
-            console.error("FDFDFD-ZY", temp_paths_specs);
-            console.error("FDFDFD-ZY-1", allpathspecs);
-            */
 
-} else{
+
+} else {
 // What if new lines where created? create new specs for them (fill gaps in allpathspecs).
 //original_drawing_paths = newdatapaths;
 //var repeatedtrialpaths = newdatapaths;
@@ -494,41 +485,16 @@ for(var e=allpathspecs.length; e<(newdatapaths.length); e++) {
         allpathspecs[e]='_SPECS_';
 }
 
-        // check what lines have changed in original drawing.
-        // cehck index with all other indexes
-        /*
-        for(var x=newdatapaths.length - 1; x>0; x--) { //in reverse search.
-            for(var y=0; y<original_drawing_paths.length; y++) {
-                if(stringifyPathEraseContains(original_drawing_paths[y], newdatapaths[x])){
-                //  excludefromremoval.push(y);
-                        allpathspecs[e] = allpathspecs[y];
-                        continue;
-                }
-            }
-        }
-
-        for(var x=0; x<original_drawing_paths.length; x++) { //in reverse search.
-            for(var y=0; y<newdatapaths.length; y++) {
-                if(original_drawing_paths[x] newdatapaths[y])){
-                //  excludefromremoval.push(y);
-                        allpathspecs[e] = allpathspecs[x];
-                        continue;
-                }
-            }
-        }*/
 
         for (var e=0; e<(original_drawing_paths.length); e++) {
             if(typeof newdatapaths[e] !== 'undefined') {
-            //  console.error("you finny!",original_drawing_paths.length, original_drawing_paths[e], newdatapaths[e]);
+
                 if(!equalArray(original_drawing_paths[e], newdatapaths[e])){
                     whatlineschanged.push(e);
-                } else {
-                //  console.error(JSON.stringify(original_drawing_paths[e]),JSON.stringify(newdatapaths[e],JSON.stringify(paths[e])));
                 }
             }
         }
 
-    //  console.error("whatlineschanged: ",  whatlineschanged);
         for(var i=0; i < allpathspecs.length; i++){
             if(allpathspecs[i] != '_SPECS_'){
                 continue;
@@ -580,84 +546,12 @@ return [newdatapaths, brandnewspecs];
 
 
 
-/*
-    var howmanylost = 0;
-    if(newdatapaths.length < original_drawing_paths.length){
-        howmanylost = original_drawing_paths.length - newdatapaths.length;
-        // remove them from original?
-        for (var e=0; e<(original_drawing_paths.length); e++) {
-            if(original_drawing_paths)
-        }
-        var whichv = whatlineschanged[i];
-        allpathspecs.splice(whichv, 1);
-        for(var i=0; i<howmanylost;i++){
-            if(original_drawing_paths.indexOf("Aspple") !== -1){
-
-            }
-        }
-        for(var i=0; i<howmanylost;i++){
-            for (var e=0; e<(original_drawing_paths.length); e++) {
-                if(excludefromremoval[e])
-                original_drawing_paths.pop();
-                allpathspecs.pop();
-
-            }
-        }
-    }
-
-    // special case if removed first/last path in array from newdatapaths.
-    var howmanylost = 0;
-    if(newdatapaths.length < original_drawing_paths.length){
-
-        howmanylost = original_drawing_paths.length - newdatapaths.length;
-        console.error("we are less by ",howmanylost);
-
-        var excludefromremoval = [];
-        for(var x=0; x<original_drawing_paths.length;x++){
-        for(var y=0; y<newdatapaths.length;y++){
-            if(stringifyPathEraseContains(original_drawing_paths[x], newdatapaths[y])){
-                excludefromremoval.push(x);
-                console.error("path NOMRO original", x, "and newpathid",y," has part of original path. ie not fully removed path.");
-            }
-        }
-
-        }
-
-    }
-
-*/
-/*
-    // remove them from original?
-    for(var i=0; i<howmanylost;i++){
-        // it happened to be from first path
-
-        if(!equalArray(original_drawing_paths[0], newdatapaths[0])){
-            original_drawing_paths.shift();
-            allpathspecs.shift();
-                console.error("removed from first! caught ya!");
-        }else{ // it happened to be from NOT first path.
-            if(!equalArray(original_drawing_paths[original_drawing_paths.length - 1], newdatapaths[newdatapaths.length - 1])){ // removed from last path.
-                original_drawing_paths.pop();
-                allpathspecs.pop();
-                console.error("removed from last! caught ya!");
-            } else {    // it happened somewhere in the middle!
-                                // compare all
-                console.error("removed from middle! caught ya!");
-            }
-
-        }
-    }
-*/
 
     for (var e=0; e<(original_drawing_paths.length); e++) {
         if(typeof newdatapaths[e] !== 'undefined') {
             var tempnewindex = e;
             if(!equalArray(original_drawing_paths[tempnewindex], newdatapaths[e])){
-            //  console.error("mommo 3", e, " and arrray is", newdatapaths[e].length);
-            //  console.error("mommo 3 ORIGINALS", original_drawing_paths[tempnewindex], newdatapaths[e]);
-
                 tempspecsline[e] = allpathspecs[e];
-                //allpathspecs[e]='_SPECS_';
                 whatlineschanged.push(e);
             }
         }
@@ -665,35 +559,22 @@ return [newdatapaths, brandnewspecs];
     }
 
 
-    //console.error("initial changed lines", whatlineschanged);
-    //console.error("initial allpathspecs ", allpathspecs);
-    // fill the specs for the newly generated paths!
-    //console.error("COMPARE NEW SECPS ",allpathspecs.length, newdatapaths.length ,allpathspecs, original_drawing_paths.length);
     for (var e=allpathspecs.length; e<(newdatapaths.length); e++) {
         allpathspecs[e]='_SPECS_';
     }
     // loop specs.
-    //console.error("YO allpathspecs remaining ",allpathspecs.length, allpathspecs);
     for(var i=0; i < allpathspecs.length; i++){
         // check if in array of old value that has changed, or not.
 
-// && typeof tempspecsline[i] === 'undefined'
         if(allpathspecs[i] != '_SPECS_'){
             continue;
         }
-        /*
-        if(!allpathspecs[whatlineschanged[0]] || allpathspecs[whatlineschanged[0]] == 'undefined'){
-            allpathspecs[whatlineschanged[0]] = tempspecsline[i];
-        }*/
-    //  console.error("OMG",whatlineschanged);
+
         allpathspecs[i] = allpathspecs[whatlineschanged[0]];
-    //  console.error("we filled ",i, "with ", whatlineschanged[0]);
+
         whatlineschanged.shift();
 
     }
-    //console.error("count new paths", newdatapaths.length);
-    //console.error("final new specs", allpathspecs.length);
-//  console.error("final changed lines", whatlineschanged, whatlineschanged.length);
 
 
     // what if the path was fully removed, then it needs to be removed from specs too!.
@@ -705,10 +586,7 @@ return [newdatapaths, brandnewspecs];
 
         for(var i=0; i < whatlineschanged.length; i++){
             var whichv = whatlineschanged[i]; //allpathspecs[]
-        //  console.error("tiz", whichv);
-            //var windex = whichv.indexOf(whichv);
             allpathspecs.splice(whichv, 1);
-        //  console.error("we are splicing allpath specs ", whichv, "new is: ",allpathspecs);
         }
     }
 
@@ -742,11 +620,7 @@ return [newdatapaths, brandnewspecs];
       return 0;
     }
 allpathspecs.sort( compare );
-//  console.error("sorting", );
-//console.error("absolute paths", paths);
-//console.error("absolute newdatapaths", newdatapaths);
 
-//console.error("absolute specs", allpathspecs);
 var combkres = [];
 combkres[0] = paths;
 combkres[1] = allpathspecs;
