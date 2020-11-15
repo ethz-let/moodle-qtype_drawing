@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>src/svgcanvas.js</location>
+        <name>SVG-Edit</name>
+        <version>5.1.0</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>src/d3.js</location>
+        <name>D3</name>
+        <version>v6</version>
+        <license>BSD 3-Clause "New" or "Revised" License</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>extensions/shapelib/</location>
+        <name>Raphaël</name>
+        <version>2.2.7</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>extensions</location>
+        <name>SVG Extensions</name>
+        <version>2020.08.02</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>icons</location>
+        <name>Jquery Icons</name>
+        <version>SVG Icon Loader 2.0</version>
+        <license>Apache 2 License</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>js/embedapi.js</location>
+        <name>Svg-Edit Embedapi</name>
+        <version>5.1.0</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>lib</location>
+        <name>canvg</name>
+        <version></version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>src</location>
+        <name>Varia JS extensions</name>
+        <version></version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>src/method-draw.js</location>
+        <name>methodDraw</name>
+        <version>2020.08.02</version>
+        <license>MIT</license>
+        <licenseversion></licenseversion>
+    </library>
+</libraries>

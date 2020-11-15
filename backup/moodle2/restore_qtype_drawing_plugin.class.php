@@ -15,23 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-* @package	qtype
-* @subpackage drawing
-* @copyright ETHZ LET <amr.hourani@id.ethz.ch>
-* @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ *
+ * @package qtype
+ * @subpackage drawing
+ * @copyright ETHZ LET <amr.hourani@id.ethz.ch>
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
 defined('MOODLE_INTERNAL') || die();
-
 class restore_qtype_drawing_plugin extends restore_qtype_plugin {
 
     /**
      * Returns the paths to be handled by the plugin at question level
      */
-
     protected function define_question_plugin_structure() {
-
         $paths = array();
 
         // This qtype uses question_answers, add them.
@@ -50,10 +46,11 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
      */
     protected function is_question_created() {
         $oldquestionid = $this->get_old_parentid('question');
-        $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
+        $questioncreated = (bool)$this->get_mappingid('question_created', $oldquestionid);
 
         return $questioncreated;
     }
+
     /**
      * Process the qtype/drawing element.
      */
@@ -64,8 +61,8 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
         $oldid = $data->id;
 
         // Detect if the question is created or mapped.
-        $oldquestionid   = $this->get_old_parentid('question');
-        $newquestionid   = $this->get_new_parentid('question');
+        $oldquestionid = $this->get_old_parentid('question');
+        $newquestionid = $this->get_new_parentid('question');
 
         // If the question has been created by restore, we need to create its
         // qtype_drawing_options too.
@@ -89,19 +86,19 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
         $oldid = $data->id;
 
         // Detect if the question is created or mapped.
-        $oldquestionid   = $this->get_old_parentid('question');
-        $newquestionid   = $this->get_new_parentid('question');
-        $questioncreated = (bool) $this->get_mappingid('question_created', $oldquestionid);
+        $oldquestionid = $this->get_old_parentid('question');
+        $newquestionid = $this->get_new_parentid('question');
+        $questioncreated = (bool)$this->get_mappingid('question_created', $oldquestionid);
 
         // If the question has been created by restore, we need to create its
         // qtype_drawing_annotations too.
         if ($this->is_question_created()) {
             $data->questionid = $newquestionid;
 
-            if (isset($data->annotatedfor) &&  $data->annotatedfor > 0) {
+            if (isset($data->annotatedfor) && $data->annotatedfor > 0) {
                 $data->annotatedfor = $this->get_mappingid('user', $data->annotatedfor);
             }
-            if (isset($data->annotatedby) &&  $data->annotatedby > 0) {
+            if (isset($data->annotatedby) && $data->annotatedby > 0) {
                 $data->annotatedby = $this->get_mappingid('user', $data->annotatedby);
             }
 
@@ -111,14 +108,14 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
             $this->set_mapping('qtype_drawing_annotations', $oldid, $newitemid);
         }
     }
+
     public function after_execute_question() {
         global $DB;
         // Now that all the questions have been restored, let's process
         // the created question_multianswer sequences (list of question ids).
-
     }
+
     public function recode_response($questionid, $sequencenumber, array $response) {
-        //print_r($response);exit;
         if (array_key_exists('_order', $response)) {
             $response['_order'] = $this->recode_choice_order($response['_order']);
         }
@@ -127,7 +124,9 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
 
     /**
      * Recode the choice order as stored in the response.
-     * @param string $order the original order.
+     *
+     * @param string $order
+     *        the original order.
      * @return string the recoded order.
      */
     protected function recode_choice_order($order) {
@@ -144,14 +143,11 @@ class restore_qtype_drawing_plugin extends restore_qtype_plugin {
      * Return the contents of this qtype to be processed by the links decoder
      */
     public static function define_decode_contents() {
-
         $contents = array();
 
-        $contents[] = new restore_decode_content('qtype_drawing',
-                'drawingoptions', 'qtype_drawing');
+        $contents[] = new restore_decode_content('qtype_drawing', 'drawingoptions', 'qtype_drawing');
         $fields = array('annotation', 'notes');
-        $contents[] = new restore_decode_content('qtype_drawing_annotations',
-                $fields, 'qtype_drawing_annotations');
+        $contents[] = new restore_decode_content('qtype_drawing_annotations', $fields, 'qtype_drawing_annotations');
 
         return $contents;
     }

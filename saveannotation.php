@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 /**
  * drawing question renderer class.
  *
- * @package	qtype
+ * @package qtype
  * @subpackage drawing
  * @copyright ETHZ LET <amr.hourani@id.ethz.ch>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,12 +26,12 @@
 /**
  * Generates the output for drawing questions.
  *
- * @copyright  ETHZ LET <amr.hourani@id.ethz.chh>
- * @license	http://opensource.org/licenses/BSD-3-Clause
+ * @copyright ETHZ LET <amr.hourani@id.ethz.chh>
+ * @license http://opensource.org/licenses/BSD-3-Clause
  */
-
 define('AJAX_SCRIPT', true);
-require_once ('../../../config.php');
+require_once('../../../config.php');
+require_login();
 
 $id = required_param('id', PARAM_INT);
 $sesskey = required_param('sesskey', PARAM_RAW);
@@ -39,30 +39,30 @@ $stid = required_param('stid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $annotation = required_param('annotation', PARAM_RAW);
 
-if(!isloggedin() || !confirm_sesskey()){
-  echo json_encode(array('result' => 'Session lost.'));
-  die;
+if (!confirm_sesskey()) {
+    echo json_encode(array('result' => 'Session lost.'));
+    die();
 }
 
-require_once("../../../question/type/questiontypebase.php");
-if(!$question = question_bank::load_question_data($id)){
-  echo json_encode(array('result' => 'Question attempt not found'));
-  die;
+require_once('../../../question/type/questiontypebase.php');
+if (!$question = question_bank::load_question_data($id)) {
+    echo json_encode(array('result' => 'Question attempt not found'));
+    die();
 }
-if (!has_capability('mod/quiz:grade', context::instance_by_id($question->contextid)) ) {
-  echo json_encode(array('result' => 'No permission'));
-  die;
+if (!has_capability('mod/quiz:grade', context::instance_by_id($question->contextid))) {
+    echo json_encode(array('result' => 'No permission'));
+    die();
 }
-if(!$fhd = $DB->get_record('qtype_drawing', array('questionid'=> $id)) ){
-  echo json_encode(array('result' => 'Question not found'));
-  die;
+if (!$fhd = $DB->get_record('qtype_drawing', array('questionid' => $id))) {
+    echo json_encode(array('result' => 'Question not found'));
+    die();
 }
 
 // Check if record exists.
-$fields = array('questionid' =>  $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid, 'attemptid' => $attemptid);
-if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)){
+$fields = array('questionid' => $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid, 'attemptid' => $attemptid);
+if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)) {
     // Update annotation.
-    $annotationrecord = new stdClass;
+    $annotationrecord = new stdClass();
     $annotationrecord->id = $recordexists->id;
     $annotationrecord->questionid = $id;
     $annotationrecord->timemodified = time();
@@ -73,18 +73,18 @@ if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)){
     $annotationrecord->notes = '';
     $DB->update_record('qtype_drawing_annotations', $annotationrecord);
 } else {
-   // Create annotation.
-   $annotationrecord = new stdClass;
-   $annotationrecord->id = $recordexists->id;
-   $annotationrecord->questionid = $id;
-   $annotationrecord->timemodified = time();
-   $annotationrecord->timecreated = time();
-   $annotationrecord->annotation = $annotation;
-   $annotationrecord->annotatedby = $USER->id;
-   $annotationrecord->annotatedfor = $stid;
-   $annotationrecord->attemptid = $attemptid;
-   $annotationrecord->notes = '';
-   $DB->insert_record('qtype_drawing_annotations', $annotationrecord);
+    // Create annotation.
+    $annotationrecord = new stdClass();
+    $annotationrecord->id = $recordexists->id;
+    $annotationrecord->questionid = $id;
+    $annotationrecord->timemodified = time();
+    $annotationrecord->timecreated = time();
+    $annotationrecord->annotation = $annotation;
+    $annotationrecord->annotatedby = $USER->id;
+    $annotationrecord->annotatedfor = $stid;
+    $annotationrecord->attemptid = $attemptid;
+    $annotationrecord->notes = '';
+    $DB->insert_record('qtype_drawing_annotations', $annotationrecord);
 }
 $result = 'OK';
 echo json_encode($result);

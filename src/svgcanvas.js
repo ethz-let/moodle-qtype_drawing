@@ -3457,19 +3457,6 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
         return;
 
       case "eraser":
-/*
-    //  element = getElem('erase_line');
-  var childs = svgcontent.getElementsByTagNameNS(svgns, "path");
-
-      if(childs.length) {
-        for(var i = 0, l = childs.length; i < l; i++) {
-          console.error(childs[i]);
-          addCommandToHistory(new ChangeElementCommand(childs[i]));
-          call("changed",[childs[i]]);
-        }
-      }
-*/
-
 
           element = null;
           keep = false;
@@ -3490,6 +3477,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
           var fakecoord = myvar1+','+myvar2+' ';
           coords += fakecoord;
           element.setAttribute('points',coords);
+          return;
         }
         var commaIndex = coords.indexOf(',');
 
@@ -3502,9 +3490,6 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
         if (keep) {
           element = pathActions.smoothPolylineIntoPath(element);
         }
-        // added by AMR
-      /*  element = null;
-        keep = false;*/
         break;
       case "line":
         var attrs = $(element).attr(["x1", "x2", "y1", "y2"]);
@@ -3682,15 +3667,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
               //  $('#tool_select')[0].click();
                 return;
               }
-            /*
-            if(current_mode !== "fhpath" && current_mode !== "eraser"){ // Amr 2019, stop selection when drawing.
-              selectOnly([element], true);console.error('xxcurrnp',current_mode);
-            } else {
-            //  clickFHPath();
-            clearSelection(true);
-            console.error('xxcurrnp',current_mode);
-            }
-            */
+
          }
       }
         // we create the insert command that is stored on the stack
@@ -4435,6 +4412,10 @@ var pathActions = canvas.pathActions = function() {
       }
       d = d.join(" ");
 
+      var n = d.includes("C L");
+      if(n){
+        return;
+      }
       // create new path element
       element = addSvgElementFromJson({
         "element": "path",
@@ -5963,7 +5944,7 @@ this.setHDQuestionID = function(val) {
 };
 
 var getHDQuestionID = this.getHDQuestionID = function() {
-return attemptid + uniquefieldnameattemptid;
+    return attemptid + uniquefieldnameattemptid;
     //return $('#fhd_question_id').val();
 };
 
@@ -7429,53 +7410,7 @@ this.setMode = function(name) {
 
   cur_properties = (selectedElements[0] && selectedElements[0].nodeName == 'text') ? cur_text : cur_shape;
   current_mode = name;
-/*
-  if(selectedElements[0]){
-      cur_properties['stroke'] = selectedElements[0].getAttribute('stroke');
-      cur_properties['fill'] = selectedElements[0].getAttribute('fill');
-      cur_properties['stroke_width'] = selectedElements[0].getAttribute('stroke-width');
-      cur_properties['stroke_opacity'] = selectedElements[0].getAttribute('stroke-opacity');
-      cur_properties['fill_opacity'] = selectedElements[0].getAttribute('fill-opacity');
-      cur_properties['opacity'] = selectedElements[0].getAttribute('opacity');
-      cur_properties['font_size'] = selectedElements[0].getAttribute('font-size');
-      cur_properties['stroke_dasharray'] = selectedElements[0].getAttribute('stroke-dasharray');
-  }
-  this.setPaint('stroke', cur_properties['stroke']);
-  this.setPaint('fill', cur_properties['fill']);
 
-  methodDraw.paintBox.fill.update();
-  methodDraw.paintBox.stroke.update();
-
-//  console.error(cur_properties);
-
-  var sizes = $('.qtype_drawing_size_pen').filter(function(){
-      var size = $(this).data("size");
-      if(size == cur_properties['stroke_width']){
-
-          $(".qtype_drawing_size_pen div").removeClass("qtype_drawing_active_selection");
-          $("#"+this.id+" div").addClass("qtype_drawing_active_selection");
-        //  $(this).addClass("qtype_drawing_active_selection");
-      }
-  });
-
-
- // this.setStrokeWidth();
-
-  $("#qtype_drawing_tool_color14 > img").css("outline", "1px solid "+cur_properties['stroke']);
-  $("#qtype_drawing_tool_color15 > img").css("background-color", cur_properties['fill']);
-
-  $(".qtype_drawing_color_divsquare").removeClass("qtype_drawing_selectedcolor");
-  $(".qtype_drawing_color_pallette").removeClass("qtype_drawing_selectedcolor");
-
-
-  var rows = $('.qtype_drawing_color_divsquare').filter(function(){
-      var color = $(this).css("background-color");
-      if(findrgb2hex(color) == cur_properties['stroke']){
-        //  console.error('color found..');
-          $(this).addClass("qtype_drawing_selectedcolor");
-      }
-  });
-*/
 
   if(current_mode == 'text'){
       $('#strokewidth_div').hide();
@@ -7837,7 +7772,6 @@ this.resetStrokeWidthQuick = function(val) {
     cur_properties.stroke_width = val;
     all_properties.text.stroke_width = val;
    // changeSelectedAttribute("stroke-width", val);
-    console.error("stroke..");
   }
 
 // Function: setStrokeWidth
@@ -8638,27 +8572,9 @@ var changeSelectedAttributeNoUndo = this.changeSelectedAttributeNoUndo = functio
       if (oldval !== String(newValue)) {
         if (attr == "text") {
           var old_w = svgedit.utilities.getBBox(elem).width;
-          /*
-              //console.error(data.element);
-              if(newValue.includes("__TEXT_NEW_LINE__")){
 
-              }
-              var txtdata = svgdoc.createTextNode(newValue);
-              var textspan = svgdoc.createElementNS(svgns, "tspan");
-              //textspan.setAttributeNS(null, "x",);
-              textspan.setAttributeNS(null, "id", "textfirstline_svg_"+getId());
-              textspan.appendChild(txtdata);
-              elem.appendChild(textspan);
-console.error("EMX",elem);*/
-        //  elem.textContent = newValue;
- //elem.innerHTML = newValue +"banannana";
+          elem.innerHTML = newValue;
 
-
-
- //$("text").val(updatedtxtval);
- elem.innerHTML = newValue;
-
-          //var str = curtext.innerHTML;
 
         } else if (attr == "#href") {
           setHref(elem, newValue);
@@ -9524,30 +9440,12 @@ this.setFHDBackground = setFHDBackground = function (im){
     var whichbackground = window.parent.document.getElementById(imgelemval).value;
     var backgroundtype = window.parent.document.getElementById(imgelemtype).value;
 
-    if(backgroundtype =='svg'){/*
-      // Remove any characters outside the Latin1 range.
-      whichbackground = whichbackground.replace(/(\r\n|\n|\r)/gm," ");
-
-      var decoded = encodeURIComponent(whichbackground);
-      //console.error(whichbackground);
-      var base64img = btoa(whichbackground);
-      whichbackground = 'data:image/svg+xml;base64,' + base64img;
-*/
-      //  console.error(whichbackground);
+    if(backgroundtype =='svg'){
         const blob = new Blob([whichbackground], {type: 'image/svg+xml'});
         const url = URL.createObjectURL(blob);
         const image = document.createElement('img');
        // image.addEventListener('load', () => URL.revokeObjectURL(url), {once: true});
         whichbackground = url;
-
-
-      /*
-      whichbackground =  URL.createObjectURL(
-              new Blob([whichbackground], {
-                  type: 'image/svg+xml;charset=utf8'
-                  })
-                );
-      */
     }
 
   if(im) whichbackground = im;

@@ -26,7 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once (dirname(__FILE__) . '/renderer.php');
+require_once(dirname(__FILE__) . '/renderer.php');
 
 
 /**
@@ -49,29 +49,23 @@ class qtype_drawing_question extends question_graded_by_strategy implements ques
     }
 
     public function summarise_response(array $response) {
-    	return get_string('no_response_summary', 'qtype_drawing');
+        return get_string('no_response_summary', 'qtype_drawing');
     }
     // Initially added for LMDL-294. Remove at later stage.
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
         return question_engine::make_behaviour('manualgraded', $qa, $preferredbehaviour);
     }
     public function is_complete_response(array $response) {
-    	if (array_key_exists('answer', $response)) {
-    		if ($response['answer'] != '') {
-          /*
-    			$bgImageArray = qtype_drawing_renderer::get_image_for_question($this);
-    			if (qtype_drawing_renderer::isDataURLAValidDrawing($response['answer'], $bgImageArray[1], $bgImageArray[2])) {
-    				return true;
-    			}
-          */
-          return true;
-    		}
-    	}
-    	return false;
+        if (array_key_exists('answer', $response)) {
+            if ($response['answer'] != '') {
+                return true;
+            }
+        }
+        return false;
     }
-	public function is_gradable_response(array $response) {
-		return self::is_complete_response($response);
-	}
+    public function is_gradable_response(array $response) {
+        return self::is_complete_response($response);
+    }
     public function get_validation_error(array $response) {
         if ($this->is_gradable_response($response)) {
             return '';
@@ -89,22 +83,22 @@ class qtype_drawing_question extends question_graded_by_strategy implements ques
     }
 
     public function get_correct_response() {
-    	return null;
+        return null;
     }
     public function get_right_answer_summary() {
-    	return get_string('no_correct_answer_summary', 'qtype_drawing');
+        return get_string('no_correct_answer_summary', 'qtype_drawing');
     }
     public function compare_response_with_answer(array $response, question_answer $answer) {
 
-    	if ($answer->answer === '' || array_key_exists('answer', $response) === false) {
-    		return false;
-    	}
+        if ($answer->answer === '' || array_key_exists('answer', $response) === false) {
+            return false;
+        }
 
-    	$matchPercentage = qtype_drawing_renderer::compare_drawings($answer->answer, $response['answer']);
-    	$answer->fraction = 0;
-    	return false;
+        $matchpercentage = qtype_drawing_renderer::compare_drawings($answer->answer, $response['answer']);
+        $answer->fraction = 0;
+        return false;
 
-	}
+    }
 
     public function check_file_access($qa, $options, $component, $filearea,
                     $args, $forcedownload) {

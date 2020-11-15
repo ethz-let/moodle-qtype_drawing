@@ -94,9 +94,7 @@ methodDraw.addExtension("eraser", function(S) {
 
             xpaths = [];
             svgElement = [];
-          //  console.error(document.getElementById('svgcontent').innerHTML);
             xflatten(document.getElementById('svgcontent'));//, true, true, true
-           // console.error(document.getElementById('svgcontent').innerHTML);
             var svgElement = document.getElementById('svgcontent');
             var xpaths = flattenSVG(svgElement);
 
@@ -212,7 +210,7 @@ methodDraw.addExtension("eraser", function(S) {
           if(!document.getElementById('erase')){
             var svg = d3.select("#svgcontent");
             g_erase = svg.append('g').attr('id', 'erase');
-          } else {//console.error("s erase yet.");
+          } else {
             var svg = d3.select("#svgcontent");
             var drawingpaths = svg.select("#paths");
             g_erase = drawingpaths.select('erase');
@@ -284,7 +282,7 @@ if(d3.select(this).attr("id") != 'erase_line'){
       },
       // This is triggered when the main mouse button is moved
       // on the editor canvas (not the tool panels)
-      mouseMove: function(opts) {//console.error("mouse move...");
+      mouseMove: function(opts) {
         // Check the mode on mousedown
 
         if(svgCanvas.getMode() == "eraser") {

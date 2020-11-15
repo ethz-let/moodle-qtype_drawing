@@ -17,7 +17,7 @@
 /**
  * drawing question renderer class.
  *
- * @package	qtype
+ * @package    qtype
  * @subpackage drawing
  * @copyright ETHZ LET <amr.hourani@id.ethz.ch>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,320 +30,68 @@ defined('MOODLE_INTERNAL') || die();
  * Generates the output for drawing questions.
  *
  * @copyright  ETHZ LET <amr.hourani@id.ethz.chh>
- * @license	http://opensource.org/licenses/BSD-3-Clause
+ * @license    http://opensource.org/licenses/BSD-3-Clause
  */
 class qtype_drawing_renderer extends qtype_renderer {
 
 
-    public static function translate_to_js() {
-        global $PAGE;
+    public static function translate_to_js($page) {
         foreach (array_keys(get_string_manager()->load_component_strings('qtype_drawing', current_language())) as $string) {
-            $PAGE->requires->string_for_js($string, 'qtype_drawing');
+            $page->requires->string_for_js($string, 'qtype_drawing');
         }
     }
 
-    public static  function strstr_after($haystack, $needle, $case_insensitive = false) {
-        $strpos = ($case_insensitive) ? 'stripos' : 'strpos';
+    public static function strstr_after($haystack, $needle, $caseinsensitive = false) {
+        $strpos = ($caseinsensitive) ? 'stripos' : 'strpos';
         $pos = $strpos($haystack, $needle);
         if (is_int($pos)) {
             return substr($haystack, $pos + strlen($needle));
         }
-        // Most likely false or null
+        // Most likely false or null.
         return $pos;
     }
 
-    private static function create_gd_image_from_string($imgString) {
+    private static function create_gd_image_from_string($imgstring) {
         return  '';
-        if ($imgString != '') {
-            $imgData = base64_decode(self::strstr_after($imgString, 'base64,'));
-            $img =  imagecreatefromstring($imgData);
-
-            // integer representation of the color black (rgb: 0,0,0)
-            $background = imagecolorallocate($img, 0, 0, 0);
-            // removing the black from the placeholder
-            imagecolortransparent($img, $background);
-
-            imagealphablending( $img, false );
-            imagesavealpha( $img, true );
-            return $img;
-        }
     }
 
-    public static function compare_drawings($teacherAnswer, $studentAnswer, $createBlendedImg = false) {
-        return 0;
-        // Beginning of dataURL string: "data:image/png;base64,".
-        core_php_time_limit::raise();
-        raise_memory_limit(MEMORY_EXTRA);
-
-        $onlyShowCorrectAnswer = true;
-
-        if ($studentAnswer != '') {
-            // no answer given by student--that's fine, we can still show the right answer.
-            $onlyShowCorrectAnswer = false;
-            $currentAnswerImg = self::create_gd_image_from_string($studentAnswer);
-            $studentAnswerImg = $currentAnswerImg;
-        }
-
-        $correctAnswerImg = self::create_gd_image_from_string($teacherAnswer);
-
-        $width = imagesx($correctAnswerImg);
-        $height = imagesy($correctAnswerImg);
-
-        if ($createBlendedImg ===  true) {
-            return 0;
-            // Create a copy just to have somewhere to write to. It doesn't matter that the $teacherAnswer is not blank
-            // we don't need blank, since in fact more pixels than the ones in the teacher answer picture are going to be drawn into.
-            $blendedImg = self::create_gd_image_from_string($teacherAnswer);
-            $green = imagecolorallocate($blendedImg, 0, 255, 0);
-            $blue = imagecolorallocate($blendedImg, 0, 0, 255);
-            $red = imagecolorallocate($blendedImg, 255, 0, 0);
-
-        }
-
-        $matchingPixels = 0;
-        $matchPercentage = 0;
-        $teacherOnlyPixels = 0;
-        $studentOnlyPixels = 0;
-        $totalPixels = 0;
-        $allotherpixels = 0;
-
-        // *************
-        // WARNING: THE FOLLOWING IS SPAHGETTI CODE FOR OPTIMIZATION PURPOSES. SORRY.
-        // *************
-
-
-        if (!$onlyShowCorrectAnswer) {
-            if ($createBlendedImg ===  true) {
-
-                // Start of Rocket Science to fix spaghetti
-
-                // Copy and merge
-                $dest_image = imagecreatetruecolor($width, $height);
-
-                imagealphablending( $dest_image, false );
-                //make sure the transparency information is saved
-                imagesavealpha($dest_image, true);
-
-                //create a fully transparent background (127 means fully transparent)
-                $trans_background = imagecolorallocatealpha($dest_image, 0, 0, 0, 127);
-
-                //fill the image with a transparent background
-                imagefill($dest_image, 0, 0, $trans_background);
-
-                //$correctAnswerImg = self::create_gd_image_from_string($teacherAnswer);
-                //$studentAnswerImg = self::create_gd_image_from_string($studentAnswer);
-
-                $ETHzLogoURI = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAALCAYAAAA9St7UAAAACXBIWXMAAC4jAAAuIwF4pT92AAADuklEQVR42p2WT4iVZRTGf895751R01ExJEFSEAwqbVLBoqm9USgtWkVQ0cIicFHpxgKhXbXJhS2CqE2gi7JFQYL9gbDCK/gnmCQxxoKpaWRwJu/M3O88Le43dh3GSt/N933nz/ue57zPOedTKYxw/RJg/n312qh++n/Y3sz3DeOwQbpe35hzzuSixDC3th6WmLH5rj5oewTLewD2HnrBZonEVZt+iTXzg7eZsTkTwdb5AG0S+AF4oFfX6EH5TqY/ugUQQ6XoEeCLqvIeYLgUtedltyez+lLykM0Jmy01EM8DMypxAti2gO73Ungrk8O9l3QNSH8/pwCazeY6u7PtOm6I2dlZHwUopWyVcv3AQBwfH6/GJf1ZCosydbJrq6EITs6j21w2AT8jgcRG6R+AmXQkOhL9EncCL84Fb/MX0C8RwOmq4j7gKtBXy7o3YtNut72r+95Zn8nd9f6rgZ3QBdnV5+vA4Ph4tX0uyKriXTuPdRMRWzIzMmnZvFkKmpiY/HbZsqVHStHhqvKTElsyOQSslNiVyYMR3pSp0QgOZnIwxPMK1tjsycS2x0qJDzJ9EvgK+An4TeLjCJZSCiMSR73AajR4rBQuSbxWix6KYLgUTtt+byEfYG8pjJTCpbqR7I7g1VIYsb1Z4sdSGGk0tEPi8wgdsz0YwcUIfql97ongfCk8IfF+HePZWjcEfNKVaUcpfFoKIw1AEWoBjwN7Gw1tziQksNkXgUuhBRARoxEsyeR74FlgLEIfRmiy08n9XRttrRllm0MRzEi8lElbUieCZQBVxXmJjeAjpehRiUbtc8V2M0LRbHJudpa3u/uy3CYljUoe7Dao/LUUbZAgujx0a446pfCGzYFMDkQw25Vlq8t/b6k3PQUwNTW1BthpX6u15yTfXdfEYWAY2N8tHX5uNLSuTtCFvj4NSDQjdErq7U4622jEJolqepqQKDX9ZyVGbK+VCJurkjoSywAFwMxM1QLGgFemp/217W9sr8rkDpvL7bae6mafbTZUFS1gbGBgYHMEfZmcBMaazeYxYIXNmYmJyZczMbA3k+M2a6Gcy9S+TF7odHxvXebn7Gs1CbiV6UGJxcBdVcXuquJp0GdVRasU7q+BnQc2zDmpyzuN2c55naoAq2w6wHgtXiHRB1zOZAZYXF/5ZZvpCBYBy23aNhP10AIYkFhsc0XiD5vVQNTBXgZW9oyBybpDNW3SZiSCpcDtNlNzfjZtoCNxG0ANZMHpfCOZ/+MPQDcx5W80tRea8Dc6W4D/BnxA+7bYujrLAAAAAElFTkSuQmCC";
-                $ETHzLogoGD = self::create_gd_image_from_string($ETHzLogoURI);
-
-                //copy each png file on top of the destination (result) png
-                imagecopy($dest_image, $correctAnswerImg, 0, 0, 0, 0, $width, $height);
-                imagecopy($dest_image, $studentAnswerImg, 0, 0, 0, 0, $width, $height);
-                imagecopy($dest_image , $ETHzLogoGD, $width - 50, $height - 11, 0, 0, 50, 11);
-
-                $yellowgreen = imagecolorallocate($dest_image, 221, 253, 11);
-                $pixel_correct_answer = array();
-                $totalpix = $width * $height;
-                for ($x = 0; $x < $width; $x++) {
-                    for ($y = 0; $y < $height; $y++) {
-                        $totalPixels++;
-                        /*
-                         //match
-                         if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-                         if (((imagecolorat($studentAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-                         $color = imagecolorallocate($dest_image,rand(0,255), rand(0,255), rand(0,255));
-                         imagesetpixel($dest_image,  $x, $y, $color);
-                         $matchingPixels++;
-                         }
-                         }
-                         */
-                        // teacher only
-                        if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-                            if (((imagecolorat($studentAnswerImg, $x, $y) >> 24) & 0xFF) === 127) {
-                                $rgb = imagecolorat($correctAnswerImg, $x, $y);
-                                $r = ($rgb >> 16) & 0xFF;
-                                $g = ($rgb >> 8) & 0xFF;
-                                $b = $rgb & 0xFF;
-
-
-
-                                $color = imagecolorallocatealpha($dest_image,$r, $g, $b,60);
-                                imagesetpixel($dest_image,  $x, $y, $color);
-                                $teacherOnlyPixels++;
-                            }
-                        }
-                        // student only
-                        if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) === 127) {
-                            if (((imagecolorat($studentAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-
-                                $studentOnlyPixels++;
-                            }
-                        }
-                        /*
-                         else if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127 && !((imagecolorat($studentAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-                         $teacherOnlyPixels++;
-                         } else if (!((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127 && ((imagecolorat($studentAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-                         $studentOnlyPixels++;
-                         }else{
-                         $allotherpixels++;
-                         }*/
-
-                    }
-                }
-
-
-                if (!$onlyShowCorrectAnswer) {
-                    imagedestroy($studentAnswerImg);
-                    //avoid dividing by zero..
-                    $dividedpixels = $totalPixels; // $matchingPixels + $teacherOnlyPixels + $studentOnlyPixels;
-                    if($dividedpixels == 0){
-                        $matchPercentage = 0;
-                    }else{
-                        $matchPercentage = ($matchingPixels / $dividedpixels)*100;
-                    }
-                }
-
-                $imgresult = self::gdimage_to_datauri($dest_image);
-
-                //destroy all the image resources to free up memory
-                @imagedestroy($correctAnswerImg);
-                @imagedestroy($studentAnswerImg);
-                @imagedestroy($dest_image);
-
-
-                return array($imgresult,($matchingPixels / ($matchingPixels + $teacherOnlyPixels + $studentOnlyPixels))*100);			//$matchPercentage
-
-
-                // end of Rocket Science to fix spaghetti
-
-
-            } else {
-                // DO NO CREATE BLENDED IMAGE
-                for ($x = 0; $x < $width; $x++) {
-                    for ($y = 0; $y < $height; $y++) {
-                        if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127 && ((imagecolorat($currentAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-
-                            $matchingPixels++;
-
-                        } else if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127 && ((imagecolorat($currentAnswerImg, $x, $y) >> 24) & 0xFF) === 127) {
-
-                            $teacherOnlyPixels++;
-
-                        } else if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) === 127 && ((imagecolorat($currentAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-
-                            $studentOnlyPixels++;
-                        }
-
-                    }
-                }
-                // --- DO NOT CREATE BLENDED IMAGE
-            }
-        } else {
-            if ($createBlendedImg ===  true) {
-                for ($x = 0; $x < $width; $x++) {
-                    for ($y = 0; $y < $height; $y++) {
-                        // ONLY SHOW CORRECT ANSWER -- NO INPUT FROM USER
-                        if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-
-                            $teacherOnlyPixels++;
-
-                            imagesetpixel($blendedImg, $x, $y, $blue);
-
-                        }
-
-                    }
-                }
-            } else {
-                // DO NOT CREATE BLENDED IMAGE
-                for ($x = 0; $x < $width; $x++) {
-                    for ($y = 0; $y < $height; $y++) {
-                        // ONLY SHOW CORRECT ANSWER -- NO INPUT FROM USER
-                        if (((imagecolorat($correctAnswerImg, $x, $y) >> 24) & 0xFF) !== 127) {
-
-                            $teacherOnlyPixels++;
-                        }
-
-                    }
-                }
-                // --- DO NOT CREATE BLENDED IMAGE
-            }
-
-        }
-
-        imagedestroy($correctAnswerImg);
-
-        if (!$onlyShowCorrectAnswer) {
-            imagedestroy($currentAnswerImg);
-            //avoid dividing by zero..
-            $dividedpixels = $matchingPixels + $teacherOnlyPixels + $studentOnlyPixels;
-            if($dividedpixels == 0){
-                $matchPercentage = 0;
-            }else{
-                $matchPercentage = ($matchingPixels / $dividedpixels)*100;
-            }
-        }
-
-        if ($createBlendedImg ===  true) {
-
-            $blendedImgDataURL = self::gdimage_to_datauri($blendedImg);
-            imagedestroy($blendedImg);
-            return array($blendedImgDataURL, $matchPercentage);
-        }
-
-        //free up memory by chancing on any image that might have been created!
-        @imagedestroy($studentAnswerImg);
-        @imagedestroy($currentAnswerImg);
-        @imagedestroy($blendedImg);
-        @imagedestroy($correctAnswerImg);
-
-
-        return $matchPercentage;
-    }
-    private static function isBlue($array) {
+    private static function isblue($array) {
         if ($array[0] == 0 && $array[1] == 0 && $array[2] == 255) {
             return true;
         }
         return false;
     }
 
-    public static function gdimage_to_datauri($gdImage) {
+    public static function gdimage_to_datauri($gdimage) {
 
         ob_start();
-        imagepng($gdImage);
-        $ImgData = ob_get_contents();
+        imagepng($gdimage);
+        $imgdata = ob_get_contents();
         ob_end_clean();
 
-
         stream_wrapper_register("BlobDataAsFileStream", "drawing_blob_data_as_file_stream");
-
-        //Store $swf_blob_data to the data stream
-        drawing_blob_data_as_file_stream::$blob_data_stream = $ImgData;
-
-        //Run getimagesize() on the data stream
-        $image_size = getimagesize('BlobDataAsFileStream://');
-
+        drawing_blob_data_as_file_stream::$blobdatastream = $imgdata;
+        $imagesize = getimagesize('BlobDataAsFileStream://');
         stream_wrapper_unregister("BlobDataAsFileStream");
-
-        $imgdatauri = 'data:' . $image_size['mime'] . ';base64,' . base64_encode($ImgData);
+        $imgdatauri = 'data:' . $imagesize['mime'] . ';base64,' . base64_encode($imgdata);
         return $imgdatauri;
     }
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
 
-        global $CFG, $DB, $PAGE;
+        global $CFG, $DB;
         // A unique instance id for this particular canvas presentation. Will help refer back to it afterwards.
         $canvasinstanceid = uniqid();
-
         $question = $qa->get_question();
         $canvasinfo = $DB->get_record('qtype_drawing', array('questionid' => $question->id));
-        $currentAnswer = $qa->get_last_qt_var('answer');
+        $currentanswer = $qa->get_last_qt_var('answer');
         $attemptid = $qa->get_last_qt_var('uniqueuattemptid');
 
         // Special and dirty case for the old version of the plugin when annotation was not added yet.
-        if($options->readonly && !$attemptid){
-            $attemptid = substr(md5($currentAnswer), 0, 14).'XX';
+        if ($options->readonly && !$attemptid) {
+            $attemptid = substr(md5($currentanswer), 0, 14).'XX';
         }
-        if(!$attemptid){ // First time attempt.
+        if (!$attemptid) { // First time attempt.
             $attemptid = random_string(16);
         }
 
@@ -356,171 +104,176 @@ class qtype_drawing_renderer extends qtype_renderer {
         $inputname = $qa->get_qt_field_name('answer');
         $background = self::get_image_for_question($question);
         $studentanswer = $qa->get_last_qt_var('answer');
-        qtype_drawing_renderer::translate_to_js();
+        self::translate_to_js($this->page);
         $isannotator = 0;
         if (has_capability('mod/quiz:grade', context::instance_by_id($question->contextid))) {
             $isannotator = 1;
         }
 
-        if(!empty($background) && !$options->readonly){
-            $this->page->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.attemptquestion', array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight,$background[0] ));
+        if (!empty($background) && !$options->readonly) {
+            $this->page->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.attemptquestion',
+             array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight, $background[0]));
         }
-        $canvas = "<input type=\"hidden\" name=\"$uniqueattemptinputname\"value = \"$attemptid\"> <div class=\"qtype_drawing_id_" . $question->id ."\" data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
+        $canvas = "<input type=\"hidden\"
+                  name=\"$uniqueattemptinputname\"value = \"$attemptid\">
+                   <div class=\"qtype_drawing_id_" . $question->id ."\"
+                   data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
         if ($options->readonly) {
-            $readonlyCanvas = ' readonly-canvas';
+            $readonlycanvas = ' readonly-canvas';
 
         } else {
-            $readonlyCanvas = '';
+            $readonlycanvas = '';
             $inputnamelastsaved = $inputname.'_lastsaved';
             $inputnamewifidata = $inputname.'_wifidata';
-            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$currentAnswer</textarea>
+            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\"
+                        id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
+                        style=\"display:none\">$currentanswer</textarea>
 
-            <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\" id=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">
-                <input type=\"hidden\" name=\"qtype_drawing_shouldreload_".$attemptid.$uniquefieldnameattemptid."\" id=\"qtype_drawing_shouldreload_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">";
+            <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\"
+            id=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">
+                <input type=\"hidden\" name=\"qtype_drawing_shouldreload_".$attemptid.$uniquefieldnameattemptid."\"
+                id=\"qtype_drawing_shouldreload_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">";
         }
-        //<textarea class=\"qtype_drawing_textarea\" name=\"$inputnamelastsaved\" id=\"qtype_drawing_last_saved_answer_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">".trim(str_replace(array('\n\r', '\n', '\r'), '', $currentAnswer))."</textarea>
-        if($readonlyCanvas && $readonlyCanvas != '') {
-            /*
-             $tempfile = 'qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$attemptid.$uniquefieldnameattemptid.'.png';
-             $tempfile1 = '1qtype_drawing_'.$canvasinstanceid.'_'.$qattempt.'_'.$attemptid.$uniquefieldnameattemptid.'.png';
-             $tempfullpath = $CFG->tempdir.'/'.$tempfile;
-             $tempfullpath1 = $CFG->tempdir.'/'.$tempfile1;
-             $sesskey = sesskey();
-
-             $image = new Imagick();
-             $image->setBackgroundColor(new ImagickPixel('transparent'));
-             $image->readImageBlob($studentanswer);
-             $image->setImageFormat("png24");
-             $image->writeImage($tempfullpath);
-
-             $image->clear();
-             $image->destroy();
-
-             $studentmergedanswer = "<img src='$CFG->wwwroot/question/type/drawing/image.php?sesskey=$sesskey&i=$tempfile' style='background: url($background);background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;'/>";
-             */
+        if ($readonlycanvas && $readonlycanvas != '') {
 
             $originalbgtype = $background[0];
 
-            if($background[0] == 'svg') {/*
-                // $background[1] = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$background[1]);*/
-                $background[1] = preg_replace("/<\\?xml.*\\?>/",'',$background[1]);
-                // $background[1] = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$background[1]);
-                $background[1]= preg_replace("/<\!DOCTYPE.*\>/", '', $background[1]);
+            if ($background[0] == 'svg') {
+                $background[1] = preg_replace("/<\\?xml.*\\?>/", '', $background[1]);
+                $background[1] = preg_replace("/<\!DOCTYPE.*\>/", '', $background[1]);
                 $background[1] = trim(preg_replace('/\s+/', ' ', $background[1]));
                 $finalbackground = 'data:image/svg+xml;utf8,'.rawurlencode($background[1]);
             } else {
                 $finalbackground = $background[1];
             }
-            if(!$finalbackground || trim($finalbackground) == ''){
+            if (!$finalbackground || trim($finalbackground) == '') {
                 $backgroundstyle = "background: #fff";
             } else {
                 $backgroundstyle = "background-image: url($finalbackground)";
             }
             $annotatorhideshow = '';
 
-            $studentmergedanswer = str_replace('<svg',"<svg style='$backgroundstyle;background-repeat: no-repeat; background-size: $canvasinfo->backgroundwidth"."px $canvasinfo->backgroundheight"."px;' ",$studentanswer);
-            if($isannotator == 0){
-
-                $canvas .=  '
-							 <div class="qtype_drawing_drawingwrapper" id ="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'" style="height:'.$canvasinfo->backgroundheight.'px; width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.$studentmergedanswer.'</div>';
+            $studentmergedanswer = str_replace('<svg',
+                                   "<svg style='$backgroundstyle;background-repeat: no-repeat;
+                                                background-size: $canvasinfo->backgroundwidth"."px
+                                                $canvasinfo->backgroundheight"."px;' ",
+                                   $studentanswer);
+            if ($isannotator == 0) {
+                $canvas .= '<div class="qtype_drawing_drawingwrapper"
+                            id="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'"
+                            style="height:'.$canvasinfo->backgroundheight.'px;
+                                   width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.
+                            $studentmergedanswer.
+                            '</div>';
                 $questiontext = $question->format_questiontext($qa);
-                $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"  width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
+                $annotationstr = '<svg xmlns="http://www.w3.org/2000/svg"
+                                       xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"
+                                       width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
 
-
-                if($background[0] == 'svg'){
-                    $annotation_str .= $background[1];
-                    $annotation_str .= $studentanswer;
+                if ($background[0] == 'svg') {
+                    $annotationstr .= $background[1];
+                    $annotationstr .= $studentanswer;
                 } else {
 
-                    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
-                    $annotation_str .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'" width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
-                    $annotation_str .= '</svg>';
-                    //$annotation_str .= $studentmergedanswer;
-                    $annotation_str .= $studentanswer;
+                    $annotationstr .= '<svg xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'"
+                                            height="'.$canvasinfo->backgroundheight.'">';
+                    $annotationstr .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'"
+                                              width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
+                    $annotationstr .= '</svg>';
+                    $annotationstr .= $studentanswer;
 
                 }
 
                 // Display annotations to the student, if any.
                 global $USER;
-                $fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id);
-                if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)){
-                    foreach($annotations as $annotation){
-                        $annotation_str .= $annotation->annotation;
+                $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id);
+                if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)) {
+                    foreach ($annotations as $annotation) {
+                        $annotationstr .= $annotation->annotation;
                     }
 
                 }
 
-                $annotation_str .= '</svg>';
-                $result = html_writer::tag('div', $questiontext . $annotation_str, array('class' => 'qtext'));
+                $annotationstr .= '</svg>';
+                $result = html_writer::tag('div', $questiontext . $annotationstr, array('class' => 'qtext'));
 
                 if ($qa->get_state() == question_state::$invalid) {
                     $result .= html_writer::nonempty_tag('div',
-                                    $question->get_validation_error(array('answer' => $currentAnswer)),
+                                    $question->get_validation_error(array('answer' => $currentanswer)),
                                     array('class' => 'validationerror'));
                 }
                 return $result;
             } else {
 
-                $canvas .= "<textarea id=\"qtype_drawing_original_bg_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$background[1]</textarea>";
-                $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\">$studentanswer</textarea>";
+                $canvas .= "<textarea id=\"qtype_drawing_original_bg_id_".$attemptid.$uniquefieldnameattemptid."\"
+                                      style=\"display:none\">$background[1]</textarea>";
+                $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$attemptid.$uniquefieldnameattemptid."\"
+                                      style=\"display:none\">$studentanswer</textarea>";
 
+                $annotationstr = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                       id="baseSVGannotation" width="'.$canvasinfo->backgroundwidth.'"
+                                       height="'.$canvasinfo->backgroundheight.'">';
 
-                $annotation_str = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation" width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
-
-                /* $studentmergedanswer = str_replace('<?xml version="1.0" encoding="utf-8"?>','',$studentmergedanswer);*/
                 $studentmergedanswer = preg_replace("/<\\?xml.*\\?>/", '', $studentmergedanswer);
                 $studentmergedanswer = preg_replace("/<\!DOCTYPE.*\>/", '', $studentmergedanswer);
-                // $studentmergedanswer = str_replace('<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">','',$studentmergedanswer);
 
-                $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\" value=\"$background[0]\">";
+                $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$attemptid.$uniquefieldnameattemptid."\"
+                                   style=\"display:none\" value=\"$background[0]\">";
 
-                if($background[0] == 'svg'){
-                    $annotation_str .= $background[1];
-                    $annotation_str .= $studentanswer;
+                if ($background[0] == 'svg') {
+                    $annotationstr .= $background[1];
+                    $annotationstr .= $studentanswer;
                 } else {
 
-                    $annotation_str .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
-                    $annotation_str .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'" width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
-                    $annotation_str .= '</svg>';
-                    //$annotation_str .= $studentmergedanswer;
-                    $annotation_str .= $studentanswer;
+                    $annotationstr .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
+                    $annotationstr .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'"
+                                              width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
+                    $annotationstr .= '</svg>';
+                    $annotationstr .= $studentanswer;
 
                 }
 
                 // Get all annotations, if any, plus student answer and background.
                 global $USER;
-                $fields = array('questionid' =>  $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $originaluserid);
-                if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)){
+                $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $originaluserid);
+                if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)) {
 
-                    foreach($annotations as $annotation_drawing){
+                    foreach ($annotations as $annotationdrawing) {
 
-                        if($annotation_drawing->annotatedby == $USER->id){
-                            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\" data-info=\"last_annotation_by_user\">$annotation_drawing->annotation</textarea>";
+                        if ($annotationdrawing->annotatedby == $USER->id) {
+                            $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\"
+                                                  id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
+                                                  style=\"display:none\"
+                                                  data-info=\"last_annotation_by_user\">$annotationdrawing->annotation</textarea>";
                             continue;
                         }
 
-                        $annotation_str .= $annotation_drawing->annotation;
+                        $annotationstr .= $annotationdrawing->annotation;
                     }
 
-                    $annotation_str .= '</svg>';
-                    $background[1] = $annotation_str;
+                    $annotationstr .= '</svg>';
+                    $background[1] = $annotationstr;
                     $background[0] = 'svg';
                 } else {
                     $background[0] = 'svg';
-                    $background[1] = $annotation_str.'</svg>';
-                    $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\" id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\" style=\"display:none\" data-info=\"original_student_answer\"></textarea>";
+                    $background[1] = $annotationstr.'</svg>';
+                    $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\"
+                                          id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
+                                          style=\"display:none\"
+                                          data-info=\"original_student_answer\"></textarea>";
 
                 }
 
             }
 
-
         }
-        if(!is_array($background) || !array_key_exists(1, $background)){
+        if (!is_array($background) || !array_key_exists(1, $background)) {
             $background[0] = '';
             $background[1] = '';
         }
-        $canvas .=  '
+        $canvas .= '
 					<script type="text/javascript" src="'.$CFG->wwwroot.'/question/type/drawing/js/embedapi.js"></script>
 					<script type="text/javascript">
 					svgCanvas = null;
@@ -548,122 +301,162 @@ class qtype_drawing_renderer extends qtype_renderer {
 											var resize = function(e) {
 
     											var viewportHeight =  window.innerHeight;
+                          var quiz_timer_div = document.getElementById("quiz-time-left");
+                          var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' =
+                          document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
+                          if (quiz_timer_div && quiz_timer_div.innerHTML !== "") {
+                               Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("display", "block");
+                               var calculatedheight =  viewportHeight -
+                                    Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").get("clientHeight");
+                               Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("height", calculatedheight+ "px");
+                          } else {
+                               var calculatedheight = viewportHeight;
+                               Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                               setStyle("height", calculatedheight+ "px");
+                          }
+
+                          if (!Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                            hasClass("qtype_drawing_maximized") &&
+                              calculatedheight > 650) {
+                              Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("height", "650px");
+                              Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("height", "650px");
+                          } else {
+                              Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                              setStyle("height", calculatedheight +"px");
+                              Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                              set("height", calculatedheight +"px");
+                          }
+
+                  	  };
+
+                      Y.on("domready", function() {
+                        resize();
+                      });
+
+                  	  Y.on("windowresize", resize);
+
+                  	  });
+
+                  function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'() {
+
+                      var doc = Y.one("body");
+                      var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'";
+                      var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.$uniquefieldnameattemptid.'";
+
+                      var frame = Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'");
+                      var padding = 150;
+                      var lastHeight;
+                      var quiz_is_timed = 0;
+                      Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                        toggleClass("qtype_drawing_maximized");
+                      Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                        set("height","100%");
+
+                      if (Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                          hasClass("qtype_drawing_maximized")) {
+                          Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                            set("height","100%");
+                          Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                            setStyle("height","100%");
+
+                          Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                            set("height","100%");
+                          Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                            setStyle("height","100%");
+
+                          var quiz_timer_div = document.getElementById("quiz-time-left");
+                          var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' =
+                              document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
+
+                          if (quiz_timer_div && quiz_timer_div.innerHTML !== "") {
+                               drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.
+                                appendChild(document.getElementById("quiz-timer").cloneNode(true));
+                               Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("display", "block");
+                               Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("margin-top", "-1em");
+                               var calculatedheight = doc.get("winHeight") -
+                                   Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
+                                    get("clientHeight");
+                               Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("height", calculatedheight+ "px");
+                          } else {
+                              if (drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.hasChildNodes()) {
+                                  drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.
+                                    removeChild(document.getElementById("quiz-timer").cloneNode(true));
+                              }
+                              var  calculatedheight = doc.get("winHeight");
+                              Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                                setStyle("height", calculatedheight+ "px");
+
+                          }
+                      } else {
+
+                      	var viewportHeight = doc.get("winHeight");
+                          if (viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
+                	       Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                          setStyle("height", viewportHeight + "px");
+                          Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").
+                          set("height", viewportHeight + "px");
+
+                          Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                          setStyle("height", viewportHeight +"px");
+                          Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").
+                          set("height", viewportHeight +"px");
+
+                          if (document.getElementById("quiz-timer")) {
+                               var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' =
+                                    document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
+                               drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.innerHTML = "";
+                               Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("margin-top", "0em");
+                               Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "none");
+                          }
+
+                      }
+
+                  }
+              //]]
+          </script>
 
 
-        var quiz_timer_div = document.getElementById("quiz-time-left");
-        var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
-        if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
-           //  drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-             Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "block");
-             var  calculatedheight =  viewportHeight - Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").get("clientHeight");
-             Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
-        } else {
-             var  calculatedheight = viewportHeight;// doc.get("winHeight");
-             Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
-        }
-
-        if(!Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").hasClass("qtype_drawing_maximized") && calculatedheight > 650){
-            Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", "650px");
-            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", "650px");
-
-        } else{
-
-            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight +"px");
-            Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").set("height", calculatedheight +"px");
-        }
-
-
-
-	  };
-
-      Y.on("domready", function(){
-        resize();
-      });
-
-
-
-	  Y.on("windowresize", resize);
-
-	  });
-
-
-
-//]]
-
-function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'(){
-
-    var doc = Y.one("body");
-    var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'";
-    var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.$uniquefieldnameattemptid.'";
-
-    var frame = Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'");
-    var padding = 150;
-    var lastHeight;
-    var quiz_is_timed = 0;
-    Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").toggleClass("qtype_drawing_maximized");
-    Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").set("height","100%");
-
-    if (Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").hasClass("qtype_drawing_maximized")) {
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").set("height","100%");
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height","100%");
-
-        Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").set("height","100%");
-        Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height","100%");
-
-
-            var quiz_timer_div = document.getElementById("quiz-time-left");
-            var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
-            if(quiz_timer_div && quiz_timer_div.innerHTML !== ""){
-                 drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.appendChild(document.getElementById("quiz-timer").cloneNode(true));
-                 Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "block");
-                 Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("margin-top", "-1em");
-                 var  calculatedheight = doc.get("winHeight") - Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").get("clientHeight");
-                 Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
-            } else {
-                if (drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.hasChildNodes()) {
-                    drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.removeChild(document.getElementById("quiz-timer").cloneNode(true));
-                }
-                var  calculatedheight = doc.get("winHeight");
-                Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", calculatedheight+ "px");
-
-            }
-    } else {
-
-    	var viewportHeight = doc.get("winHeight");
-        if(viewportHeight > 650 || viewportHeight <= 500) viewportHeight = 650;
-    	Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", viewportHeight + "px");
-        Y.one("#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'").set("height", viewportHeight + "px");
-
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("height", viewportHeight +"px");
-        Y.one("#qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'").set("height", viewportHeight +"px");
-
-        if (document.getElementById("quiz-timer")) {
-             var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' = document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
-             drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.innerHTML = "";
-             Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("margin-top", "0em");
-             Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "none");
-        }
-
-    }
-
-}
-
-</script>
-
-
-				<textarea style="display:none" id="qtype_drawing_background_image_value_'.$attemptid.$uniquefieldnameattemptid.'">'.$background[1].'</textarea>
-				<input type="hidden" style="display:none" id="qtype_drawing_background_image_type_'.$attemptid.$uniquefieldnameattemptid.'" value="'.$background[0].'">
-				<input type="hidden" style="display:none" id="qtype_drawing_background_image_width_'.$attemptid.$uniquefieldnameattemptid.'" value="'.$canvasinfo->backgroundwidth.'">
-				<input type="hidden" style="display:none" id="qtype_drawing_background_image_height_'.$attemptid.$uniquefieldnameattemptid.'" value="'.$canvasinfo->backgroundheight.'">
-				<div class="qtype_drawing_drawingwrapper" id="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'"><img id="qtype_drawing_loading_image_'.$attemptid.$uniquefieldnameattemptid.'" src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif" alt="Loading">
-                <span id="quiz_timer_drawing_' . $attemptid . $uniquefieldnameattemptid .'" style="display:none; background-color:#fff"></span>
-				<span class="qtype_drawing_togglebutton" id="qtype_drawing_togglebutton_id_' . $attemptid . $uniquefieldnameattemptid. '" onclick="qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'()">&nbsp;</span>
-					<iframe src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.'&attemptid='.$attemptid.'&stid='.$originaluserid.'&uniquefieldnameattemptid='.$uniquefieldnameattemptid.'&readonly='.$options->readonly.'&sesskey='.sesskey().'" id="qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'"  onload="init_qtype_drawing_embed(\''.$attemptid.$uniquefieldnameattemptid.'\')" ></iframe>
+				<textarea style="display:none"
+                  id="qtype_drawing_background_image_value_'.$attemptid.$uniquefieldnameattemptid.'">'.
+                  $background[1].'</textarea>
+				<input type="hidden" style="display:none"
+               id="qtype_drawing_background_image_type_'.$attemptid.$uniquefieldnameattemptid.'"
+               value="'.$background[0].'">
+				<input type="hidden" style="display:none"
+               id="qtype_drawing_background_image_width_'.$attemptid.$uniquefieldnameattemptid.'"
+               value="'.$canvasinfo->backgroundwidth.'">
+				<input type="hidden" style="display:none"
+               id="qtype_drawing_background_image_height_'.$attemptid.$uniquefieldnameattemptid.'"
+               value="'.$canvasinfo->backgroundheight.'">
+				<div class="qtype_drawing_drawingwrapper"
+             id="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'">
+             <img id="qtype_drawing_loading_image_'.$attemptid.$uniquefieldnameattemptid.'"
+                  src="'.$CFG->wwwroot.'/question/type/drawing/images/loading.gif"
+                  alt="Loading">
+        <span id="quiz_timer_drawing_' . $attemptid . $uniquefieldnameattemptid .'"
+              style="display:none; background-color:#fff"></span>
+				<span class="qtype_drawing_togglebutton"
+              id="qtype_drawing_togglebutton_id_' . $attemptid . $uniquefieldnameattemptid. '"
+              onclick="qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'()">&nbsp;</span>
+				<iframe
+          src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.
+          '&attemptid='.$attemptid.'&stid='.$originaluserid.
+          '&uniquefieldnameattemptid='.$uniquefieldnameattemptid.
+          '&readonly='.$options->readonly.'&sesskey='.sesskey().'"
+          id="qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'"
+          onload="init_qtype_drawing_embed(\''.$attemptid.$uniquefieldnameattemptid.'\')" >
+        </iframe>
 				</div>
 				';
-        // AMIII }
 
-        $canvas .=  '</div>';
+        $canvas .= '</div>';
 
         $questiontext = $question->format_questiontext($qa);
 
@@ -671,7 +464,7 @@ function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'(){
 
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
-                            $question->get_validation_error(array('answer' => $currentAnswer)),
+                            $question->get_validation_error(array('answer' => $currentanswer)),
                             array('class' => 'validationerror'));
         }
         return $result;
@@ -719,7 +512,7 @@ function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'(){
                 if ($file->get_content() == null) {
                     return null;
                 }
-                if($file->get_mimetype() == 'image/svg+xml') { // SVG.
+                if ($file->get_mimetype() == 'image/svg+xml') { // SVG.
                     return array('svg', $file->get_content(), $file->get_filename());
                 }
                 $image = imagecreatefromstring($file->get_content());
@@ -733,37 +526,17 @@ function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'(){
         }
         return null;
     }
-    public static function isDataURLAValidDrawing($dataURL, $bgWidth, $bgHeight) {
+    public static function isdataurlavaliddrawing($dataurl, $bgwidth, $bgheight) {
         return true;
-        /*
-         $imgData = base64_decode(qtype_drawing_renderer::strstr_after($dataURL, 'base64,'));
-         $imgGDResource =  imagecreatefromstring($imgData);
-         if ($imgGDResource === FALSE) {
-         return false;
-         } else {
-         // Check that it has non-zero dimensions (would've been nice to check that its dimensions fit those of the uploaded file but perhaps that is an overkill??)
-         if (imagesx($imgGDResource) != $bgWidth || imagesy($imgGDResource) != $bgHeight) {
-         return false;
-         } else {
-         // Check that the image is non-empty
-         if (self::isImageTransparent($imgGDResource, $bgWidth, $bgHeight) === true) {
-         return false;
-         }
-         }
-         imagedestroy($imgGDResource);
-         return true;
-         }
-         return false;
-         */
     }
 
 
-    private static function isImageTransparent($gdImage, $width, $height) {
+    private static function isimagetransparent($gdimage, $width, $height) {
         for ($x = 0; $x < $width; $x++) {
             for ($y = 0; $y < $height; $y++) {
-                // Check the alpha channel (4th byte from the right) if it's completely transparent
-                if (((imagecolorat($gdImage, $x, $y) >> 24) & 0xFF) !== 127/*127 means completely transparent*/) {
-                    // Something is painted, great!
+                // Check the alpha channel (4th byte from the right) if it's completely transparent.
+                if (((imagecolorat($gdimage, $x, $y) >> 24) & 0xFF) !== 127) {
+                    // Something is painted, great!.
                     return false;
                 }
             }
@@ -776,56 +549,56 @@ function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'(){
 
 class drawing_blob_data_as_file_stream {
 
-    private static $blob_data_position = 0;
-    public static $blob_data_stream = '';
+    private static $blobdataposition = 0;
+    public static $blobdatastream = '';
 
-    public static function stream_open($path,$mode,$options,&$opened_path){
-        static::$blob_data_position = 0;
+    public static function stream_open($path, $mode, $options, &$openedpath) {
+        static::$blobdataposition = 0;
         return true;
     }
 
-    public static function stream_seek($seek_offset,$seek_whence){
-        $blob_data_length = strlen(static::$blob_data_stream);
-        switch ($seek_whence) {
+    public static function stream_seek($seekoffset, $seekwhence) {
+        $blobdatalength = strlen(static::$blobdatastream);
+        switch ($seekwhence) {
             case SEEK_SET:
-                $new_blob_data_position = $seek_offset;
+                $newblobdataposition = $seekoffset;
                 break;
             case SEEK_CUR:
-                $new_blob_data_position = static::$blob_data_position+$seek_offset;
+                $newblobdataposition = static::$blobdataposition + $seekoffset;
                 break;
             case SEEK_END:
-                $new_blob_data_position = $blob_data_length+$seek_offset;
+                $newblobdataposition = $blobdatalength + $seekoffset;
                 break;
             default:
                 return false;
         }
-        if (($new_blob_data_position >= 0) AND ($new_blob_data_position <= $blob_data_length)){
-            static::$blob_data_position = $new_blob_data_position;
+        if (($newblobdataposition >= 0) AND ($newblobdataposition <= $blobdatalength)) {
+            static::$blobdataposition = $newblobdataposition;
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public static function stream_tell(){
-        return static::$blob_data_position;
+    public static function stream_tell() {
+        return static::$blobdataposition;
     }
 
-    public static function stream_read($read_buffer_size){
-        $read_data = substr(static::$blob_data_stream,static::$blob_data_position,$read_buffer_size);
-        static::$blob_data_position += strlen($read_data);
-        return $read_data;
+    public static function stream_read($readbuffersize) {
+        $readdata = substr(static::$blobdatastream, static::$blobdataposition, $readbuffersize);
+        static::$blobdataposition += strlen($readdata);
+        return $readdata;
     }
 
-    public static function stream_write($write_data){
-        $write_data_length=strlen($write_data);
-        static::$blob_data_stream = substr(static::$blob_data_stream,0,static::$blob_data_position).
-        $write_data.substr(static::$blob_data_stream,static::$blob_data_position+=$write_data_length);
-        return $write_data_length;
+    public static function stream_write($writedata) {
+        $writedatalength = strlen($writedata);
+        static::$blobdatastream = substr(static::$blobdatastream, 0, static::$blobdataposition).
+        $writedata.substr(static::$blobdatastream, static::$blobdataposition += $writedatalength);
+        return $writedatalength;
     }
 
-    public static function stream_eof(){
-        return static::$blob_data_position >= strlen(static::$blob_data_stream);
+    public static function stream_eof() {
+        return static::$blobdataposition >= strlen(static::$blobdatastream);
     }
 
 }

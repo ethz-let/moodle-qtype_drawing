@@ -133,7 +133,7 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
         // the remaining points are assembled into a new path
         if (last !== i) {
             newPath = path.slice(last, path.length);
-            if (newPath) { //console.error("new DOT path created", newPath, p);
+            if (newPath) {
                 newPaths.push(newPath);
 
             }
@@ -155,8 +155,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
             var p0_locationIndex = withinCapsule(path[0][0], path[0][1], e0[0], e0[1], e1[0], e1[1], eraseRadius);
             if (p0_locationIndex.indexOf(1) === -1) {
                 newPaths.push(path);
-             //   allpathspecs.push(allpathspecs[whichindex]);
-             //   console.error("funny 4");
                 return;
             }
         }
@@ -197,8 +195,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
 
                     newPath.push(x);
                     newPaths.push(newPath);
-                  //  allpathspecs.push(allpathspecs[whichindex]);
-                 //   console.error("funny 5");
 
                     i++;
                     last = i;
@@ -225,8 +221,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                     // we only want paths with length > 1
                     if (newPath.length > 1) {
                         newPaths.push(newPath);
-                  //      allpathspecs.push(allpathspecs[whichindex]);
-                  //      console.error("funny 6");
                     }
 
                     // we will put the second intersection point into the current position
@@ -247,17 +241,12 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
         // assemble the remaining points into a new path
         if (last !== i) {
             newPath = path.slice(last, path.length);
-            if (newPath) {//console.error("here we created a new path! CAPSULE "+ whichindex);
+            if (newPath) {
                 newPaths.push(newPath);
-
-             //   allpathspecs.push(allpathspecs[whichindex]);
-             //   console.error("funny 7");
             }
         }
-     //   console.error("final path count: ",newPaths.length, "on index ",whichindex);
 
     } // end capsuleErase
-    console.error("before", paths);
 
     function checkarayswithoutheadortail(a,b, tolerance){
         if(!tolerance) tolerance = 2;
@@ -265,7 +254,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
             tolerance = 0;
         }
         var difference = a.filter(x => b.indexOf(x) === -1);
-        console.error("differenace", difference.length, difference);
         if(difference.length <= tolerance){
             return true;
         }else{
@@ -274,7 +262,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
     }
 
     function process_more_paths(paths,newPaths, p){
-        console.error("newpaths",p, "different",newPaths.length - paths.length, p+ (newPaths.length - paths.length), paths, newPaths);
         var totalprocessedpaths = 0;
         for(m = 0; m < newPaths.length ;m++){
             if(typeof paths[m] !== 'undefined'){
@@ -285,14 +272,12 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                         break;
                     }
                     m++;
-                    console.error("MORE: second process in same differenece!");
                   }
             }
         }
     }
 
     function process_less_paths(paths,newPaths, p){
-        console.error("lesspaths",p, "different",newPaths.length - paths.length, p+ (newPaths.length - paths.length), paths, newPaths);
         var totalprocessedpaths = 0;
         for(m = 0; m < newPaths.length ;m++){
             if(typeof paths[m] !== 'undefined'){
@@ -303,7 +288,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
                         break;
                     }
                     m++;
-                    console.error("LESS: second process in same differenece!");
                 }
             }
         }
@@ -313,7 +297,6 @@ function erase(paths, erasePath, eraseRadius, allpathspecs) {
 var newdatapaths = [];
 var formedpathsspecs = [];
 var newspecsarranged = allpathspecs;
-console.error("allpathspecs before", allpathspecs);
 
    erasePath = cleanPath(erasePath);
     if (erasePath.length === 1) {
@@ -331,11 +314,6 @@ console.error("allpathspecs before", allpathspecs);
 
           }
 
-        if(newPaths.length == paths.length){
-            //process_less_paths(paths,newPaths, p);
-            console.error("DOT: equal paths returned after deletion?!");
-
-          }
 
 
         paths = newPaths;
@@ -354,11 +332,6 @@ console.error("allpathspecs before", allpathspecs);
 
             }
 
-            if(newPaths.length == paths.length){
-                //process_less_paths(paths,newPaths, p);
-                console.error("LINE: equal paths returned after deletion?! path specs", allpathspecs.length, "and new paths length", paths.length );
-              }
-
             paths = newPaths;
 
             var newdatapaths = newPaths;
@@ -367,13 +340,6 @@ console.error("allpathspecs before", allpathspecs);
         }
     } // end main
 
-
-
-    if(paths.length != allpathspecs.length){
-        console.error("final not equal.. path: ",paths.length, "new total pathspecs: ",allpathspecs.length );
-        }
-
-    console.error("allpathspecs after", allpathspecs);
 
     return [paths, allpathspecs];
     // diff between just two arrays:
@@ -476,16 +442,9 @@ if(newdatapaths.length < original_drawing_paths.length){
                 original_drawing_paths = temp_original_drawing_paths;
                 allpathspecs = temp_paths_specs;
             }
-        /*
-            console.error("FDFDFD", excludefromremoval);
-            console.error("FDFDFD-X", temp_original_drawing_paths.length);
-            console.error("FDFDFD-XY", temp_original_drawing_paths);
-            console.error("FDFDFD-XY-1", original_drawing_paths);
-            console.error("FDFDFD-ZY", temp_paths_specs);
-            console.error("FDFDFD-ZY-1", allpathspecs);
-            */
 
-} else{
+
+} else {
 // What if new lines where created? create new specs for them (fill gaps in allpathspecs).
 //original_drawing_paths = newdatapaths;
 //var repeatedtrialpaths = newdatapaths;
@@ -494,41 +453,16 @@ for(var e=allpathspecs.length; e<(newdatapaths.length); e++) {
         allpathspecs[e]='_SPECS_';
 }
 
-        // check what lines have changed in original drawing.
-        // cehck index with all other indexes
-        /*
-        for(var x=newdatapaths.length - 1; x>0; x--) { //in reverse search.
-            for(var y=0; y<original_drawing_paths.length; y++) {
-                if(stringifyPathEraseContains(original_drawing_paths[y], newdatapaths[x])){
-                //  excludefromremoval.push(y);
-                        allpathspecs[e] = allpathspecs[y];
-                        continue;
-                }
-            }
-        }
-
-        for(var x=0; x<original_drawing_paths.length; x++) { //in reverse search.
-            for(var y=0; y<newdatapaths.length; y++) {
-                if(original_drawing_paths[x] newdatapaths[y])){
-                //  excludefromremoval.push(y);
-                        allpathspecs[e] = allpathspecs[x];
-                        continue;
-                }
-            }
-        }*/
 
         for (var e=0; e<(original_drawing_paths.length); e++) {
             if(typeof newdatapaths[e] !== 'undefined') {
-            //  console.error("you finny!",original_drawing_paths.length, original_drawing_paths[e], newdatapaths[e]);
+
                 if(!equalArray(original_drawing_paths[e], newdatapaths[e])){
                     whatlineschanged.push(e);
-                } else {
-                //  console.error(JSON.stringify(original_drawing_paths[e]),JSON.stringify(newdatapaths[e],JSON.stringify(paths[e])));
                 }
             }
         }
 
-    //  console.error("whatlineschanged: ",  whatlineschanged);
         for(var i=0; i < allpathspecs.length; i++){
             if(allpathspecs[i] != '_SPECS_'){
                 continue;
@@ -544,30 +478,12 @@ var brandnewspecs = [];
 for(var y=0; y<newdatapaths.length;y++){
     for(var x=0; x<original_drawing_paths.length;x++){
         if(stringifyPathEraseContains(original_drawing_paths[x], newdatapaths[y])){
-        //  allpathspecs[y] = allpathspecs[x];
             brandnewspecs.push(allpathspecs[x]);
-            //console.error("ZZZ",brandnewspecs);
-        //  console.error("specs: we assigned spec of new path ",y, brandnewspecs[y],  "to specs from path ", x, allpathspecs[x], original_drawing_paths[x], newdatapaths[y] );
             break;
         }
     }
 }
-//console.error("brand new specs are: ",brandnewspecs);
-/*
- for(var x=0; x<original_drawing_paths.length;x++){
-     for(var y=0; y<newdatapaths.length;y++){
-         if(stringifyPathEraseContains(original_drawing_paths[x], newdatapaths[y])){
-            // excludefromremoval.push(x);
-            allpathspecs[y] = allpathspecs[x];
-            console.error("specs: we assigned spec of new path ",y, allpathspecs[y],  "to specs from path ", x, allpathspecs[x]);
-        }else{
-            console.error("specs: newpath ",y, "was not part of orginal path",x );
-        }
-     }
- }
-*/
- ////////////////////////
-//console.error("new paths have been created!", newdatapaths, allpathspecs, paths, whatlineschanged);
+
 
 original_drawing_paths = [];
 allpathspecs = [];
@@ -578,86 +494,11 @@ return [newdatapaths, brandnewspecs];
 
 
 
-
-
-/*
-    var howmanylost = 0;
-    if(newdatapaths.length < original_drawing_paths.length){
-        howmanylost = original_drawing_paths.length - newdatapaths.length;
-        // remove them from original?
-        for (var e=0; e<(original_drawing_paths.length); e++) {
-            if(original_drawing_paths)
-        }
-        var whichv = whatlineschanged[i];
-        allpathspecs.splice(whichv, 1);
-        for(var i=0; i<howmanylost;i++){
-            if(original_drawing_paths.indexOf("Aspple") !== -1){
-
-            }
-        }
-        for(var i=0; i<howmanylost;i++){
-            for (var e=0; e<(original_drawing_paths.length); e++) {
-                if(excludefromremoval[e])
-                original_drawing_paths.pop();
-                allpathspecs.pop();
-
-            }
-        }
-    }
-
-    // special case if removed first/last path in array from newdatapaths.
-    var howmanylost = 0;
-    if(newdatapaths.length < original_drawing_paths.length){
-
-        howmanylost = original_drawing_paths.length - newdatapaths.length;
-        console.error("we are less by ",howmanylost);
-
-        var excludefromremoval = [];
-        for(var x=0; x<original_drawing_paths.length;x++){
-        for(var y=0; y<newdatapaths.length;y++){
-            if(stringifyPathEraseContains(original_drawing_paths[x], newdatapaths[y])){
-                excludefromremoval.push(x);
-                console.error("path NOMRO original", x, "and newpathid",y," has part of original path. ie not fully removed path.");
-            }
-        }
-
-        }
-
-    }
-
-*/
-/*
-    // remove them from original?
-    for(var i=0; i<howmanylost;i++){
-        // it happened to be from first path
-
-        if(!equalArray(original_drawing_paths[0], newdatapaths[0])){
-            original_drawing_paths.shift();
-            allpathspecs.shift();
-                console.error("removed from first! caught ya!");
-        }else{ // it happened to be from NOT first path.
-            if(!equalArray(original_drawing_paths[original_drawing_paths.length - 1], newdatapaths[newdatapaths.length - 1])){ // removed from last path.
-                original_drawing_paths.pop();
-                allpathspecs.pop();
-                console.error("removed from last! caught ya!");
-            } else {    // it happened somewhere in the middle!
-                                // compare all
-                console.error("removed from middle! caught ya!");
-            }
-
-        }
-    }
-*/
-
     for (var e=0; e<(original_drawing_paths.length); e++) {
         if(typeof newdatapaths[e] !== 'undefined') {
             var tempnewindex = e;
             if(!equalArray(original_drawing_paths[tempnewindex], newdatapaths[e])){
-            //  console.error("mommo 3", e, " and arrray is", newdatapaths[e].length);
-            //  console.error("mommo 3 ORIGINALS", original_drawing_paths[tempnewindex], newdatapaths[e]);
-
                 tempspecsline[e] = allpathspecs[e];
-                //allpathspecs[e]='_SPECS_';
                 whatlineschanged.push(e);
             }
         }
@@ -665,35 +506,22 @@ return [newdatapaths, brandnewspecs];
     }
 
 
-    //console.error("initial changed lines", whatlineschanged);
-    //console.error("initial allpathspecs ", allpathspecs);
-    // fill the specs for the newly generated paths!
-    //console.error("COMPARE NEW SECPS ",allpathspecs.length, newdatapaths.length ,allpathspecs, original_drawing_paths.length);
     for (var e=allpathspecs.length; e<(newdatapaths.length); e++) {
         allpathspecs[e]='_SPECS_';
     }
     // loop specs.
-    //console.error("YO allpathspecs remaining ",allpathspecs.length, allpathspecs);
     for(var i=0; i < allpathspecs.length; i++){
         // check if in array of old value that has changed, or not.
 
-// && typeof tempspecsline[i] === 'undefined'
         if(allpathspecs[i] != '_SPECS_'){
             continue;
         }
-        /*
-        if(!allpathspecs[whatlineschanged[0]] || allpathspecs[whatlineschanged[0]] == 'undefined'){
-            allpathspecs[whatlineschanged[0]] = tempspecsline[i];
-        }*/
-    //  console.error("OMG",whatlineschanged);
+
         allpathspecs[i] = allpathspecs[whatlineschanged[0]];
-    //  console.error("we filled ",i, "with ", whatlineschanged[0]);
+
         whatlineschanged.shift();
 
     }
-    //console.error("count new paths", newdatapaths.length);
-    //console.error("final new specs", allpathspecs.length);
-//  console.error("final changed lines", whatlineschanged, whatlineschanged.length);
 
 
     // what if the path was fully removed, then it needs to be removed from specs too!.
@@ -701,14 +529,9 @@ return [newdatapaths, brandnewspecs];
     if(newdatapaths.length < allpathspecs.length){
 
         var howmanytorem = allpathspecs.length - newdatapaths.length;
-    //  console.error(howmanytorem, "need to be removed from allpathspecs array. what changed are ", whatlineschanged.length);
-
         for(var i=0; i < whatlineschanged.length; i++){
-            var whichv = whatlineschanged[i]; //allpathspecs[]
-        //  console.error("tiz", whichv);
-            //var windex = whichv.indexOf(whichv);
+            var whichv = whatlineschanged[i];
             allpathspecs.splice(whichv, 1);
-        //  console.error("we are splicing allpath specs ", whichv, "new is: ",allpathspecs);
         }
     }
 
@@ -742,11 +565,7 @@ return [newdatapaths, brandnewspecs];
       return 0;
     }
 allpathspecs.sort( compare );
-//  console.error("sorting", );
-//console.error("absolute paths", paths);
-//console.error("absolute newdatapaths", newdatapaths);
 
-//console.error("absolute specs", allpathspecs);
 var combkres = [];
 combkres[0] = paths;
 combkres[1] = allpathspecs;
@@ -1006,7 +825,6 @@ function getCircleIntersection (aX, aY, bX, bY, cX, cY, r, iozeb) {
     var intersection = [(aX + ac_proj_ab*u_vec_ab[0] + b*u_vec_ab[0]), (aY + ac_proj_ab*u_vec_ab[1] + b*u_vec_ab[1])];
     if ( intersection[0] === aX && intersection[1] === aY ) return null;
 
-    //console.error("getCircleIntersection", iozeb, linospecs[iozeb], intersection);
 
     return intersection;
 }
@@ -1047,7 +865,6 @@ function getCircleIntersections (aX, aY, bX, bY, cX, cY, r, iozeb) {
     var intersections = [[(vec_cd[0] - u_vec_ab[0]*x), (vec_cd[1] - u_vec_ab[1]*x)], [(vec_cd[0] + u_vec_ab[0]*x), (vec_cd[1] + u_vec_ab[1]*x)]];
     if ( intersections[0][0] === aX && intersections[0][1] === aY ) return null;
 
-    //console.error("getCircleIntersections", iozeb, linospecs[iozeb], intersections);
 
     return intersections;
 }
@@ -1129,8 +946,6 @@ function getCapsuleIntersection (aX, aY, locationIndex, bX, bY, c0_x, c0_y, c1_x
         }
     }
     if (intersection[0] === aX && intersection[1] === aY) return null;
-
-    //console.error("getCapsuleIntersection", iozeb, linospecs[iozeb], intersection);
     return intersection;
 }
 
@@ -1177,7 +992,6 @@ function getCapsuleIntersections (aX, aY, bX, bY, c0_x, c0_y, c1_x, c1_y, r, ioz
     if ((intersection0[0] === bX && intersection0[1] === bY) ||
          (intersection1[0] === aX && intersection1[1] === aY)) return null;
     else {
-            //console.error("getCapsuleIntersectionS", iozeb, linospecs[iozeb]);
         return [intersection0, intersection1];
     }
 }
