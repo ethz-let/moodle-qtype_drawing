@@ -26,7 +26,7 @@
 
 $string['pluginname'] = 'Freihandzeichnen (ETH)';
 $string['pluginname_help'] = 'Als Antwort auf eine Frage zeichnet der Befragte eine Antwort auf ein vordefiniertes Bild. Es gibt nur eine richtige Antwort.';
-$string['pluginname_link'] = 'Frage/Typ/Zeichnen';
+$string['pluginname_link'] = 'question/type/drawing';
 $string['pluginnameadding'] = 'Hinzufügen einer Freihandzeichnen Frage';
 $string['pluginnameediting'] = 'Bearbeiten einer Freihandzeichnen Frage';
 $string['pluginnamesummary'] = 'Als Antwort auf eine Frage zeichnet der Befragte eine Antwort auf ein vordefiniertes Bild. Es gibt nur eine richtige Antwort.';
