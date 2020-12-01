@@ -3699,10 +3699,10 @@ var strokewid = selectedElement.getAttribute("stroke-width");
           colorPicker($('#fill_color'));
       });
 
-      $('#zoom_select').on("change", function() {
-        var val = this.options[this.selectedIndex].text
-        val = val.split("%")[0]
-        $("#zoom").val(val).trigger("change")
+      $('#zoom_select').change(function() {
+        var val = this.options[this.selectedIndex].text;
+        val = val.split("%")[0];
+        $("#zoom").val(val).trigger("change");
       });
 
       $('.push_button').mousedown(function() {
