@@ -63,4 +63,102 @@
         <license>MIT</license>
         <licenseversion></licenseversion>
     </library>
+    <library>
+        <location>css/font-files/arvo-bold-webfont.woff</location>
+        <name>Arvo Bold by Anton Koovit</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>css/font-files/arvo-bolditalic-webfont.woff</location>
+        <name>Arvo Bold Italic by Anton Koovit</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>   
+    <library>
+        <location>css/font-files/arvo-regular-webfont.woff</location>
+        <name>Arvo Regular by Anton Koovit</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>css/font-files/arvo-italic-webfont.woff</location>
+        <name>Arvo Italic by Anton Koovit</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>  
+    <library>
+        <location>css/font-files/euphoriascript-regular-webfont.woff</location>
+        <name>Euphoria</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>  
+    <library>
+        <location>css/font-files/shadowsintolight-webfont.woff</location>
+        <name>Shadows Into Light</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>  
+    <library>
+        <location>css/font-files/simonetta-black-webfont.woff</location>
+        <name>Simonetta Black</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library> 
+        <location>css/font-files/simonetta-blackitalic-webfont.woff</location>
+        <name>Simonetta Black Italic</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library> 
+    <library>
+        <location>css/font-files/simonetta-italic-webfont.woff</location>
+        <name>Simonetta Italic</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>   
+    <library>
+        <location>css/font-files/simonetta-regular-webfont.woff</location>
+        <name>Simonetta Regular</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>   
+    <library>
+        <location>css/font-files/Junction-webfont.woff</location>
+        <name>Junction</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>css/font-files/League_Gothic-webfont.woff</location>
+        <name>League Gothic</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>
+    <library>
+        <location>css/font-files/fanwood-webfont.woff</location>
+        <name>Fanwood</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>  
+    <library>
+        <location>css/font-files/fanwood_italic-webfont.woff</location>
+        <name>Fanwood Italic</name>
+        <version></version>
+        <license>SIL Open Font License (OFL)</license>
+        <licenseversion></licenseversion>
+    </library>       
 </libraries>
