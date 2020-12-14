@@ -171,7 +171,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
       <script type="text/javascript"
               src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>extensions/mtouch-events.js"></script>
         <?php
-        if ($reducedmode == 1) {
+        if ($reducedmode == 1 && 1 == 2 /* DISABLE ERASER UNTIL ROUND 3*/) {
         ?>
       <script type="text/javascript"
               src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>extensions/erase.js"></script>
