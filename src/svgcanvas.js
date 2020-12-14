@@ -8193,7 +8193,8 @@ this.setTextContent = function(val, e) {
        } else {
            extrady = 'dy="1em"';
        }
-        updatedtxtval += '<tspan id="'+textid+'_tspan_'+i+'" x="'+textXlocation+'" '+extrady+'>' + newtextlines[i] + '</tspan>';
+        var cleanText = newtextlines[i].replace(/<\/?[^>]+(>|$)/g, "");
+        updatedtxtval += '<tspan id="'+textid+'_tspan_'+i+'" x="'+textXlocation+'" '+extrady+'>' + cleanText + '</tspan>';
      }
      selectedElements[0].innerHTML = updatedtxtval;
 

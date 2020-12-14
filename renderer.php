@@ -112,12 +112,12 @@ class qtype_drawing_renderer extends qtype_renderer {
 
         if (!empty($background) && !$options->readonly) {
             $this->page->requires->yui_module('moodle-qtype_drawing-form', 'Y.Moodle.qtype_drawing.form.attemptquestion',
-             array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight, $background[0]));
+                            array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight, $background[0]));
         }
         $canvas = "<input type=\"hidden\"
-                  name=\"$uniqueattemptinputname\"value = \"$attemptid\">
-                   <div class=\"qtype_drawing_id_" . $question->id ."\"
-                   data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
+        name=\"$uniqueattemptinputname\"value = \"$attemptid\">
+        <div class=\"qtype_drawing_id_" . $question->id ."\"
+        data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
         if ($options->readonly) {
             $readonlycanvas = ' readonly-canvas';
 
@@ -126,8 +126,8 @@ class qtype_drawing_renderer extends qtype_renderer {
             $inputnamelastsaved = $inputname.'_lastsaved';
             $inputnamewifidata = $inputname.'_wifidata';
             $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\"
-                        id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
-                        style=\"display:none\">$currentanswer</textarea>
+            id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
+            style=\"display:none\">$currentanswer</textarea>
 
             <input type=\"hidden\" name=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\"
             id=\"qtype_drawing_drawingevent_".$attemptid.$uniquefieldnameattemptid."\" value=\"\">
@@ -154,10 +154,10 @@ class qtype_drawing_renderer extends qtype_renderer {
             $annotatorhideshow = '';
 
             $studentmergedanswer = str_replace('<svg',
-                                   "<svg style='$backgroundstyle;background-repeat: no-repeat;
-                                                background-size: $canvasinfo->backgroundwidth"."px
-                                                $canvasinfo->backgroundheight"."px;' ",
-                                   $studentanswer);
+                            "<svg style='$backgroundstyle;background-repeat: no-repeat;
+                            background-size: $canvasinfo->backgroundwidth"."px
+                            $canvasinfo->backgroundheight"."px;' ",
+                            $studentanswer);
             $disabletoggleannotationbtn = 0;
             if(!$studentmergedanswer){
                 $disabletoggleannotationbtn = 1;
@@ -167,46 +167,46 @@ class qtype_drawing_renderer extends qtype_renderer {
                             id="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'"
                             style="height:'.$canvasinfo->backgroundheight.'px;
                                    width:'.$canvasinfo->backgroundwidth.'px;'.$annotatorhideshow.'">'.
-                            $studentmergedanswer.
-                            '</div>';
-                $questiontext = $question->format_questiontext($qa);
-                $annotationstr = '<div id="qtype_drawing_final_student_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'">
+                                   $studentmergedanswer.
+                                   '</div>';
+                                   $questiontext = $question->format_questiontext($qa);
+                                   $annotationstr = '<div id="qtype_drawing_final_student_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'">
                                        <svg xmlns="http://www.w3.org/2000/svg"
                                        xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"
                                        width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
 
-                if ($background[0] == 'svg') {
-                    $annotationstr .= $background[1];
-                    $annotationstr .= $studentanswer;
-                } else {
+                                   if ($background[0] == 'svg') {
+                                       $annotationstr .= $background[1];
+                                       $annotationstr .= $studentanswer;
+                                   } else {
 
-                    $annotationstr .= '<svg xmlns="http://www.w3.org/2000/svg"
+                                       $annotationstr .= '<svg xmlns="http://www.w3.org/2000/svg"
                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="'.$canvasinfo->backgroundwidth.'"
                                             height="'.$canvasinfo->backgroundheight.'">';
-                    $annotationstr .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'"
+                                       $annotationstr .= '<image xlink:href="'.$background[1].'" height="'.$canvasinfo->backgroundheight.'"
                                               width="'.$canvasinfo->backgroundwidth.'" preserveAspectRatio="none"></image>';
-                    $annotationstr .= '</svg>';
-                    $annotationstr .= $studentanswer;
+                                       $annotationstr .= '</svg>';
+                                       $annotationstr .= $studentanswer;
 
-                }
+                                   }
 
-                // Display annotations to the student, if any.
-                global $USER;
-                $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id);
-                if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)) {
-                    foreach ($annotations as $annotation) {
-                        $annotationstr .= $annotation->annotation;
-                    }
+                                   // Display annotations to the student, if any.
+                                   global $USER;
+                                   $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id);
+                                   if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)) {
+                                       foreach ($annotations as $annotation) {
+                                           $annotationstr .= $annotation->annotation;
+                                       }
 
-                } else {
-                    $disabletoggleannotationbtn = 1;
-                }
+                                   } else {
+                                       $disabletoggleannotationbtn = 1;
+                                   }
 
-                $annotationstr .= '</svg></div>';
+                                   $annotationstr .= '</svg></div>';
 
-                // If toggle to show only the answer for the student without annotation.
-                $annotationstr .= '<div id="qtype_drawing_final_student_toggle_answer_'.$attemptid.$uniquefieldnameattemptid.'" style="display:none">'.$studentmergedanswer.'</div>';
-                $annotationtogglescript = '
+                                   // If toggle to show only the answer for the student without annotation.
+                                   $annotationstr .= '<div id="qtype_drawing_final_student_toggle_answer_'.$attemptid.$uniquefieldnameattemptid.'" style="display:none">'.$studentmergedanswer.'</div>';
+                                   $annotationtogglescript = '
                     <script type="text/javascript">
                         function qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'(){
                                var annotationdrawing = document.getElementById("qtype_drawing_final_student_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'");
@@ -224,25 +224,25 @@ class qtype_drawing_renderer extends qtype_renderer {
                         }
                     </script>
                  ';
-                $tglbtnspan = '';
-                if($disabletoggleannotationbtn != 1) {
-                    $tglbtnspan = '<span style="float:right"><input type="button" value="'.get_string('showanswer','qtype_drawing').'" id="id_qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'" onclick="qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'()"></span>';
-                }
+                                   $tglbtnspan = '';
+                                   if($disabletoggleannotationbtn != 1) {
+                                       $tglbtnspan = '<span style="float:right"><input type="button" value="'.get_string('showanswer','qtype_drawing').'" id="id_qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'" onclick="qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'()"></span>';
+                                   }
 
-                $result = html_writer::tag('div', $annotationtogglescript . $tglbtnspan . $questiontext . $annotationstr, array('class' => 'qtext'));
+                                   $result = html_writer::tag('div', $annotationtogglescript . $tglbtnspan . $questiontext . $annotationstr, array('class' => 'qtext'));
 
-                if ($qa->get_state() == question_state::$invalid) {
-                    $result .= html_writer::nonempty_tag('div',
-                                    $question->get_validation_error(array('answer' => $currentanswer)),
-                                    array('class' => 'validationerror'));
-                }
-                return $result;
+                                   if ($qa->get_state() == question_state::$invalid) {
+                                       $result .= html_writer::nonempty_tag('div',
+                                                       $question->get_validation_error(array('answer' => $currentanswer)),
+                                                       array('class' => 'validationerror'));
+                                   }
+                                   return $result;
             } else {
 
                 $canvas .= "<textarea id=\"qtype_drawing_original_bg_id_".$attemptid.$uniquefieldnameattemptid."\"
-                                      style=\"display:none\">$background[1]</textarea>";
+                style=\"display:none\">$background[1]</textarea>";
                 $canvas .= "<textarea id=\"qtype_drawing_original_stdanswer_id_".$attemptid.$uniquefieldnameattemptid."\"
-                                      style=\"display:none\">$studentanswer</textarea>";
+                style=\"display:none\">$studentanswer</textarea>";
 
                 $annotationstr = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                        id="baseSVGannotation" width="'.$canvasinfo->backgroundwidth.'"
@@ -252,7 +252,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                 $studentmergedanswer = preg_replace("/<\!DOCTYPE.*\>/", '', $studentmergedanswer);
 
                 $canvas .= "<input type=\"hidden\" id=\"qtype_drawing_real_org_bg_".$attemptid.$uniquefieldnameattemptid."\"
-                                   style=\"display:none\" value=\"$background[0]\">";
+                style=\"display:none\" value=\"$background[0]\">";
 
                 if ($background[0] == 'svg') {
                     $annotationstr .= $background[1];
@@ -277,9 +277,9 @@ class qtype_drawing_renderer extends qtype_renderer {
 
                         if ($annotationdrawing->annotatedby == $USER->id) {
                             $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\"
-                                                  id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
-                                                  style=\"display:none\"
-                                                  data-info=\"last_annotation_by_user\">$annotationdrawing->annotation</textarea>";
+                            id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
+                            style=\"display:none\"
+                            data-info=\"last_annotation_by_user\">$annotationdrawing->annotation</textarea>";
                             continue;
                         }
 
@@ -293,7 +293,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                     $background[0] = 'svg';
                     $background[1] = $annotationstr.'</svg>';
                     $canvas .= "<textarea class=\"qtype_drawing_textarea\" name=\"$inputname\"
-                                          id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
+                    id=\"qtype_drawing_textarea_id_".$attemptid.$uniquefieldnameattemptid."\"
                                           style=\"display:none\"
                                           data-info=\"original_student_answer\"></textarea>";
 
@@ -489,18 +489,18 @@ class qtype_drawing_renderer extends qtype_renderer {
 				</div>
 				';
 
-        $canvas .= '</div>';
+                  $canvas .= '</div>';
 
-        $questiontext = $question->format_questiontext($qa);
+                  $questiontext = $question->format_questiontext($qa);
 
-        $result = html_writer::tag('div', $questiontext . $canvas, array('class' => 'qtext'));
+                  $result = html_writer::tag('div', $questiontext . $canvas, array('class' => 'qtext'));
 
-        if ($qa->get_state() == question_state::$invalid) {
-            $result .= html_writer::nonempty_tag('div',
-                            $question->get_validation_error(array('answer' => $currentanswer)),
-                            array('class' => 'validationerror'));
-        }
-        return $result;
+                  if ($qa->get_state() == question_state::$invalid) {
+                      $result .= html_writer::nonempty_tag('div',
+                                      $question->get_validation_error(array('answer' => $currentanswer)),
+                                      array('class' => 'validationerror'));
+                  }
+                  return $result;
     }
 
     public function specific_feedback(question_attempt $qa) {

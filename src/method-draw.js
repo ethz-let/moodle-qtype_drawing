@@ -1967,7 +1967,8 @@ var strokewid = selectedElement.getAttribute("stroke-width");
              }
              if(newtextlines[i] == ''){newtextlines[i] = " ";}
           //   newtextlines[i] = newtextlines[i].replace('↲','');
-              updatedtxtval += '<tspan id="'+textid+'_tspan_'+i+'" x="'+textXlocation+'" '+extrady+'>' + newtextlines[i] + '</tspan>';
+              var cleanText = newtextlines[i].replace(/<\/?[^>]+(>|$)/g, "");
+              updatedtxtval += '<tspan id="'+textid+'_tspan_'+i+'" x="'+textXlocation+'" '+extrady+'>' + cleanText + '</tspan>';
            //  $("text").val(updatedtxtval);
            }
 
