@@ -158,6 +158,10 @@ class qtype_drawing_renderer extends qtype_renderer {
                                                 background-size: $canvasinfo->backgroundwidth"."px
                                                 $canvasinfo->backgroundheight"."px;' ",
                                    $studentanswer);
+            $disabletoggleannotationbtn = 0;
+            if(!$studentmergedanswer){
+                $disabletoggleannotationbtn = 1;
+            }
             if ($isannotator == 0) {
                 $canvas .= '<div class="qtype_drawing_drawingwrapper"
                             id="qtype_drawing_drawingwrapper_'.$attemptid.$uniquefieldnameattemptid.'"
@@ -166,7 +170,8 @@ class qtype_drawing_renderer extends qtype_renderer {
                             $studentmergedanswer.
                             '</div>';
                 $questiontext = $question->format_questiontext($qa);
-                $annotationstr = '<svg xmlns="http://www.w3.org/2000/svg"
+                $annotationstr = '<div id="qtype_drawing_final_student_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'">
+                                       <svg xmlns="http://www.w3.org/2000/svg"
                                        xmlns:xlink="http://www.w3.org/1999/xlink" id="StudentAnnotatedAnswer"
                                        width="'.$canvasinfo->backgroundwidth.'" height="'.$canvasinfo->backgroundheight.'">';
 
@@ -193,10 +198,38 @@ class qtype_drawing_renderer extends qtype_renderer {
                         $annotationstr .= $annotation->annotation;
                     }
 
+                } else {
+                    $disabletoggleannotationbtn = 1;
                 }
 
-                $annotationstr .= '</svg>';
-                $result = html_writer::tag('div', $questiontext . $annotationstr, array('class' => 'qtext'));
+                $annotationstr .= '</svg></div>';
+
+                // If toggle to show only the answer for the student without annotation.
+                $annotationstr .= '<div id="qtype_drawing_final_student_toggle_answer_'.$attemptid.$uniquefieldnameattemptid.'" style="display:none">'.$studentmergedanswer.'</div>';
+                $annotationtogglescript = '
+                    <script type="text/javascript">
+                        function qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'(){
+                               var annotationdrawing = document.getElementById("qtype_drawing_final_student_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'");
+                               var studentdrawing = document.getElementById("qtype_drawing_final_student_toggle_answer_'.$attemptid.$uniquefieldnameattemptid.'");
+                               var togglebtnanswers = document.getElementById("id_qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'");
+                               if (studentdrawing.style.display === "none") {
+                                    studentdrawing.style.display = "block";
+                                    annotationdrawing.style.display = "none";
+                                    togglebtnanswers.value = "'.get_string('showannotation', 'qtype_drawing').'";
+                                } else {
+                                    studentdrawing.style.display = "none";
+                                    annotationdrawing.style.display = "block";
+                                    togglebtnanswers.value = "'.get_string('showanswer', 'qtype_drawing').'";
+                                }
+                        }
+                    </script>
+                 ';
+                $tglbtnspan = '';
+                if($disabletoggleannotationbtn != 1) {
+                    $tglbtnspan = '<span style="float:right"><input type="button" value="'.get_string('showanswer','qtype_drawing').'" id="id_qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'" onclick="qtype_drawing_toggle_annotation_'.$attemptid.$uniquefieldnameattemptid.'()"></span>';
+                }
+
+                $result = html_writer::tag('div', $annotationtogglescript . $tglbtnspan . $questiontext . $annotationstr, array('class' => 'qtext'));
 
                 if ($qa->get_state() == question_state::$invalid) {
                     $result .= html_writer::nonempty_tag('div',
