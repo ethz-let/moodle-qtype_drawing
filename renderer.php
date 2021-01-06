@@ -115,7 +115,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                             array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight, $background[0]));
         }
         $canvas = "<input type=\"hidden\"
-        name=\"$uniqueattemptinputname\"value = \"$attemptid\">
+        name=\"$uniqueattemptinputname\" value = \"$attemptid\">
         <div class=\"qtype_drawing_id_" . $question->id ."\"
         data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
         if ($options->readonly) {
