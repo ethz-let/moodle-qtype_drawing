@@ -3477,7 +3477,7 @@ var getMouseTarget = this.getMouseTarget = function(evt) {
           var fakecoord = myvar1+','+myvar2+' ';
           coords += fakecoord;
           element.setAttribute('points',coords);
-          return;
+         // return;
         }
         var commaIndex = coords.indexOf(',');
 
@@ -4414,6 +4414,8 @@ var pathActions = canvas.pathActions = function() {
 
       var n = d.includes("C L");
       if(n){
+        // Fix speeding scratch in touch mode.
+        element.setAttribute("opacity", cur_shape.opacity);
         return;
       }
       // create new path element
