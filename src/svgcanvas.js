@@ -4416,7 +4416,7 @@ var pathActions = canvas.pathActions = function() {
       if(n){
         // Fix speeding scratch in touch mode.
         element.setAttribute("opacity", cur_shape.opacity);
-        return;
+        return element;
       }
       // create new path element
       element = addSvgElementFromJson({
