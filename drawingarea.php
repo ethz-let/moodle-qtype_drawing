@@ -593,14 +593,13 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
                   </label>
                </div>
                <div id="where_iwant_tool_opacity"></div>
-               <div class="stroke_tool draginput" id="strokestyle_div"
-                <?php
+               <?php
                 if ($reducedmode == 1) {
-                ?>style="display:none;"
+                ?><div id="force_remove_stroke_style" style="display:none">
                 <?php
                 }
                 ?>
-               >
+               <div class="stroke_tool draginput" id="strokestyle_div">
                   <span><?php print_string('strokedash', 'qtype_drawing');?></span>
                   <select id="stroke_style" data-title="<?php print_string('dashstyle', 'qtype_drawing');?>">
                      <option selected="selected" value="none">—</option>
@@ -612,6 +611,12 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
                   <div class="caret"></div>
                   <label id="stroke_style_label">—</label>
                </div>
+                <?php
+                if ($reducedmode == 1) {
+                ?></div>
+                <?php
+                }
+                ?>
                <span style="display:none">
                   <h4 class="clearfix">&nbsp;</h4>
                   <label data-title="Change canvas width">
