@@ -197,3 +197,6 @@ $string['saving'] = 'Am speichern..';
 $string['studentview'] = 'Studierendenansicht';
 $string['showanswer'] = 'Antwort anzeigen';
 $string['showannotation'] = 'Annotation anzeigen';
+$string['enableeraser'] = 'Den Teachers erlauben, den Radiergummi zu wählen?';
+$string['enableeraser_help'] = 'Wenn diese Option aktiviert ist, dürfen Teachers den Radiergummi wählen';
+$string['alloweraser'] = 'Radiergummi erlauben';

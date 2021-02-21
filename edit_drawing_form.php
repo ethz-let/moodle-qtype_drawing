@@ -265,11 +265,20 @@ class qtype_drawing_edit_form extends question_edit_form {
 
         if (isset($drawingconfig->allowteachertochosemode) && $drawingconfig->allowteachertochosemode == 1) {
             $options = array(1 => get_string('basicmode', 'qtype_drawing'), 2 => get_string('advancedmode', 'qtype_drawing'));
-            $mform->addElement('select', 'drawingmode', get_string('drawingmode', 'qtype_drawing'), $options);
+            $mform->addElement('select', 'drawingmode', get_string('drawingmode', 'qtype_drawing'), $options, array('onchange' => 'document.getElementById("id_alloweraser").checked = false;'));
             $mform->addHelpButton('drawingmode', 'drawingmode', 'qtype_drawing');
         } else {
             $mform->addElement('hidden', 'drawingmode', 1);
         }
+        if (isset($drawingconfig->enableeraser) && $drawingconfig->enableeraser == 1) {
+            $mform->addElement('checkbox', 'alloweraser', get_string('alloweraser', 'qtype_drawing'));
+            $mform->disabledIf('alloweraser', 'drawingmode', 'eq', 2);
+        } else {
+            $mform->addElement('hidden', 'alloweraser', 0);
+        }
+
+        $mform->setType('alloweraser', PARAM_INT);
+        $mform->setDefault('alloweraser', 0);
         $mform->setType('drawingmode', PARAM_INT);
         $mform->setDefault('drawingmode', 1);
 

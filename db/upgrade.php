@@ -83,5 +83,14 @@ function xmldb_qtype_drawing_upgrade($oldversion) {
         $dbman->add_field($table, $field);
         upgrade_plugin_savepoint(true, 2020062900, 'qtype', 'drawing');
     }
+    if ($oldversion < 2021022100) {
+        // Define field drawing_usage to control display of result table.
+        $table = new xmldb_table('qtype_drawing');
+        if (!$dbman->field_exists($table, 'alloweraser')) {
+            $field = new xmldb_field('alloweraser', XMLDB_TYPE_INTEGER, '4', null, null, false, null, 0);
+            $dbman->add_field($table, $field);
+        }
+        upgrade_plugin_savepoint(true, 2021022100, 'qtype', 'drawing');
+    }
     return true;
 }

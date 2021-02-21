@@ -10,6 +10,7 @@
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="drawingmode" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="1: Basic, 2: Advanced."/>
         <FIELD NAME="allowstudentimage" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Allow students to upload images."/>
+        <FIELD NAME="alloweraser" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Allow students to use eraser."/>
         <FIELD NAME="backgrounduploaded" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Is there a Background image?."/>
         <FIELD NAME="backgroundwidth" TYPE="float" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Background image width."/>
         <FIELD NAME="backgroundheight" TYPE="float" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Background image height."/>

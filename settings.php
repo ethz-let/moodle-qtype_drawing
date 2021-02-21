@@ -32,6 +32,11 @@ if ($ADMIN->fulltree) {
             new admin_setting_configcheckbox('qtype_drawing/allowteachertochosemode',
                     get_string('allowteachertochosemode', 'qtype_drawing'),
                     get_string('allowteachertochosemode_help', 'qtype_drawing'), 0));
+    // Teachers can allow Eraser?.
+    $settings->add(
+                    new admin_setting_configcheckbox('qtype_drawing/enableeraser',
+                                    get_string('enableeraser', 'qtype_drawing'),
+                                    get_string('enableeraser_help', 'qtype_drawing'), 0));
     // Default canvas width.
     $settings->add(
             $x = new admin_setting_configtext('qtype_drawing/defaultcanvaswidth',
