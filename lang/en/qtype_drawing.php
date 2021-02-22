@@ -199,4 +199,4 @@ $string['showanswer'] = 'Show answer';
 $string['showannotation'] = 'Show annotation';
 $string['enableeraser'] = 'Teachers are allowed to enable the Eraser tool?';
 $string['enableeraser_help'] = 'If enabled, teachers are allowed to choose to enable Eraser tool';
-$string['alloweraser'] = 'Allow Eraser Tool';
+$string['alloweraser'] = 'Allow Eraser tool';
