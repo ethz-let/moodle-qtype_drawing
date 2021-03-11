@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_drawing';
-$plugin->requires  = 2013050600;
+$plugin->requires  = 2021030500;
 $plugin->release = 1;
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->version = 2021022100;
+$plugin->version = 2021031100;
