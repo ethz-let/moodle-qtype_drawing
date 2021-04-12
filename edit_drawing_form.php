@@ -189,9 +189,9 @@ class qtype_drawing_edit_form extends question_edit_form {
                             array('id' => 'pre_existing_background_data'));
             $mform->setType('pre_existing_background_data', PARAM_RAW);
         } else {
-            if (array_key_exists('id', $this->question) === true) {
+            if (property_exists($this->question, 'id') === true) {
                 $question = $this->question;
-                if (array_key_exists('contextid', $question) === false || array_key_exists('answers', $question) === false) {
+                if (property_exists($question, 'contextid') === false || property_exists($question, 'answers') === false) {
                     $question = question_bank::load_question($question->id, false);
                 }
                 // Question already exists! We are in edit mode.
