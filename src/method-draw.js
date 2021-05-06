@@ -1438,6 +1438,20 @@ var strokewid = selectedElement.getAttribute("stroke-width");
       var updateToolbar = function() {
         if (selectedElement != null) {
             $('#delete_panel').show();
+            if( fhd_display_mode == 1 && selectedElement.tagName == 'line'){
+                $('#force_remove_stroke_style').show();
+                // Reset dash if any.
+                var dash = selectedElement.getAttribute("stroke-dasharray") || "none";
+                if(dash == "null") dash = 'none';
+                $('option', '#stroke_style').removeAttr('selected');
+                $('#stroke_style option[value="'+ dash +'"]').attr("selected", "selected");
+                $('#stroke_style').val(dash);
+                $("#stroke_style_label").html($( "#stroke_style option:selected" ).text());
+
+            }
+            if( fhd_display_mode == 1 && selectedElement.tagName == 'path'){
+                $('#force_remove_stroke_style').hide();
+            }
           switch ( selectedElement.tagName ) {
           case 'use':
             $(".context_panel").hide();
@@ -1474,7 +1488,8 @@ var strokewid = selectedElement.getAttribute("stroke-width");
             //Editor.paintBox.stroke.update(false);
             $('#stroke_width').val(selectedElement.getAttribute("stroke-width") || 0);
             if(selectedElement.tagName != 'text'){
-              var dash = selectedElement.getAttribute("stroke-dasharray") || "none"
+              var dash = selectedElement.getAttribute("stroke-dasharray") || "none";
+              if(dash == 'null') dash = 'none';
               $('option', '#stroke_style').removeAttr('selected');
               $('#stroke_style option[value="'+ dash +'"]').attr("selected", "selected");
               $('#stroke_style').val(dash);
@@ -1925,7 +1940,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
       $('#stroke_style').change(function(){
         svgCanvas.setStrokeAttr('stroke-dasharray', $(this).val());
-        $("#stroke_style_label").html(this.options[this.selectedIndex].text)
+        $("#stroke_style_label").html(this.options[this.selectedIndex].text);
         operaRepaint();
       });
 
@@ -2368,11 +2383,11 @@ var strokewid = selectedElement.getAttribute("stroke-width");
               $('#force_remove_stroke_style').hide();
               // Reset dash if any.
               svgCanvas.setStrokeAttr('stroke-dasharray', 'none');
-              var dash = 'none';
+            /*  var dash = 'none';
               $('option', '#stroke_style').removeAttr('selected');
               $('#stroke_style option[value="'+ dash +'"]').attr("selected", "selected");
               $('#stroke_style').val(dash);
-              $("#stroke_style_label").html($( "#stroke_style option:selected" ).text());
+              $("#stroke_style_label").html($( "#stroke_style option:selected" ).text());*/
           }
         }
       };
@@ -2385,7 +2400,9 @@ var strokewid = selectedElement.getAttribute("stroke-width");
               svgCanvas.setStrokeWidth(3.5);
             }
           $('#preset_sizes_panel_id').show();
-          $('#force_remove_stroke_style').show();
+          if( fhd_display_mode == 1){
+              $('#force_remove_stroke_style').show();
+          }
 
         }
       };
