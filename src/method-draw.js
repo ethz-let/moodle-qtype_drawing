@@ -1764,10 +1764,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
 
           $('#tool_bucket').removeClass( 'disabled');
-          /*
-          if( fhd_display_mode != 1){
-              $('#multiselected_panel').show();
-          }*/
+
 
           $("#stroke_panel").show();
           $("#canvas_panel").show();
@@ -2367,6 +2364,16 @@ var strokewid = selectedElement.getAttribute("stroke-width");
             svgCanvas.setStrokeWidth(3.5);
           }
           $('#preset_sizes_panel_id').show();
+          if( fhd_display_mode == 1){
+              $('#force_remove_stroke_style').hide();
+              // Reset dash if any.
+              svgCanvas.setStrokeAttr('stroke-dasharray', 'none');
+              var dash = 'none';
+              $('option', '#stroke_style').removeAttr('selected');
+              $('#stroke_style option[value="'+ dash +'"]').attr("selected", "selected");
+              $('#stroke_style').val(dash);
+              $("#stroke_style_label").html($( "#stroke_style option:selected" ).text());
+          }
         }
       };
 
@@ -2378,6 +2385,8 @@ var strokewid = selectedElement.getAttribute("stroke-width");
               svgCanvas.setStrokeWidth(3.5);
             }
           $('#preset_sizes_panel_id').show();
+          $('#force_remove_stroke_style').show();
+
         }
       };
 
