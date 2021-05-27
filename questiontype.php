@@ -91,6 +91,7 @@ class qtype_drawing extends question_type {
             $options->backgroundheight = $drawingconfig->defaultcanvasheight;
             $options->preservear = 1;
             $options->drawingoptions = '';
+            $options->alloweraser = 0;
             $options->id = $DB->insert_record('qtype_drawing', $options);
         }
         $options->drawingmode = $question->drawingmode;
@@ -104,6 +105,7 @@ class qtype_drawing extends question_type {
             $question->preservear = 0;
         }
         $options->preservear = $question->preservear;
+        $options->alloweraser = $question->alloweraser;
 
         $DB->update_record('qtype_drawing', $options);
         $this->save_hints($question);
