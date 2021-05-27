@@ -40,7 +40,7 @@ require_once(dirname(__FILE__) . '/renderer.php');
 class qtype_drawing extends question_type {
     public function extra_question_fields() {
         return array('qtype_drawing', 'drawingmode', 'backgrounduploaded',
-                     'backgroundwidth', 'backgroundheight', 'preservear', 'drawingoptions');
+                     'backgroundwidth', 'backgroundheight', 'preservear', 'drawingoptions', 'alloweraser');
     }
 
     public function questionid_column_name() {
@@ -105,6 +105,9 @@ class qtype_drawing extends question_type {
             $question->preservear = 0;
         }
         $options->preservear = $question->preservear;
+        if(!isset($question->alloweraser)){
+            $question->alloweraser = 0;
+        }
         $options->alloweraser = $question->alloweraser;
 
         $DB->update_record('qtype_drawing', $options);
