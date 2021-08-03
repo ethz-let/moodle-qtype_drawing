@@ -2493,7 +2493,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
       };
 
       var properlySourceSizeTextTextArea
-       /*var*/ clickText = function(){
+       var clickText = function(){
         if (toolButtonClick('#tool_text')) {
           svgCanvas.setMode('text');
           $("#preset_sizes_panel_id").hide();
