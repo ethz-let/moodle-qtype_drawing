@@ -87,6 +87,14 @@ class qtype_drawing_renderer extends qtype_renderer {
         $currentanswer = $qa->get_last_qt_var('answer');
         $attemptid = $qa->get_last_qt_var('uniqueuattemptid');
 
+        $moodleattempt = optional_param('attempt', null, PARAM_INT);
+        if($attemptfullrecord = $DB->get_record('quiz_attempts', array('id' => $moodleattempt), 'id, attempt')) {
+            $attemptcount = $attemptfullrecord->attempt;
+        }
+
+        if(!$attemptfullrecord || !isset($attemptcount)) {
+            $attemptcount = 1;
+        }
         // Special and dirty case for the old version of the plugin when annotation was not added yet.
         if ($options->readonly && !$attemptid) {
             $attemptid = substr(md5($currentanswer), 0, 14).'XX';
@@ -192,7 +200,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 
                                    // Display annotations to the student, if any.
                                    global $USER;
-                                   $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id);
+                                   $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $USER->id, 'attemptcount' => $attemptcount);
                                    if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)) {
                                        foreach ($annotations as $annotation) {
                                            $annotationstr .= $annotation->annotation;
@@ -270,7 +278,7 @@ class qtype_drawing_renderer extends qtype_renderer {
 
                 // Get all annotations, if any, plus student answer and background.
                 global $USER;
-                $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $originaluserid);
+                $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $originaluserid, 'attemptcount' => $attemptcount);
                 if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields)) {
 
                     foreach ($annotations as $annotationdrawing) {
@@ -482,6 +490,7 @@ class qtype_drawing_renderer extends qtype_renderer {
           src="'.$CFG->wwwroot.'/question/type/drawing/drawingarea.php?id='.$question->id.
           '&attemptid='.$attemptid.'&stid='.$originaluserid.
           '&uniquefieldnameattemptid='.$uniquefieldnameattemptid.
+          '&attemptcount='.$attemptcount.
           '&readonly='.$options->readonly.'&sesskey='.sesskey().'"
           id="qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'"
           onload="init_qtype_drawing_embed(\''.$attemptid.$uniquefieldnameattemptid.'\')" >

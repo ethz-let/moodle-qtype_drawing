@@ -38,6 +38,7 @@ $stid = optional_param('stid', 0, PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $uniquefieldnameattemptid = required_param('uniquefieldnameattemptid', PARAM_RAW_TRIMMED);
 $sesskey = required_param('sesskey', PARAM_RAW);
+$attemptcount = optional_param('attemptcount', 1, PARAM_INT);
 
 if (!confirm_sesskey()) {
     die();
@@ -105,6 +106,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
          var sesskey = '<?php echo $sesskey;?>';
          var stid = <?php echo $stid;?>;
          var attemptid = '<?php echo $attemptid;?>';
+         var attemptcount = '<?php echo $attemptcount;?>';
          var uniquefieldnameattemptid = '<?php echo $uniquefieldnameattemptid;?>';
       </script>
       <script type="text/javascript"
@@ -476,7 +478,7 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
                               text-align:left">
                         <?php
                         echo '<ul id="listofannotaions">';
-                        $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid);
+                        $fields = array('questionid' => $question->id, 'attemptid' => $attemptid, 'annotatedfor' => $stid, 'attemptcount' => $attemptcount);
                         if ($annotations = $DB->get_records('qtype_drawing_annotations', $fields, 'timemodified DESC')) {
                             foreach ($annotations as $teacherannotation) {
                                 $user = $DB->get_record('user', array('id' => $teacherannotation->annotatedby));

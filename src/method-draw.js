@@ -2493,7 +2493,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
       };
 
       var properlySourceSizeTextTextArea
-      var clickText = function(){
+       /*var*/ clickText = function(){
         if (toolButtonClick('#tool_text')) {
           svgCanvas.setMode('text');
           $("#preset_sizes_panel_id").hide();
@@ -3028,7 +3028,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
           $.ajax({
               url: 'loadannotationdetails.php',
               method: "GET",
-              data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid},
+              data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, attemptcount: attemptcount},
               cache: false,
               success: function(array_annotations) {
                   if(array_annotations.works == 'OK'){
@@ -3044,41 +3044,13 @@ var strokewid = selectedElement.getAttribute("stroke-width");
           $.ajax({
               url: 'saveannotation.php',
               method: "POST",
-              data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, annotation: getCurrentDrawingSVG()},
+              data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, attemptcount: attemptcount, annotation: getCurrentDrawingSVG()},
               cache: false,
               success: function(str) {
                   if(str == 'OK'){
                       $.anottationalert(qtype_drawing_str_annotationsaved, str);
                       // Load last change.
                       methodDraw.updateAnnotationDetails();
-/*
-                      $.ajax({
-                          url: 'loadannotationdetails.php',
-                          method: "GET",
-                          data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid},
-                          cache: false,
-                          success: function(array_annotations) {
-
-                              for (i in array_annotations.result) {
-                                  $('#teacherannotationdate_'+i).html(array_annotations.result[i]);
-
-                                }
-
-                              var sorting_array = array_annotations.order;
-                              // Do sorting based on last change!
-                              // get all li with data attribute
-                              var $li = $('li[data-block]');
-                              // sort them based on the index
-                              $li.sort(function(a, b) {
-                                return sorting_array.indexOf($(a).data('block')) - sorting_array.indexOf($(b).data('block'));
-                              })
-                              // update the order by appending back to it's parent
-                              .appendTo($li.parent());
-
-
-                          }
-                        });
-*/
 
                   } else {
                       $.anottationalert("ERROR: " + JSON.stringify(str), str);
@@ -3118,7 +3090,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                 $.ajax({
                     url: 'getannotation.php',
                     method: "GET",
-                    data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
+                    data: { id: questionid, sesskey: sesskey, stid: stid, attemptcount: attemptcount, attemptid: attemptid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
                     cache: false,
                     success: function(str) {
                         if(str.result == 'OK'){
@@ -3147,13 +3119,10 @@ var strokewid = selectedElement.getAttribute("stroke-width");
                  return;
             }
 
-          //  $('#dialog_content').html('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="baseSVGannotation" width="'+imgwidth+'" height="'+imgheight+'">' + originalbgimg + originalstdanswer + msg + '</svg>');
-
-
             $.ajax({
                 url: 'getannotation.php',
                 method: "GET",
-                data: { id: questionid, sesskey: sesskey, stid: stid, attemptid: attemptid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
+                data: { id: questionid, sesskey: sesskey, stid: stid, attemptcount: attemptcount, attemptid: attemptid, annotationid: $(this).data("annotationid"), type: $(this).data("type")},
                 cache: false,
                 success: function(str) {
                     if(str.result == 'OK'){
@@ -3245,10 +3214,6 @@ var strokewid = selectedElement.getAttribute("stroke-width");
         var sides = ['top', 'left', 'bottom', 'right'];
 
         elems.each(function() {
-//          console.log('go', scale);
-
-          // Handled in CSS
-          // this.style[ua_prefix + 'Transform'] = 'scale(' + scale + ')';
 
           var el = $(this);
 
@@ -4831,7 +4796,9 @@ var strokewid = selectedElement.getAttribute("stroke-width");
       });
     };
 
-
+    Editor.switchToTxt = function() {
+       clickText();
+    };
 
     Editor.SaveDrawingToMoodle = function() {
       Editor.ready(function() {Editor.numsaved++;

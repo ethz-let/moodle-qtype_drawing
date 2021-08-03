@@ -38,6 +38,7 @@ $sesskey = required_param('sesskey', PARAM_RAW);
 $stid = required_param('stid', PARAM_INT);
 $attemptid = required_param('attemptid', PARAM_RAW_TRIMMED);
 $annotation = required_param('annotation', PARAM_RAW);
+$attemptcount = optional_param('attemptcount', 1, PARAM_INT);
 
 if (!confirm_sesskey()) {
     echo json_encode(array('result' => 'Session lost.'));
@@ -59,7 +60,7 @@ if (!$fhd = $DB->get_record('qtype_drawing', array('questionid' => $id))) {
 }
 
 // Check if record exists.
-$fields = array('questionid' => $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid, 'attemptid' => $attemptid);
+$fields = array('questionid' => $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid, 'attemptid' => $attemptid, 'attemptcount' => $attemptcount);
 if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)) {
     // Update annotation.
     $annotationrecord = new stdClass();
@@ -70,6 +71,7 @@ if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)) {
     $annotationrecord->annotatedby = $USER->id;
     $annotationrecord->annotatedfor = $stid;
     $annotationrecord->attemptid = $attemptid;
+    $annotationrecord->attemptcount = $attemptcount;
     $annotationrecord->notes = '';
     $DB->update_record('qtype_drawing_annotations', $annotationrecord);
 } else {
@@ -83,8 +85,10 @@ if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)) {
     $annotationrecord->annotatedby = $USER->id;
     $annotationrecord->annotatedfor = $stid;
     $annotationrecord->attemptid = $attemptid;
+    $annotationrecord->attemptcount = $attemptcount;
     $annotationrecord->notes = '';
     $DB->insert_record('qtype_drawing_annotations', $annotationrecord);
+    $result = 'insert '.$attemptcount;
 }
 $result = 'OK';
 echo json_encode($result);
