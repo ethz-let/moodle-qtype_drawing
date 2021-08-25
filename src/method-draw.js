@@ -59,6 +59,7 @@
     Editor.viewgridtitle = qtype_drawing_str_viewgrid;
     Editor.savingready = 0;
     Editor.lastanswer = '';
+    Editor.forcesaving = 0;
 
     Editor.setConfig = function(opts) {
       $.extend(true, curConfig, opts);
@@ -2627,6 +2628,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
       // Delete is a contextual tool that only appears in the ribbon if
       // an element has been selected
       var deleteSelected = function() {
+        Editor.forcesaving = 1;
         if (selectedElement != null || multiselected) {
           svgCanvas.deleteSelectedElements();
         }
@@ -4817,16 +4819,10 @@ var strokewid = selectedElement.getAttribute("stroke-width");
            var text =  gpaths.selectAll("text").node();
            var ellipse = gpaths.selectAll("ellipse").node();
 
-           if((path && path != null) || (line && line != null) || (polygon && polygon != null) || (rect && rect != null) || (text && text != null) || (ellipse && ellipse != null)){
-               //CanvdrawingValue.split('<g id="paths">').pop().split('</g>')[0]; // returns 'two')
-               //  window.parent.$('#qtype_drawing_textarea_id_'+questionID).text(CanvdrawingValue);
-                   $('#qtype_drawing_textarea_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).text(CanvdrawingValue);
-                    // Trigger moodle quiz autosave :-)
-                   //window.parent.$('#qtype_drawing_drawingevent_'+questionID).val(Math.random().toString(36).substring(7));
-                 //  if(Editor.savingready == 1){
-                     $('#qtype_drawing_drawingevent_'+attemptid+uniquefieldnameattemptid, window.parent.document).val(Math.random().toString(36).substring(7));
-                 //  }
-                   //  console.error("saved..", Editor.numsaved,CanvdrawingValue);
+           if(Editor.forcesaving == 1 || (path && path != null) || (line && line != null) || (polygon && polygon != null) || (rect && rect != null) || (text && text != null) || (ellipse && ellipse != null)){
+
+                    $('#qtype_drawing_textarea_id_'+attemptid+uniquefieldnameattemptid, window.parent.document).text(CanvdrawingValue);
+                    $('#qtype_drawing_drawingevent_'+attemptid+uniquefieldnameattemptid, window.parent.document).val(Math.random().toString(36).substring(7));
            }
 
 
