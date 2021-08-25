@@ -86,12 +86,20 @@ class qtype_drawing_renderer extends qtype_renderer {
         $canvasinfo = $DB->get_record('qtype_drawing', array('questionid' => $question->id));
         $currentanswer = $qa->get_last_qt_var('answer');
         $attemptid = $qa->get_last_qt_var('uniqueuattemptid');
-
         $moodleattempt = optional_param('attempt', null, PARAM_INT);
+        if(!$moodleattempt){
+            $raw = (array)$options->questionreviewlink;
+            $attributes = array();
+            foreach ($raw as $attr => $val) {
+                $attributes[preg_replace('('.$name.'|\*|)', '', $attr)] = $val;
+                if(is_array($val)){
+                    $moodleattempt = $val['attempt'];
+                }
+            }
+        }
         if($attemptfullrecord = $DB->get_record('quiz_attempts', array('id' => $moodleattempt), 'id, attempt')) {
             $attemptcount = $attemptfullrecord->attempt;
         }
-
         if(!$attemptfullrecord || !isset($attemptcount)) {
             $attemptcount = 1;
         }
@@ -123,8 +131,11 @@ class qtype_drawing_renderer extends qtype_renderer {
                             array($question->id, $background[1], $canvasinfo->backgroundwidth, $canvasinfo->backgroundheight, $background[0]));
         }
         $canvas = "<input type=\"hidden\"
-        name=\"$uniqueattemptinputname\" value = \"$attemptid\">
-        <div class=\"qtype_drawing_id_" . $question->id ."\"
+        name=\"$uniqueattemptinputname\" value = \"$attemptid\">";
+        $canvas .= "<input type=\"hidden\" class=\"qtype_drawing_input\" name=\"qtype_drawingsaving_status_" . $question->id . "\"
+        value=\"0\" id=\"id_qtype_drawingsaving_status_" . $question->id . "\">";
+
+        $canvas .= "<div class=\"qtype_drawing_id_" . $question->id ."\"
         data-canvas-instance-id=\"$canvasinstanceid\" id=\"qtype_drawing_attr_id_" . $question->id ."\">";
         if ($options->readonly) {
             $readonlycanvas = ' readonly-canvas';
@@ -381,9 +392,9 @@ class qtype_drawing_renderer extends qtype_renderer {
                   	  Y.on("windowresize", resize);
 
                   	  });
-
+                  setTimeout(function(){ Y.one("#id_qtype_drawingsaving_status_'.$question->id.'").set("value",Math.random()); }, 3000);
                   function qtype_drawing_fullscreen_'.$attemptid.$uniquefieldnameattemptid.'() {
-
+                      setTimeout(function(){ Y.one("#id_qtype_drawingsaving_status_'.$question->id.'").set("value",Math.random()); }, 1000);
                       var doc = Y.one("body");
                       var drawing_iframeid = "#qtype_drawing_editor_'.$attemptid.$uniquefieldnameattemptid.'";
                       var drawing_toggle_btn = "#qtype_drawing_togglebutton_id_'.$attemptid.$uniquefieldnameattemptid.'";
