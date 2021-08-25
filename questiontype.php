@@ -216,6 +216,9 @@ class qtype_drawing extends question_type {
 
         $expout .= "    <bgimage>\n";
         $bgimagearray = qtype_drawing_renderer::get_image_for_question($question);
+        if($bgimagearray === null || !isset($bgimagearray)){
+            $bgimagearray = array(null, null, null);
+        }
 
         $expout .= "        <filename>" . $bgimagearray[2] .  "</filename>\n";
         $expout .= "        <dataURL><![CDATA[" . $bgimagearray[1] . "]]></dataURL>\n";

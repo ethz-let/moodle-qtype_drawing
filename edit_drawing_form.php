@@ -203,6 +203,9 @@ class qtype_drawing_edit_form extends question_edit_form {
                 // --------------------------------------------------------
 
                 $bgimagearray = qtype_drawing_renderer::get_image_for_question($question);
+                if($bgimagearray === null || !isset($bgimagearray)){
+                   $bgimagearray = array(null, null, null);
+                }
                 // This is the structure of the array:
                 // 0 image dataURL string.
                 // 1 width.

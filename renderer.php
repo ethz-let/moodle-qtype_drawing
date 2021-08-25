@@ -119,6 +119,9 @@ class qtype_drawing_renderer extends qtype_renderer {
 
         $inputname = $qa->get_qt_field_name('answer');
         $background = self::get_image_for_question($question);
+        if($background === null || !isset($background)){
+            $background = array(null, null, null);
+        }
         $studentanswer = $qa->get_last_qt_var('answer');
         self::translate_to_js($this->page);
         $isannotator = 0;
