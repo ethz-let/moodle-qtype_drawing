@@ -59,6 +59,13 @@ if (!$fhd = $DB->get_record('qtype_drawing', array('questionid' => $id))) {
     die();
 }
 
+// Just in case, remove any <script> if direct saving happens (how?!).
+$annotation = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $annotation);
+// After cleaning from script, is it empty?.
+if(trim($annotation) == ''){
+    echo json_encode(array('result' => 'No annotation submitted'));
+    die();
+}
 // Check if record exists.
 $fields = array('questionid' => $id, 'annotatedby' => $USER->id, 'annotatedfor' => $stid, 'attemptid' => $attemptid, 'attemptcount' => $attemptcount);
 if ($recordexists = $DB->get_record('qtype_drawing_annotations', $fields)) {

@@ -40,11 +40,11 @@ $uniquefieldnameattemptid = required_param('uniquefieldnameattemptid', PARAM_RAW
 $sesskey = required_param('sesskey', PARAM_RAW);
 $attemptcount = optional_param('attemptcount', 1, PARAM_INT);
 
-if (!confirm_sesskey()) {
+if (!confirm_sesskey($sesskey)) {
     die();
 }
 if (!$fhd = $DB->get_record('qtype_drawing', array('questionid' => $id))) {
-    print_error("No such question.");
+    die("No such question.");
 }
 $reducedmode = 0;
 $displaystyle = '';
@@ -103,11 +103,11 @@ if (has_capability('mod/quiz:grade', context::instance_by_id($question->contexti
          var qtype_drawing_str_saving = "<?php print_string("saving", "qtype_drawing");?>";
          var qtype_drawing_str_saveannotation = "<?php print_string("saveannotation", "qtype_drawing");?>";
          var questionid = <?php echo $id;?>;
-         var sesskey = '<?php echo $sesskey;?>';
+         var sesskey = '<?php echo strip_tags($sesskey);?>';
          var stid = <?php echo $stid;?>;
-         var attemptid = '<?php echo $attemptid;?>';
+         var attemptid = '<?php echo strip_tags($attemptid);?>';
          var attemptcount = '<?php echo $attemptcount;?>';
-         var uniquefieldnameattemptid = '<?php echo $uniquefieldnameattemptid;?>';
+         var uniquefieldnameattemptid = '<?php echo strip_tags($uniquefieldnameattemptid);?>';
       </script>
       <script type="text/javascript"
               src="<?php echo $CFG->wwwroot.'/question/type/drawing/';?>lib/jquery.js"></script>
