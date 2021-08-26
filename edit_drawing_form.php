@@ -181,8 +181,8 @@ class qtype_drawing_edit_form extends question_edit_form {
         $eraserhtmlparams = '';
         $this->editoroptions['changeformat'] = 1;
 
-        $mform->addElement('header', 'qtype_drawing_drawing_settings',
-                        get_string('drawing_settings', 'qtype_drawing'));
+        $mform->addElement('header', 'drawsetting', get_string('drawing_settings', 'qtype_drawing'));
+        $mform->setExpanded('drawsetting');
 
         $drawingconfig = get_config('qtype_drawing');
 
@@ -195,7 +195,9 @@ class qtype_drawing_edit_form extends question_edit_form {
         $canvassizearray[] = & $mform->createElement('static', '', '', 'px  &nbsp;  &nbsp;', 'px &nbsp; &nbsp;');
         $canvassizearray[] = & $mform->createElement('checkbox', 'preservear', get_string('preserveaspectratio', 'qtype_drawing'));
 
-        $mform->addGroup($canvassizearray, 'buttonar', get_string('canvassize', 'qtype_drawing'), array(' '), false);
+
+        $mform->addGroup($canvassizearray, 'buttonarx', get_string('canvassize', 'qtype_drawing'), array(' '), false);
+        $mform->closeHeaderBefore('drawsetting');
         $mform->setType('backgroundwidth', PARAM_INT);
         $mform->setDefault('backgroundwidth', $drawingconfig->defaultcanvaswidth);
         $mform->setType('backgroundheight', PARAM_INT);
