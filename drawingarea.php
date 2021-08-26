@@ -41,7 +41,7 @@ $sesskey = required_param('sesskey', PARAM_RAW);
 $attemptcount = optional_param('attemptcount', 1, PARAM_INT);
 
 if (!confirm_sesskey($sesskey)) {
-    die();
+    die("Session lost");
 }
 if (!$fhd = $DB->get_record('qtype_drawing', array('questionid' => $id))) {
     die("No such question.");
