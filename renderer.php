@@ -428,12 +428,11 @@ class qtype_drawing_renderer extends qtype_renderer {
                               document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
 
                           if (quiz_timer_div && quiz_timer_div.innerHTML !== "") {
-                               drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.
-                                appendChild(document.getElementById("quiz-timer").cloneNode(true));
+
+                               drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.appendChild(document.getElementById("quiz-timer"));
+
                                Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
                                 setStyle("display", "block");
-                               Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
-                                setStyle("margin-top", "-1em");
                                var calculatedheight = doc.get("winHeight") -
                                    Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").
                                     get("clientHeight");
@@ -464,9 +463,7 @@ class qtype_drawing_renderer extends qtype_renderer {
                           set("height", viewportHeight +"px");
 
                           if (document.getElementById("quiz-timer")) {
-                               var drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.' =
-                                    document.getElementById("quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'");
-                               drawing_fullsc_'.$attemptid.$uniquefieldnameattemptid.'.innerHTML = "";
+                               document.getElementById("quiz-timer-wrapper").appendChild(document.getElementById("quiz-timer"));
                                Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("margin-top", "0em");
                                Y.one("#quiz_timer_drawing_'.$attemptid.$uniquefieldnameattemptid.'").setStyle("display", "none");
                           }
