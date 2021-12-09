@@ -57,7 +57,7 @@ class qtype_drawing_walkthrough_testcase extends qbehaviour_walkthrough_test_bas
         // Submit something that must not validate - missing ggbbase64...
         $this->process_submission(
                                 array(
-                                'answer' => 'DRAWING');
+                                'answer' => 'DRAWING'));
         // Verify.
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -66,7 +66,7 @@ class qtype_drawing_walkthrough_testcase extends qbehaviour_walkthrough_test_bas
                                     $this->get_no_hint_visible_expectation());
         // Submit something that must not validate - wrong responsestring: must only contain 0 and 1.
         $this->process_submission(
-                                array('answer' => 'DRAWING');
+                                array('answer' => 'DRAWING'));
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
         $this->check_current_output($this->get_contains_marked_out_of_summary(), $this->get_does_not_contain_feedback_expectation(),
@@ -74,7 +74,7 @@ class qtype_drawing_walkthrough_testcase extends qbehaviour_walkthrough_test_bas
                                     $this->get_no_hint_visible_expectation());
         // Now put in the right answer.
         $this->process_submission(
-                                array('answer' => 'DRAWING');
+                                array('answer' => 'DRAWING'));
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
         $this->check_current_output($this->get_contains_marked_out_of_summary(), $this->get_does_not_contain_feedback_expectation(),
