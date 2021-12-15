@@ -53,7 +53,7 @@ class qtype_drawing_test_helper extends question_test_helper {
         $q->generalfeedback = "Generalfeedback: Drawing a cell isn't to hard";
         $q->generalfeedbackformat = FORMAT_HTML;
         $q->defaultmark = 1;
-        $q->contextid = 0;
+        $q->contextid = 1;
         $q->penalty = 0.3333333;
         $q->qtype = 'drawing';
         $q->length = '1';
@@ -100,7 +100,7 @@ class qtype_drawing_test_helper extends question_test_helper {
         $q->generalfeedback = "Generalfeedback: Writing a code isn't to hard";
         $q->generalfeedbackformat = FORMAT_HTML;
         $q->defaultmark = 1;
-        $q->contextid = 0;
+        $q->contextid = 1;
         $q->penalty = 0.3333333;
         $q->qtype = 'drawing';
         $q->length = '1';

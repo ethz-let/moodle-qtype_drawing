@@ -125,10 +125,11 @@ class qtype_drawing_renderer extends qtype_renderer {
         $studentanswer = $qa->get_last_qt_var('answer');
         self::translate_to_js($this->page);
         $isannotator = 0;
-        if (empty($question->unittest) || is_null($question->unittest)) {
-            if (has_capability('mod/quiz:grade', context::instance_by_id($question->contextid))) {
-                $isannotator = 1;
-            }
+        if (empty($question->contextid)) {
+            $question->contextid = 1;
+        }
+        if (has_capability('mod/quiz:grade', context::instance_by_id($question->contextid, IGNORE_MISSING))) {
+            $isannotator = 1;
         }
 
         if (!empty($background) && !$options->readonly) {
