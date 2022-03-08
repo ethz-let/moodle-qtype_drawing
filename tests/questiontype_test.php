@@ -51,6 +51,7 @@ class qtype_drawing_test extends advanced_testcase {
 
     protected function get_test_question_data() {
         $q = new stdClass();
+        $q->options = new stdClass();
         $q->options->answers[0] = new stdClass();
         return $q;
     }
