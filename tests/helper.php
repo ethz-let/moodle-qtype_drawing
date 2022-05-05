@@ -53,6 +53,7 @@ class qtype_drawing_test_helper extends question_test_helper {
         $q->generalfeedback = "Generalfeedback: Drawing a cell isn't to hard";
         $q->generalfeedbackformat = FORMAT_HTML;
         $q->defaultmark = 1;
+        $q->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $q->contextid = 1;
         $q->penalty = 0.3333333;
         $q->qtype = 'drawing';
@@ -102,6 +103,7 @@ class qtype_drawing_test_helper extends question_test_helper {
         $q->defaultmark = 1;
         $q->contextid = 1;
         $q->penalty = 0.3333333;
+        $q->status = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         $q->qtype = 'drawing';
         $q->length = '1';
         $q->hidden = '0';
