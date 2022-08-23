@@ -169,6 +169,9 @@ class qtype_drawing_edit_form extends question_edit_form {
                                                                                                     $this->context, true);
                     $buttonarray[] = $mform->createElement('static', 'previewlink', '', $previewlink);
                 }
+            } else {
+                $previewlink = $PAGE->get_renderer('core_question')->question_preview_link($this->question->id, $this->context, true);
+                $buttonarray[] = $mform->createElement('static', 'previewlink', '', $previewlink);
             }
         }
 
