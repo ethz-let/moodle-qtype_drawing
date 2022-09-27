@@ -81,6 +81,9 @@ class qtype_drawing extends question_type {
         $options = $DB->get_record('qtype_drawing',
         array('questionid' => $question->id
         ));
+        if (!$question->drawingmode) {
+            $question->drawingmode = 1;
+        }
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $question->id;
