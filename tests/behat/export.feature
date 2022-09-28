@@ -1,4 +1,4 @@
-@qtype @qtype_drawing
+@qtype @qtype_drawing @qtype_drawing_export
 Feature: Test exporting drawing questions
   As a teacher
   In order to be able to reuse my drawing questions
@@ -18,15 +18,14 @@ Feature: Test exporting drawing questions
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
     And the following "questions" exist:
-      | questioncategory | qtype | name      |
-      | Test questions   | drawing | drawing-001 |
-      | Test questions   | drawing | drawing-002 |
-      | Test questions   | drawing | drawing-003 |
-    And I log in as "teacher1"
-    And I am on "Course 1" course homepage
+      | questioncategory | qtype   | name        | backgrounduploaded | backgroundwidth | backgroundheight | drawingmode |
+      | Test questions   | drawing | drawing-001 | 0                  | 500             | 400              | 1           |
+      | Test questions   | drawing | drawing-002 | 0                  | 500             | 400              | 1           |
+      | Test questions   | drawing | drawing-003 | 0                  | 500             | 400              | 1           |
 
   Scenario: Export 3 drawing questions
-    When I navigate to "Export" node in "Course administration > Question bank"
+    When I log in as "teacher1"
+    And I am on the "Course 1" "core_question > course question export" page
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
     Then following "click here" should download between "1600" and "2700" bytes
