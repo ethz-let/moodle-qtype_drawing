@@ -17,18 +17,15 @@ Feature: Test editing an drawing question
     And the following "question categories" exist:
       | contextlevel | reference | name           |
       | Course       | C1        | Test questions |
+    And the following "questions" exist:
+      | questioncategory | qtype       | name        | template         |
+      | Test questions   | drawing     | drawing-001 | plain            |
 
   Scenario: Edit a drawing question
     # first create a simple question
     When I log in as "teacher1"
     And I am on "Course 1" course homepage
     And I navigate to "Question bank" in current page administration
-    And I add a "drawing" question filling the form with:
-      | id_name             | drawing-001                    |
-      | id_questiontext     | Draw a biology cell.           |
-      | id_generalfeedback  | This is general feedback       |
-    Then I should see "drawing-001"
-    # then edit the new question
     When I choose "Edit question" action for "drawing-001" in the question bank
     And I set the following fields to these values:
       |  id_name  | |
