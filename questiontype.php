@@ -227,7 +227,6 @@ class qtype_drawing extends question_type {
         $expout .= "        <dataURL><![CDATA[" . $bgimagearray[1] . "]]></dataURL>\n";
         $expout .= "        <imagetype>" . $bgimagearray[0] .  "</imagetype>\n";
         $expout .= "    </bgimage>\n";
-        $expout .= $format->write_files($files);
 
         foreach ($question->options->answers as $answer) {
             $percent = 100 * $answer->fraction;
