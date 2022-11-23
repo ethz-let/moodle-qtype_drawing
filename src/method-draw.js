@@ -1774,6 +1774,7 @@ var strokewid = selectedElement.getAttribute("stroke-width");
 
 
           $('#delete_panel').show();
+          $('#canvas_panel').show();
         }
 
         if (multiselected) {
