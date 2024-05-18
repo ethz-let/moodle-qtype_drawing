@@ -140,7 +140,7 @@ class qtype_drawing_edit_form extends question_edit_form {
         $mform->addElement('hidden', 'backgrounduploaded');
         $mform->setType('backgrounduploaded', PARAM_INT);
         $mform->setDefault('backgrounduploaded', 0);
-        if (core_tag_tag::is_enabled('core_question', 'question') && class_exists('qbank_tagquestion\\tags_action_column') &&
+        if (core_tag_tag::is_enabled('core_question', 'question') &&
              \core\plugininfo\qbank::is_plugin_enabled('qbank_tagquestion')) {
             $this->add_tag_fields($mform);
         }
