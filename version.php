@@ -19,7 +19,7 @@
  *
  * @package    qtype
  * @subpackage drawing
- * @copyright  ETHZ LET <amr.hourani@id.ethz.ch>
+ * @copyright  ETH Zurich <moodle@id.ethz.ch>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,4 +30,4 @@ $plugin->version = 2024051800;
 $plugin->requires = 2021050100; // Moodle >=3.11+.
 
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '4.4';
+$plugin->release = '4.5';

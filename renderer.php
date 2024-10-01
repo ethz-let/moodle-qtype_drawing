@@ -34,7 +34,6 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_drawing_renderer extends qtype_renderer {
 
-
     public static function translate_to_js($page) {
         foreach (array_keys(get_string_manager()->load_component_strings('qtype_drawing', current_language())) as $string) {
             $page->requires->string_for_js($string, 'qtype_drawing');
@@ -611,6 +610,7 @@ class drawing_blob_data_as_file_stream {
 
     private static $blobdataposition = 0;
     public static $blobdatastream = '';
+    public $context;
 
     public static function stream_open($path, $mode, $options, &$openedpath) {
         static::$blobdataposition = 0;
